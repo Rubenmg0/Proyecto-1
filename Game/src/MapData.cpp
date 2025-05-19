@@ -2,7 +2,6 @@
 #include "MapData.h"
 using namespace std;
 
-
 vector<EnvElement> blocks = {
 
 	{-200, 600, 3350, 200, GREEN}, // SUELO

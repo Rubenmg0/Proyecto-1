@@ -27,7 +27,6 @@ constexpr float PLAYER_JUMP_SPD = 350.0f;
 constexpr float PLAYER_HOR_SPD = 250.0f;
 constexpr float PLAYER_RUN_SPD = 250.0f;
 
-
 const float suelo = 600;
 int GRAVITY = 500;
 int fireContador = 0;
@@ -70,8 +69,6 @@ private:
 	Flag flag;
 	Pipe pipe;
 
-
-
 public:
 	//Initialise the game
 	Game() : currentScreen(GameScreen::LOGO), framesCounter(0), player(50, -600), frameCounter(0),
@@ -79,7 +76,7 @@ public:
 		fireFlower(450, 600), fireBall(0, 9000), shell(0, 9000) {
 
 		InitWindow(screenWidth, screenHeight, "Super Mario + Screen Manager");
-		InitAudioDevice();              // Initialize audio device
+		InitAudioDevice(); // Initialize audio device
 		SetTargetFPS(60);
 
 		LoadGameSounds(); 
@@ -105,7 +102,6 @@ public:
 
 		CloseWindow();
 	}
-
 
 	void Run() {
 		while (!WindowShouldClose()) {
@@ -307,7 +303,6 @@ private:
 		bool onGroundShell = false;
 		bool onGroundPowerUp = false;
 		bool projectileHitObstacleFloor = false;
-		bool shell2 = false;
 
 		float deltaTime = GetFrameTime();
 		elapsedTime += deltaTime * 2.5;
@@ -375,6 +370,7 @@ private:
 		if (Timer <= 0 || player.alive == 0) {
 			hitObstacleFloor = false;
 		}
+
 		//MOOSHROOM
 		if (player.position.x >= mooshroom.position.x && player.alive != 0) {
 			mooshroom.active = true;
@@ -503,7 +499,6 @@ private:
 				(nextX + player.mario_hitbox.width) >= block.rect.x
 				&& ColorToInt(block.color) != ColorToInt(BLUE))
 			{
-				//¡Choque! Ajustamos posición y detenemos velocidad horizontal
 				hitObstacleWall = true;
 				player.speed.x = 0;
 				player.position.x = block.rect.x - player.mario_hitbox.width;
@@ -516,7 +511,6 @@ private:
 				(nextX + player.mario_hitbox.width) >= block.rect.x
 				&& ColorToInt(block.color) != ColorToInt(BLUE))
 			{
-				//¡Choque! Ajustamos posición y detenemos velocidad horizontal
 				hitObstacleWall = true;
 				player.speed.x = 0;
 				player.position.x = block.rect.x - player.mario_hitbox.width;
@@ -533,7 +527,6 @@ private:
 				(nextX) <= (block.rect.x + block.rect.width + 14)
 				&& ColorToInt(block.color) != ColorToInt(BLUE))
 			{
-				//¡Choque! Ajustamos posición y detenemos velocidad horizontal
 				hitObstacleWall = true;
 				player.speed.x = 0;
 				player.position.x = block.rect.x + block.rect.width + player.mario_hitbox.width - 7;
@@ -546,7 +539,6 @@ private:
 				(nextX) <= (block.rect.x + block.rect.width + 14)
 				&& ColorToInt(block.color) != ColorToInt(BLUE))
 			{
-				//¡Choque! Ajustamos posición y detenemos velocidad horizontal
 				hitObstacleWall = true;
 				player.speed.x = 0;
 				player.position.x = block.rect.x + block.rect.width + player.mario_hitbox.width - 7;
@@ -555,12 +547,10 @@ private:
 
 		if (!hitObstacleFloor) {
 			player.position.y += player.speed.y * deltaTime;
-			if (player.speed.y > 0)
-			{
+			if (player.speed.y > 0) {
 				player.speed.y += GRAVITY * 3.0f * deltaTime; //Increase gravity in fall
 			}
-			else
-			{
+			else {
 				player.speed.y += GRAVITY * deltaTime; //Normal upward gravity
 			}
 			player.canJump = false;
@@ -697,7 +687,6 @@ private:
 			fireBall.position.y = 9000;
 		}
 
-
 		//Con el suelo
 		for (EnvElement block : blocks) {
 			if (Timer > 0 && player.alive != 0 && goomba.activated
@@ -741,11 +730,11 @@ private:
 			koopa.position.y += (GRAVITY - 300) * deltaTime;
 			if (koopa.position.y > 0)
 			{
-				koopa.position.y += (GRAVITY - 300) * 2.0f * deltaTime; //Increase gravity in fall
+				koopa.position.y += (GRAVITY - 300) * 2.0f * deltaTime; 
 			}
 			else
 			{
-				koopa.position.y += (GRAVITY - 300) * deltaTime; //Normal upward gravity
+				koopa.position.y += (GRAVITY - 300) * deltaTime; 
 			}
 		}
 
@@ -766,17 +755,16 @@ private:
 			shell.position.y += (GRAVITY - 300) * deltaTime;
 			if (shell.position.y > 0)
 			{
-				shell.position.y += (GRAVITY - 300) * 2.0f * deltaTime; //Increase gravity in fall
+				shell.position.y += (GRAVITY - 300) * 2.0f * deltaTime; 
 			}
 			else
 			{
-				shell.position.y += (GRAVITY - 300) * deltaTime; //Normal upward gravity
+				shell.position.y += (GRAVITY - 300) * deltaTime;
 			}
 		}
 
-
 		//Los lados Goomba
-		float nextXE = goomba.position.x + goomba.speed.x * deltaTime; //Calcula la posición futura en X
+		float nextXE = goomba.position.x + goomba.speed.x * deltaTime; 
 
 		//Derecha
 		for (EnvElement block : blocks) {
@@ -807,7 +795,7 @@ private:
 		}
 
 		//Los lados Koopa
-		float next = koopa.position.x + koopa.speed.x * deltaTime; //Calcula la posición futura en X
+		float next = koopa.position.x + koopa.speed.x * deltaTime; 
 
 		//Derecha
 		for (EnvElement block : blocks) {
@@ -837,7 +825,7 @@ private:
 			}
 		}
 		//Los lados Shell
-		float nextshell = shell.position.x + shell.speed.x * deltaTime; //Calcula la posición futura en X
+		float nextshell = shell.position.x + shell.speed.x * deltaTime; 
 
 		//Derecha
 		for (EnvElement block : blocks) {
@@ -933,11 +921,11 @@ private:
 			fireBall.position.y += (10) * deltaTime;
 			if (fireBall.position.y > 0)
 			{
-				fireBall.position.y += (10) * 2.0f * deltaTime; //Increase gravity in fall
+				fireBall.position.y += (10) * 2.0f * deltaTime; 
 			}
 			else
 			{
-				fireBall.position.y += (10) * deltaTime; //Normal upward gravity
+				fireBall.position.y += (10) * deltaTime; 
 			}
 		}
 
@@ -945,16 +933,16 @@ private:
 			mooshroom.position.y += (GRAVITY - 300) * deltaTime;
 			if (mooshroom.position.y > 0)
 			{
-				mooshroom.position.y += (GRAVITY - 300) * 2.0f * deltaTime; //Increase gravity in fall
+				mooshroom.position.y += (GRAVITY - 300) * 2.0f * deltaTime; 
 			}
 			else
 			{
-				mooshroom.position.y += (GRAVITY - 300) * deltaTime; //Normal upward gravity
+				mooshroom.position.y += (GRAVITY - 300) * deltaTime; 
 			}
 		}
 
 		//Los lados Mushroom
-		float nextXP = mooshroom.position.x + mooshroom.speed.x * deltaTime; //Calcula la posición futura en X
+		float nextXP = mooshroom.position.x + mooshroom.speed.x * deltaTime; 
 
 		//Derecha
 		for (EnvElement block : blocks) {
@@ -985,7 +973,7 @@ private:
 		}
 
 		//Los lados bola de fuego
-		float nextF = fireBall.position.x + fireBall.speed.x * deltaTime; //Calcula la posición futura en X
+		float nextF = fireBall.position.x + fireBall.speed.x * deltaTime;
 
 		//Derecha
 		for (EnvElement block : blocks) {
@@ -1071,7 +1059,6 @@ private:
 					float playerMovementSpeed = 120.0f * GetFrameTime();
 					player.position.x += playerMovementSpeed;
 				}
-
 				if (player.position.x >= flag.position.x + 800) {
 					currentScreen = GameScreen::ENDING;
 					Mario_Right = LoadTexture("Resources/Sprites/MARIO/Mario_Right.png");
@@ -1182,8 +1169,6 @@ private:
 
 			DrawGameplay();
 			AudioGameplay();
-
-
 			break;
 
 		case GameScreen::TIMEOUT:
@@ -1203,6 +1188,7 @@ private:
 			DrawTextEx(marioFont, TextFormat(" x  %d", player.lifes), { screenWidth / 2 - 40, screenHeight / 2 }, 30, 1, WHITE);
 			DrawTextureEx(icon_money, { 343, 50 }, 0, 1, WHITE);
 			break;
+
 		case GameScreen::ENDING:
 
 			DrawRectangle(0, 0, screenWidth, screenHeight, BLACK);
@@ -1234,7 +1220,6 @@ private:
 		}
 
 		if (Money < 10) {
-
 			DrawTextEx(marioFont, TextFormat("\n x", Money), { 360, 30 }, 32, 1, WHITE);
 			DrawTextEx(marioFont, TextFormat("\n  0%d", Money), { 365, 30 }, 32, 1, WHITE);
 		}
@@ -1483,7 +1468,6 @@ private:
 
 		DrawTextureEx(azul, { (3150), (650) }, 0.0f, 3.2, WHITE);
 		DrawTextureEx(azul, { (3200), (650) }, 0.0f, 3.2, WHITE);
-
 
 		//Boquete 2
 		DrawTextureEx(azul, { (4010), (590) }, 0.0f, 3.2, WHITE);

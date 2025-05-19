@@ -54,13 +54,13 @@ Texture2D Mooshroom;
 Texture2D FireFlower;
 Texture2D FireBall;
 
-//typography
+// Typography
 Font marioFont;
 
 void LoadGameTextures() {
 	/*--------------------------------------------------------------------------*/
-/*                        Textures and Typography                           */
-/*--------------------------------------------------------------------------*/
+	/*                        Textures and Typography                           */
+	/*--------------------------------------------------------------------------*/
 
 	logoTexture = LoadTexture("Resources/Images/HOME/LogoProyecto1.png");
 	UI = LoadTexture("Resources/Images/Seleccion Modo/Pantalla_Intro.png");
@@ -129,7 +129,5 @@ void LoadGameTextures() {
 	tubo = LoadTexture("Resources/Sprites/Tileset/Tubo.png");
 }
 void LoadGameTypography() {
-
 	marioFont = LoadFont("Resources/Fonts/MarioFont.ttf");
-
 }

@@ -1,4 +1,3 @@
-// Music and Sounds.cpp
 #include "Music and Sounds.h"
 
 //Efectos de sonido
