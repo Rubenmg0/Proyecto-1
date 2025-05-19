@@ -246,8 +246,8 @@ vector<EnvElement> blocks = {
 		//Suelo
 	{ -112, -500, 850, 100, GREEN },
 	//Paredes-
-	{ -112, -1000, 50, 500, GREEN },
-	{ 688, -1000, 50, 500, GREEN },
+	{ -112, -1000, 50, 200, GREEN },
+	{ 688, -1000, 50, 200, GREEN },
 
 	//techo
 	{ 88, -1000, 350, 50, GREEN },//1

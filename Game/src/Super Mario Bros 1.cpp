@@ -87,11 +87,6 @@ public:
 		LoadGameTextures(); 
 		LoadGameTypography();
 
-		/*--------------------------------------------------------------------------*/
-		/*                            Text font										*/
-		/*--------------------------------------------------------------------------*/
-
-
 		//Camera of the game
 		camera.target = player.position;
 		camera.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
@@ -312,6 +307,7 @@ private:
 		bool onGroundShell = false;
 		bool onGroundPowerUp = false;
 		bool projectileHitObstacleFloor = false;
+		bool shell2 = false;
 
 		float deltaTime = GetFrameTime();
 		elapsedTime += deltaTime * 2.5;
@@ -404,10 +400,10 @@ private:
 			shell.activated = true;
 		}
 
-		if (shell.activated && shell.death == false && player.alive != 0 && shell.side && Timer > 0) {
+		if (shell.activated && !shell.death && player.alive != 0 && shell.side && Timer > 0) {
 			shell.position.x += shell.speed.x * -deltaTime;
 		}
-		if (shell.activated && shell.death == false && player.alive != 0 && !shell.side && Timer > 0) {
+		if (shell.activated && !shell.death && player.alive != 0 && !shell.side && Timer > 0) {
 			shell.position.x += shell.speed.x * deltaTime;
 		}
 
@@ -654,37 +650,21 @@ private:
 				player.canJump2 = true;
 				player.jumpTime = 0.0f;
 			}
-			else if (player.big && player.fire && !player.invencible && shell.speed.x <= 0 && player.side) {
+			else if (!player.invencible && shell.speed.x <= 0 && player.side) {
 				shell.speed.x = 300;
 				shell.side = true;
 			}
-			else if (player.big && !player.fire && !player.invencible && shell.speed.x <= 0 && player.side) {
-				shell.speed.x = 300;
-				shell.side = true;
-			}
-			else if (!player.big && !player.fire && !player.invencible && shell.speed.x <= 0 && player.side) {
-				shell.speed.x = 300;
-				shell.side = true;
-			}
-			else if (player.big && player.fire && !player.invencible && shell.speed.x <= 0 && !player.side) {
+			else if (!player.invencible && shell.speed.x <= 0 && !player.side) {
 				shell.speed.x = 300;
 				shell.side = false;
 			}
-			else if (player.big && !player.fire && !player.invencible && shell.speed.x <= 0 && !player.side) {
-				shell.speed.x = 300;
-				shell.side = false;
-			}
-			else if (!player.big && !player.fire && !player.invencible && shell.speed.x <= 0 && !player.side) {
-				shell.speed.x = 300;
-				shell.side = false;
-			}
-			else if (player.big && player.fire && !player.invencible && shell.speed.x > 0) {
+			else if (player.big && player.fire && !player.invencible && shell.speed.x > 0 && shell.shell > 15) {
 				player.invencible = true;
 				player.fire = 0;
 				player.invulnerableTimer = 0.0f;
 				player.speed.y = -PLAYER_JUMP_SPD * 0.5f;
 			}
-			else if (player.big && !player.fire && !player.invencible && shell.speed.x > 0) {
+			else if (player.big && !player.fire && !player.invencible && shell.speed.x > 0 && shell.shell > 15) {
 				player.invencible = true;
 				player.big = 0;
 				player.invulnerableTimer = 0.0f;
@@ -695,7 +675,6 @@ private:
 			}
 		}
 
-
 		if (player.invencible) {
 			player.invulnerableTimer += GetFrameTime();
 			player.visible = fmod(player.invulnerableTimer, 0.15f) < 0.1f;
@@ -703,6 +682,9 @@ private:
 				player.invencible = false;
 				player.invulnerableTimer = 0.0f;
 			}
+		}
+		if (shell.speed.x != 0) {
+		shell.shell += GetFrameTime();
 		}
 
 		//Con bola de fuego
@@ -1064,7 +1046,7 @@ private:
 		}
 
 		if (!pipe.enteringPipe2 && player.position.x >= pipe.pipe2.x - 20 && player.position.y >= pipe.pipe2.y
-			&& player.position.y < 0 && IsKeyDown(KEY_RIGHT)) {
+			&& player.position.y < 0 && IsKeyDown(KEY_RIGHT) && player.position.x < 700) {
 			pipe.enteringPipe2 = true;
 		}
 		if (pipe.enteringPipe2) {
@@ -1446,6 +1428,14 @@ private:
 		if (!goomba.death) goomba_sprite = Goomba;
 		if (goomba.death) goomba_sprite = Goomba_chafado;
 
+		if (shell.activated && player.alive != 0 && Timer > 0) {
+			if (frameTimeE >= frameSpeedE) {
+				frameTimeE = 0.0f;
+				currentFrameE = (currentFrameE + 1) % 3;
+			}
+			sourceRec3.x = (float)(currentFrameE * frameWidthG);
+		}
+
 		//Animation of Blocks
 		if (player.alive != 0 && Timer > 0) {
 			if (currentFrameInt != 0)
@@ -1807,7 +1797,7 @@ private:
 		DrawTexturePro(Mooshroom, sourceRec2, { mooshroom.position.x - 20, mooshroom.position.y - 48, sourceRec.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
 		DrawTexturePro(FireFlower, sourceRec2, { fireFlower.position.x - 20, fireFlower.position.y - 48, sourceRec.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
 		DrawTexturePro(FireBall, sourceRec2, { fireBall.position.x - 20, fireBall.position.y - 48, sourceRec.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
-		DrawTexturePro(Koopa, sourceRec2, { koopa.position.x - 20, koopa.position.y - 48, sourceRec.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
+		DrawTexturePro(Koopa, sourceRec3, { koopa.position.x - 20, koopa.position.y - 48, sourceRec.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
 		DrawTexturePro(Shell, sourceRec2, { shell.position.x - 20, shell.position.y - 48, sourceRec.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
 
 		//META Y CASTILLO//
