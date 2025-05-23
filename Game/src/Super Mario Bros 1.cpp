@@ -72,8 +72,8 @@ private:
 public:
 	//Initialise the game
 	Game() : currentScreen(GameScreen::LOGO), framesCounter(0), player(50, -600), frameCounter(0),
-		playFrameCounter(0), currentPlayFrame(0), goomba(1400, 600), koopa(1600, 600), flag(9375, 264), mooshroom(900, 350),
-		fireFlower(450, 600), fireBall(0, 9000), shell(0, 9000) {
+		playFrameCounter(0), currentPlayFrame(0), goomba(1400, 600), koopa(1600, 600), flag(9375, 264), mooshroom(-100, 2000),
+		fireFlower(-150, 2000), fireBall(0, 9000), shell(0, 9000) {
 
 		InitWindow(screenWidth, screenHeight, "Super Mario + Screen Manager");
 		InitAudioDevice(); // Initialize audio device
@@ -137,8 +137,6 @@ private:
 				camera.target.x = 333;
 				camera.target.y = 350;
 				goomba.position = { 1400, 600 };
-				mooshroom.position = { 900, 350 };
-				fireFlower.position = { 900, 600 };
 				Timer = 400;
 				Score = 000000;
 				Money = 00;
@@ -149,6 +147,9 @@ private:
 				contmuerte = 0;
 				conttiempo = 0;
 				mario_sprite = Mario_Right;
+				for (EnvElement& block : blocks) {
+					block.hit = false;
+				}
 
 				PlayMusicStream(musicOverworld);
 			}
@@ -185,8 +186,8 @@ private:
 				camera.target.x = 333;
 				camera.target.y = 350;
 				goomba.position = { 1400, 600 };
-				mooshroom.position = { 900, 350 };
-				fireFlower.position = { 900, 600 };
+				
+
 				Timer = 400;
 				player.alive = 1;
 				player.fire = 0;
@@ -194,6 +195,9 @@ private:
 				elapsedTime = 0.0f;
 				contmuerte = 0;
 				conttiempo = 0;
+				for (EnvElement& block : blocks) {
+					block.hit = false;
+				}
 
 				PlayMusicStream(musicOverworld);
 			}
@@ -477,7 +481,12 @@ private:
 				if (ColorToInt(block.color) == ColorToInt(RED) && !block.hit) {
 					Money++;
 					block.hit = true;
-				}				
+				}
+				if (ColorToInt(block.color) == ColorToInt(BROWN) && !block.hit) {
+					fireFlower.position = { 900, 350 };
+					fireFlower.active = true;
+					block.hit = true;
+				}
 			}
 			else if (!player.big && Timer > 0 && player.alive != 0
 				&& block.rect.x <= player.position.x + player.mario_hitbox.width - 5
@@ -490,6 +499,11 @@ private:
 				player.position.y = block.rect.y + block.rect.height + block.rect.height;
 				if (ColorToInt(block.color) == ColorToInt(RED) && !block.hit) {
 					Money++;
+					block.hit = true;
+				}
+				if (ColorToInt(block.color) == ColorToInt(BROWN) && !block.hit) {
+					mooshroom.position = { 900, 350 };
+					mooshroom.active = true;
 					block.hit = true;
 				}
 			}
@@ -1084,8 +1098,6 @@ private:
 			camera.target.y = 350;
 			goomba.position = { 1400, 600 };
 			koopa.position = { 1600, 600 };
-			mooshroom.position = { 900, 350 };
-			fireFlower.position = { 900, 600 };
 			shell.position = { 0, 10000 };
 			Timer = 400;
 			Money = 00;
@@ -1101,6 +1113,9 @@ private:
 			koopa.death = false;
 			elapsedTime = 0.0f;
 			contmuerte = 0;
+			for (EnvElement& block : blocks) {
+				block.hit = false;
+			}
 		}
 
 		if (IsKeyPressed(KEY_P)) {
@@ -1667,7 +1682,7 @@ private:
 
 		for (const EnvElement& block : blocks) {
 			Texture2D textura = block.hit ? bloque_int_a : bloque_int;
-			if (ColorToInt(block.color) == ColorToInt(RED)) {
+			if (ColorToInt(block.color) == ColorToInt(RED) ) {
 				DrawTexturePro(textura, sourceRec4, { block.rect.x, block.rect.y, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
 			}
 		}

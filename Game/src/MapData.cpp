@@ -13,7 +13,7 @@ vector<EnvElement> blocks = {
 
 	//Conjuto de bloques
 	{850, 400, 50, 50, GREEN, false},
-	{900, 400, 50, 50, RED, false}, // TIENE UN CHAMPIÑON
+	{900, 400, 50, 50, BROWN, false}, // TIENE UN CHAMPIÑON
 	{950, 400, 50, 50, GREEN, false},
 	{1000, 400, 50, 50, RED, false}, // MONEDAS
 	{1050, 400, 50, 50, GREEN, false},
@@ -35,7 +35,7 @@ vector<EnvElement> blocks = {
 	//Segundo conjuto de bloques
 		//Zona inferior
 	{3550, 400, 50, 50, GREEN, false},
-	{3600, 400, 50, 50, RED, false}, //Champiñon
+	{3600, 400, 50, 50, BROWN, false}, //Champiñon
 	{3650, 400, 50, 50, GREEN, false},
 	//Zona superior
 	{3700, 200, 50, 50, GREEN, false},
@@ -69,7 +69,7 @@ vector<EnvElement> blocks = {
 
 	//Bloques extrella
 	{4700, 400, 50, 50, GREEN, false},
-	{4750, 400, 50, 50, RED, false}, //Estrella
+	{4750, 400, 50, 50, PINK, false}, //Estrella
 
 	//Bloques ?
 		//Inferior
@@ -77,7 +77,7 @@ vector<EnvElement> blocks = {
 	{5125, 400, 50, 50, RED, false}, //Monedas
 	{5250, 400, 50, 50, RED, false}, //Monedas
 	//Superior
-	{5125, 200, 50, 50, RED, false}, //Champiñon
+	{5125, 200, 50, 50, BROWN, false}, //Champiñon
 
 	//Secuencia de bloques
 	{5550, 400, 50, 50, GREEN, false},
@@ -245,8 +245,8 @@ vector<EnvElement> blocks = {
 		//Suelo
 	{ -112, -500, 850, 100, BLACK, false },
 	//Paredes-
-	{ -112, -1000, 50, 200, BLACK, false },
-	{ 688, -1000, 50, 200, BLACK, false },
+	{ -112, -1000, 50, 350, BLACK, false },
+	{ 688, -1000, 50, 350, BLACK, false },
 
 	//techo
 	{ 88, -1000, 350, 50, BLACK, false },//1
