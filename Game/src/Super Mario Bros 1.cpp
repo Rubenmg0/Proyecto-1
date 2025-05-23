@@ -30,6 +30,7 @@ constexpr float PLAYER_RUN_SPD = 250.0f;
 const float suelo = 600;
 int GRAVITY = 500;
 int fireContador = 0;
+int contador = 0;
 
 int Timer;
 int Score = 000000;
@@ -149,6 +150,9 @@ private:
 				player.fire = 0;
 				goomba.death = false;
 				koopa.death = false;
+				koopa.side = true;
+				shell.death = false;
+				shell.activated = false;
 				elapsedTime = 0.0f;
 				contmuerte = 0;
 				conttiempo = 0;
@@ -202,6 +206,9 @@ private:
 				player.fire = 0;
 				goomba.death = false;
 				koopa.death = false;
+				koopa.side = true;
+				shell.death = false;
+				shell.activated = false;
 				elapsedTime = 0.0f;
 				contmuerte = 0;
 				conttiempo = 0;
@@ -318,6 +325,7 @@ private:
 		bool onGroundPowerUp = false;
 		bool onGroundPowerUpF = false;
 		bool projectileHitObstacleFloor = false;
+		bool desactived = false;
 
 		float deltaTime = GetFrameTime();
 		elapsedTime += deltaTime * 2.5;
@@ -517,6 +525,22 @@ private:
 					fireFlower.emergeOffset = 0.0f;
 					block.hit = true;
 				}
+				if (ColorToInt(block.color) == ColorToInt(PINK) && !block.hit) { //Seta
+					//mooshroom.side = false;
+					//mooshroom.position = { block.rect.x + 22, block.rect.y + 35 };
+					//mooshroom.emerging = true;
+					//mooshroom.emergeOffset = 0.0f;
+					block.hit = true;
+				}
+				if (ColorToInt(block.color) == ColorToInt(MAGENTA) && !block.hit && !desactived) { //Moneda
+					Money++;
+					contador++;
+					desactived = true;
+					if (contador == 8) {
+						block.hit = true;
+						contador = 0;
+					}
+				}
 			}
 			else if (!player.big && Timer > 0 && player.alive != 0
 				&& block.rect.x <= player.position.x + player.mario_hitbox.width - 5
@@ -537,6 +561,22 @@ private:
 					mooshroom.emerging = true;
 					mooshroom.emergeOffset = 0.0f;
 					block.hit = true;
+				}
+				if (ColorToInt(block.color) == ColorToInt(PINK) && !block.hit) { //Seta
+					//mooshroom.side = false;
+					//mooshroom.position = { block.rect.x + 22, block.rect.y + 35 };
+					//mooshroom.emerging = true;
+					//mooshroom.emergeOffset = 0.0f;
+					block.hit = true;
+				}
+				if (ColorToInt(block.color) == ColorToInt(MAGENTA) && !block.hit && !desactived) { //Moneda
+					Money++;
+					contador++;
+					desactived = true;
+					if (contador == 8) {
+						block.hit = true;
+						contador = 0;
+					}
 				}
 			}
 		}
@@ -1160,7 +1200,7 @@ private:
 			fireFlower.position = { -110, 1400 };
 			goomba.position = { 1400, 600 };
 			koopa.position = { 1600, 600 };
-			shell.position = { 0, 10000 };
+			shell.position = { 0, 1000 };
 			Timer = 400;
 			Money = 00;
 			Score = 000000;
@@ -1173,7 +1213,8 @@ private:
 			goomba.death = false;
 			koopa.death = false;
 			koopa.side = true;
-			koopa.death = false;
+			shell.death = false;
+			shell.activated = false;
 			elapsedTime = 0.0f;
 			contmuerte = 0;
 			for (EnvElement& block : blocks) {
@@ -1537,7 +1578,7 @@ private:
 			sourceRec.x = frameWidthP * 6;
 		}
 	
-		for (EnvElement block : blocks)
+		for (EnvElement block : blocks) //Para ver la hitbox de cada rectangulo
 		{
 			DrawRectangle(block.rect.x, block.rect.y, block.rect.width, block.rect.height, block.color);
 		}
@@ -1558,217 +1599,49 @@ private:
 		DrawTextureEx(fondo, { (6790), (72) }, 0.0f, 3, WHITE);
 		DrawTextureEx(fondo, { (9090), (72) }, 0.0f, 3, WHITE);
 
-		//Boquete 1
-		DrawTextureEx(azul, { (3150), (590) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(azul, { (3200), (590) }, 0.0f, 3.2, WHITE);
+		//All voids
+		for (const EnvElement& block : blocks) {
+			if (ColorToInt(block.color) == ColorToInt(BLUE)) {
+				DrawTextureEx(azul, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
+			}
+		}
 
-		DrawTextureEx(azul, { (3150), (640) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(azul, { (3200), (640) }, 0.0f, 3.2, WHITE);
+		//All bricks
+		for (const EnvElement& block : blocks) {
+			if (ColorToInt(block.color) == ColorToInt(GREEN)) {
+				DrawTextureEx(ladrillo, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
+			}
+		}
 
-		DrawTextureEx(azul, { (3150), (650) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(azul, { (3200), (650) }, 0.0f, 3.2, WHITE);
+		//All stairs
+		for (const EnvElement& block : blocks) {
+			if (ColorToInt(block.color) == ColorToInt(GRAY)) {
+				DrawTextureEx(escalera, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
+			}
+		}
 
-		//Boquete 2
-		DrawTextureEx(azul, { (4010), (590) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(azul, { (4060), (590) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(azul, { (4110), (590) }, 0.0f, 3.2, WHITE);
-
-		DrawTextureEx(azul, { (4010), (640) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(azul, { (4060), (640) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(azul, { (4110), (640) }, 0.0f, 3.2, WHITE);
-
-		DrawTextureEx(azul, { (4010), (650) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(azul, { (4060), (650) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(azul, { (4110), (650) }, 0.0f, 3.2, WHITE);
-
-		//Boquete 3
-		DrawTextureEx(azul, { (7222), (590) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(azul, { (7270), (590) }, 0.0f, 3.2, WHITE);
-
-		DrawTextureEx(azul, { (7222), (640) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(azul, { (7270), (640) }, 0.0f, 3.2, WHITE);
-
-		DrawTextureEx(azul, { (7222), (650) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(azul, { (7270), (650) }, 0.0f, 3.2, WHITE);
-		//Bloques ? y ladrillos
-		DrawTextureEx(ladrillo, { (850), (400) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(ladrillo, { (950), (400) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(ladrillo, { (1050), (400) }, 0.0f, 3.2, WHITE);
-
-		DrawTextureEx(ladrillo, { (3550), (400) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(ladrillo, { (3650), (400) }, 0.0f, 3.2, WHITE);
-
-		DrawTextureEx(ladrillo, { (3700), (200) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(ladrillo, { (3750), (200) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(ladrillo, { (3800), (200) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(ladrillo, { (3850), (200) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(ladrillo, { (3900), (200) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(ladrillo, { (3950), (200) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(ladrillo, { (4000), (200) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(ladrillo, { (4050), (200) }, 0.0f, 3.2, WHITE);
-
-		DrawTextureEx(ladrillo, { (4250), (200) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(ladrillo, { (4300), (200) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(ladrillo, { (4350), (200) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(ladrillo, { (4400), (400) }, 0.0f, 3.2, WHITE);
-
-		DrawTextureEx(ladrillo, { (4700), (400) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(ladrillo, { (4750), (400) }, 0.0f, 3.2, WHITE); // Estrella
-
-		DrawTextureEx(ladrillo, { (5550), (400) }, 0.0f, 3.2, WHITE);
-
-		DrawTextureEx(ladrillo, { (5700), (200) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(ladrillo, { (5750), (200) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(ladrillo, { (5800), (200) }, 0.0f, 3.2, WHITE);
-
-		DrawTextureEx(ladrillo, { (6000), (200) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(ladrillo, { (6050), (200) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(ladrillo, { (6100), (200) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(ladrillo, { (6150), (200) }, 0.0f, 3.2, WHITE);
-
-		DrawTextureEx(ladrillo, { (6050), (400) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(ladrillo, { (6100), (400) }, 0.0f, 3.2, WHITE);
-
-		DrawTextureEx(escalera, { (6310), (550) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (6360), (550) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (6410), (550) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (6460), (550) }, 0.0f, 3.2, WHITE);
-		/*----*/
-		DrawTextureEx(escalera, { (6360), (500) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (6410), (500) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (6460), (500) }, 0.0f, 3.2, WHITE);
-		/*---*/
-		DrawTextureEx(escalera, { (6410), (450) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (6460), (450) }, 0.0f, 3.2, WHITE);
-		/*--*/
-		DrawTextureEx(escalera, { (6460), (400) }, 0.0f, 3.2, WHITE);
-		/*-*/
-
-		DrawTextureEx(escalera, { (6590), (550) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (6640), (550) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (6690), (550) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (6740), (550) }, 0.0f, 3.2, WHITE);
-		/*----*/
-		DrawTextureEx(escalera, { (6590), (500) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (6640), (500) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (6690), (500) }, 0.0f, 3.2, WHITE);
-		/*---*/
-		DrawTextureEx(escalera, { (6590), (450) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (6640), (450) }, 0.0f, 3.2, WHITE);
-		/*--*/
-		DrawTextureEx(escalera, { (6590), (400) }, 0.0f, 3.2, WHITE);
-		/*-*/
-
-		DrawTextureEx(escalera, { (6970), (550) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (7020), (550) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (7070), (550) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (7120), (550) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (7170), (550) }, 0.0f, 3.2, WHITE);
-
-		/*----*/
-		DrawTextureEx(escalera, { (7020), (500) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (7070), (500) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (7120), (500) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (7170), (500) }, 0.0f, 3.2, WHITE);
-
-		/*---*/
-		DrawTextureEx(escalera, { (7070), (450) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (7120), (450) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (7170), (450) }, 0.0f, 3.2, WHITE);
-
-		/*--*/
-		DrawTextureEx(escalera, { (7120), (400) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (7170), (400) }, 0.0f, 3.2, WHITE);
-
-		/*-*/
-
-		DrawTextureEx(escalera, { (7320), (550) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (7370), (550) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (7420), (550) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (7470), (550) }, 0.0f, 3.2, WHITE);
-		/*----*/
-		DrawTextureEx(escalera, { (7320), (500) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (7370), (500) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (7420), (500) }, 0.0f, 3.2, WHITE);
-		/*---*/
-		DrawTextureEx(escalera, { (7320), (450) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (7370), (450) }, 0.0f, 3.2, WHITE);
-		/*--*/
-		DrawTextureEx(escalera, { (7320), (400) }, 0.0f, 3.2, WHITE);
-		/*-*/
-
-		DrawTextureEx(ladrillo, { (7950), (400) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(ladrillo, { (8000), (400) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(ladrillo, { (8100), (400) }, 0.0f, 3.2, WHITE);
-
-		DrawTextureEx(escalera, { (8570), (550) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8620), (550) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8670), (550) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8720), (550) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8770), (550) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8820), (550) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8870), (550) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8920), (550) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8970), (550) }, 0.0f, 3.2, WHITE);
-		/*---------*/
-		DrawTextureEx(escalera, { (8620), (500) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8670), (500) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8720), (500) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8770), (500) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8820), (500) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8870), (500) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8920), (500) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8970), (500) }, 0.0f, 3.2, WHITE);
-		/*--------*/
-		DrawTextureEx(escalera, { (8670), (450) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8720), (450) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8770), (450) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8820), (450) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8870), (450) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8920), (450) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8970), (450) }, 0.0f, 3.2, WHITE);
-		/*-------*/
-		DrawTextureEx(escalera, { (8720), (400) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8770), (400) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8820), (400) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8870), (400) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8920), (400) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8970), (400) }, 0.0f, 3.2, WHITE);
-		/*------*/
-		DrawTextureEx(escalera, { (8770), (350) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8820), (350) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8870), (350) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8920), (350) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8970), (350) }, 0.0f, 3.2, WHITE);
-		/*-----*/
-		DrawTextureEx(escalera, { (8820), (300) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8870), (300) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8920), (300) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8970), (300) }, 0.0f, 3.2, WHITE);
-		/*----*/
-		DrawTextureEx(escalera, { (8870), (250) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8920), (250) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8970), (250) }, 0.0f, 3.2, WHITE);
-		/*---*/
-		DrawTextureEx(escalera, { (8920), (200) }, 0.0f, 3.2, WHITE);
-		DrawTextureEx(escalera, { (8970), (200) }, 0.0f, 3.2, WHITE);
-		/*--*/
-		DrawTextureEx(escalera, { (8970), (250) }, 0.0f, 3.2, WHITE);
-		/*-*/
-
+		//All blocks ? and star
 		for (const EnvElement& block : blocks) {
 			Texture2D textura = block.hit ? bloque_int_a : bloque_int;
+			Texture2D textura2 = block.hit ? bloque_int_a : ladrillo;
 			if (ColorToInt(block.color) == ColorToInt(RED)) {
 				DrawTexturePro(textura, sourceRec4, { block.rect.x, block.rect.y, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
 			}
 			if (ColorToInt(block.color) == ColorToInt(BROWN)) {
 				DrawTexturePro(textura, sourceRec4, { block.rect.x, block.rect.y, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
 			}
+			if (ColorToInt(block.color) == ColorToInt(MAGENTA)) {
+				DrawTexturePro(textura, sourceRec4, { block.rect.x, block.rect.y, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+			}
+			if (ColorToInt(block.color) == ColorToInt(PINK)) {
+				DrawTextureEx(textura2, { block.rect.x, block.rect.y}, 0.0f, 3.2f, WHITE);
+			}
 		}
 
+		//All Cave_ground //NO VA (de momento)
 		for (const EnvElement& block : blocks) {
 			if (ColorToInt(block.color) == ColorToInt(BLACK)) {
-				DrawTextureEx(suelo_cueva, { -112, -500 }, 0.0f, 3.2f, WHITE);
+				DrawTextureEx(suelo_cueva, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
 			}
 		}
 		
