@@ -1437,7 +1437,7 @@ private:
 			player.fire = 0;
 			sourceRec.x = frameWidthP * 6;
 		}
-		// COLORES DE BLOQUES
+	
 		for (EnvElement block : blocks)
 		{
 			DrawRectangle(block.rect.x, block.rect.y, block.rect.width, block.rect.height, block.color);
@@ -1672,7 +1672,7 @@ private:
 		DrawTexturePro(bloque_int, sourceRec4, { 8050, 400, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
 		// Fondo negro
 		DrawTextureEx(negro, { -200, -1500 }, 0.0f, 1500.0f, WHITE);
-		//Cueba
+		
 	// Suelo
 		DrawTextureEx(suelo_cueva, { -112, -500 }, 0.0f, 3.2f, WHITE);
 		DrawTextureEx(suelo_cueva, { -112, -450 }, 0.0f, 3.2f, WHITE);
