@@ -136,6 +136,11 @@ private:
 				player.position = { 50, 600 };
 				camera.target.x = 333;
 				camera.target.y = 350;
+				mooshroom.position = { -110, 1400 };
+				mooshroom.active = false;
+				mooshroom.side = false;
+				fireFlower.active = false;
+				fireFlower.position = { -110, 1400 };
 				goomba.position = { 1400, 600 };
 				Timer = 400;
 				Score = 000000;
@@ -143,6 +148,7 @@ private:
 				player.alive = 1;
 				player.fire = 0;
 				goomba.death = false;
+				koopa.death = false;
 				elapsedTime = 0.0f;
 				contmuerte = 0;
 				conttiempo = 0;
@@ -186,12 +192,16 @@ private:
 				camera.target.x = 333;
 				camera.target.y = 350;
 				goomba.position = { 1400, 600 };
-				
-
+				mooshroom.position = { -110, 1400 };
+				mooshroom.active = false;
+				mooshroom.side = false;
+				fireFlower.active = false;
+				fireFlower.position = { -110, 1400 };
 				Timer = 400;
 				player.alive = 1;
 				player.fire = 0;
 				goomba.death = false;
+				koopa.death = false;
 				elapsedTime = 0.0f;
 				contmuerte = 0;
 				conttiempo = 0;
@@ -379,7 +389,6 @@ private:
 		if (player.position.x >= mooshroom.position.x && player.alive != 0) {
 			mooshroom.active = true;
 		}
-		if (!mooshroom.active && !player.big) mooshroom.position = { 900, 350 };
 
 		mooshroom.speed.x = 1.0f;
 		if (mooshroom.active && player.alive != 0 && mooshroom.side) {
@@ -483,7 +492,7 @@ private:
 					block.hit = true;
 				}
 				if (ColorToInt(block.color) == ColorToInt(BROWN) && !block.hit) {
-					fireFlower.position = { 900, 350 };
+					fireFlower.position = { block.rect.x + 25, 400 };
 					fireFlower.active = true;
 					block.hit = true;
 				}
@@ -502,7 +511,7 @@ private:
 					block.hit = true;
 				}
 				if (ColorToInt(block.color) == ColorToInt(BROWN) && !block.hit) {
-					mooshroom.position = { 900, 350 };
+					mooshroom.position = { block.rect.x + 25, 400 };
 					mooshroom.active = true;
 					block.hit = true;
 				}
@@ -977,7 +986,7 @@ private:
 				(nextXP + mooshroom.powerup_hitbox.width) >= block.rect.x - 15
 				&& ColorToInt(block.color) != ColorToInt(BLUE))
 			{
-				mooshroom.side = true;
+        				mooshroom.side = true;
 			}
 		}
 
@@ -1096,6 +1105,11 @@ private:
 			player.position = { 50, 600 };
 			camera.target.x = 333;
 			camera.target.y = 350;
+			mooshroom.position = { -110, 1400 };
+			mooshroom.active = false;
+			mooshroom.side = false;
+			fireFlower.active = false;
+			fireFlower.position = { -110, 1400 };
 			goomba.position = { 1400, 600 };
 			koopa.position = { 1600, 600 };
 			shell.position = { 0, 10000 };
@@ -1109,6 +1123,7 @@ private:
 			player.fire = 0;
 			goomba.side = true;
 			goomba.death = false;
+			koopa.death = false;
 			koopa.side = true;
 			koopa.death = false;
 			elapsedTime = 0.0f;

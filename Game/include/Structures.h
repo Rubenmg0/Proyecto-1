@@ -61,7 +61,7 @@ struct PowerUp {
     bool side; // 0 = Right, 1 = Left
 
     PowerUp(float x, float y)
-        : position{ x, y }, active(false), side(true) {
+        : position{ x, y }, active(false), side(false) {
     }
 };
 
