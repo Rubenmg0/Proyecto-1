@@ -59,9 +59,12 @@ struct PowerUp {
     Vector2 speed;
     bool active;
     bool side; // 0 = Right, 1 = Left
+    bool emerging;
+    float emergeOffset;
+    float maxEmergeOffset = 30.0f;
 
     PowerUp(float x, float y)
-        : position{ x, y }, active(false), side(false) {
+        : position{ x, y }, active(false), side(false), emerging(false) {
     }
 };
 

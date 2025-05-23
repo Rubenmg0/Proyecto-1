@@ -316,6 +316,7 @@ private:
 		bool onGroundKoopa = false;
 		bool onGroundShell = false;
 		bool onGroundPowerUp = false;
+		bool onGroundPowerUpF = false;
 		bool projectileHitObstacleFloor = false;
 
 		float deltaTime = GetFrameTime();
@@ -386,22 +387,41 @@ private:
 		}
 
 		//MOOSHROOM
-		if (player.position.x >= mooshroom.position.x && player.alive != 0) {
-			mooshroom.active = true;
-		}
-
 		mooshroom.speed.x = 1.0f;
-		if (mooshroom.active && player.alive != 0 && mooshroom.side) {
+		if (mooshroom.active && !mooshroom.emerging && player.alive != 0 && mooshroom.side) {
 			mooshroom.position.x += -120 * deltaTime;
 		}
 
-		if (mooshroom.active && player.alive != 0 && !mooshroom.side) {
+		if (mooshroom.active && !mooshroom.emerging && player.alive != 0 && !mooshroom.side) {
 			mooshroom.position.x += 120 * deltaTime;
+		}
+
+		if (mooshroom.emerging) {
+			float emergeSpeed = 30.0f;  // píxeles por segundo
+			mooshroom.emergeOffset += emergeSpeed * deltaTime;
+			mooshroom.position.y -= emergeSpeed * deltaTime;
+
+			if (mooshroom.emergeOffset >= mooshroom.maxEmergeOffset) {
+				mooshroom.emerging = false;
+				mooshroom.active = true;
+				mooshroom.position.y = mooshroom.position.y + mooshroom.emergeOffset - mooshroom.maxEmergeOffset; // asegura corrección de posición
+			}
 		}
 
 		//FIRE FLOWER
 		if (player.position.x >= fireFlower.position.x && player.alive != 0) {
 			fireFlower.active = true;
+		}
+		if (fireFlower.emerging) {
+			float emergeSpeed = 30.0f;  // píxeles por segundo
+			fireFlower.emergeOffset += emergeSpeed * deltaTime;
+			fireFlower.position.y -= emergeSpeed * deltaTime;
+
+			if (fireFlower.emergeOffset >= fireFlower.maxEmergeOffset) {
+				fireFlower.emerging = false;
+				fireFlower.active = true;
+				fireFlower.position.y = fireFlower.position.y + fireFlower.emergeOffset - fireFlower.maxEmergeOffset; // asegura corrección de posición
+			}
 		}
 
 		//SHELL
@@ -482,18 +502,19 @@ private:
 				&& block.rect.x + block.rect.width + 10 >= player.position.x
 				&& block.rect.y + block.rect.height + block.rect.height <= player.position.y
 				&& block.rect.y + block.rect.height + block.rect.height + block.rect.height - 2 >= player.position.y + player.speed.y * deltaTime
-				&& ColorToInt(block.color) != ColorToInt(BLUE))  // solo si no ha sido golpeado aún
+				&& ColorToInt(block.color) != ColorToInt(BLUE))
 			{
 				player.speed.y = 0.0f;
 				player.position.y = block.rect.y + block.rect.height + block.rect.height + block.rect.height - 2;
 
-				if (ColorToInt(block.color) == ColorToInt(RED) && !block.hit) {
+				if (ColorToInt(block.color) == ColorToInt(RED) && !block.hit) { //Moneda
 					Money++;
 					block.hit = true;
 				}
-				if (ColorToInt(block.color) == ColorToInt(BROWN) && !block.hit) {
-					fireFlower.position = { block.rect.x + 25, 400 };
-					fireFlower.active = true;
+				if (ColorToInt(block.color) == ColorToInt(BROWN) && !block.hit) { //Flor de fuego
+					fireFlower.position = { block.rect.x + 22, block.rect.y + 35 };
+					fireFlower.emerging = true;
+					fireFlower.emergeOffset = 0.0f;
 					block.hit = true;
 				}
 			}
@@ -506,13 +527,15 @@ private:
 			{
 				player.speed.y = 0.0f;
 				player.position.y = block.rect.y + block.rect.height + block.rect.height;
-				if (ColorToInt(block.color) == ColorToInt(RED) && !block.hit) {
+				if (ColorToInt(block.color) == ColorToInt(RED) && !block.hit) { //Moneda
 					Money++;
 					block.hit = true;
 				}
-				if (ColorToInt(block.color) == ColorToInt(BROWN) && !block.hit) {
-					mooshroom.position = { block.rect.x + 25, 400 };
-					mooshroom.active = true;
+				if (ColorToInt(block.color) == ColorToInt(BROWN) && !block.hit) { //Seta
+					mooshroom.side = false;
+					mooshroom.position = { block.rect.x + 22, block.rect.y + 35 };
+					mooshroom.emerging = true;
+					mooshroom.emergeOffset = 0.0f;
 					block.hit = true;
 				}
 			}
@@ -892,7 +915,8 @@ private:
 		//Mushroom
 		if (mooshroom.active && player.position.x + player.mario_hitbox.width + 10 >= mooshroom.position.x &&
 			player.position.x <= mooshroom.position.x + mooshroom.powerup_hitbox.width + 20 &&
-			player.position.y >= mooshroom.position.y && player.position.y <= mooshroom.position.y + mooshroom.powerup_hitbox.height)
+			player.position.y >= mooshroom.position.y && player.position.y <= mooshroom.position.y + mooshroom.powerup_hitbox.height &&
+			!mooshroom.emerging)
 		{
 			PlaySound(sfxMushroom);
 			if (!player.big) player.big = true;
@@ -904,7 +928,8 @@ private:
 		//Fire Flower
 		if (fireFlower.active && player.position.x + player.mario_hitbox.width + 10 >= fireFlower.position.x &&
 			player.position.x <= fireFlower.position.x + fireFlower.powerup_hitbox.width + 20 &&
-			player.position.y >= fireFlower.position.y && player.position.y <= fireFlower.position.y + fireFlower.powerup_hitbox.height)
+			player.position.y >= fireFlower.position.y - 10 && player.position.y <= fireFlower.position.y + fireFlower.powerup_hitbox.height &&
+			!fireFlower.emerging)
 		{
 			if (!player.fire && player.big) {
 				player.fire = true;
@@ -922,15 +947,27 @@ private:
 
 		//Con el suelo
 		for (EnvElement block : blocks) {
-			if (Timer > 0 && player.alive != 0 && mooshroom.active
+			if (Timer > 0 && player.alive != 0
 				&& block.rect.x <= mooshroom.position.x + mooshroom.powerup_hitbox.width - 5
 				&& block.rect.x + block.rect.width + 10 >= mooshroom.position.x
 				&& block.rect.y + block.rect.height >= mooshroom.position.y
-				&& block.rect.y <= mooshroom.position.y
+				&& block.rect.y <= mooshroom.position.y && !mooshroom.emerging
 				&& ColorToInt(block.color) != ColorToInt(BLUE)) {
 				onGroundPowerUp = true;
 				mooshroom.speed.y = 0.0f;
 				mooshroom.position.y = block.rect.y;
+			}
+		}
+		for (EnvElement block : blocks) {
+			if (Timer > 0 && player.alive != 0
+				&& block.rect.x <= fireFlower.position.x + fireFlower.powerup_hitbox.width - 5
+				&& block.rect.x + block.rect.width + 10 >= fireFlower.position.x
+				&& block.rect.y + block.rect.height >= fireFlower.position.y
+				&& block.rect.y <= fireFlower.position.y && !fireFlower.emerging
+				&& ColorToInt(block.color) != ColorToInt(BLUE)) {
+				onGroundPowerUpF = true;
+				fireFlower.speed.y = 0.0f;
+				fireFlower.position.y = block.rect.y;
 			}
 		}
 
@@ -941,7 +978,7 @@ private:
 				&& block.rect.y + block.rect.height >= fireBall.position.y
 				&& block.rect.y <= fireBall.position.y) {
 				projectileHitObstacleFloor = true;
-				fireBall.speed.y = 500.0f * deltaTime;
+				fireBall.speed.y = 300.0f * deltaTime;
 				projectileHitObstacleFloor = false;
 				
 				fireBall.position.y = block.rect.y + 5;
@@ -961,7 +998,7 @@ private:
 			}
 		}
 
-		if (!onGroundPowerUp && player.alive && Timer > 0) {
+		if (!onGroundPowerUp && player.alive && Timer > 0 && !mooshroom.emerging) {
 			mooshroom.position.y += (GRAVITY - 300) * deltaTime;
 			if (mooshroom.position.y > 0)
 			{
@@ -970,6 +1007,17 @@ private:
 			else
 			{
 				mooshroom.position.y += (GRAVITY - 300) * deltaTime; 
+			}
+		}
+		if (!onGroundPowerUpF && player.alive && Timer > 0 && !fireFlower.emerging) {
+			fireFlower.position.y += (GRAVITY - 300) * deltaTime;
+			if (fireFlower.position.y > 0)
+			{
+				fireFlower.position.y += (GRAVITY - 300) * 2.0f * deltaTime;
+			}
+			else
+			{
+				fireFlower.position.y += (GRAVITY - 300) * deltaTime;
 			}
 		}
 
@@ -1016,7 +1064,7 @@ private:
 				(nextF + fireBall.projectile_hitbox.width) >= block.rect.x - 15
 				&& ColorToInt(block.color) != ColorToInt(BLUE))
 			{
-				fireBall.speed.x = -500.0f * deltaTime;
+				fireBall.active = false;
 			}
 		}
 
@@ -1029,7 +1077,7 @@ private:
 				(nextF) <= (block.rect.x + block.rect.width + 12)
 				&& ColorToInt(block.color) != ColorToInt(BLUE))
 			{
-				fireBall.speed.x = 500.0f * deltaTime;
+				fireBall.active = false;
 			}
 		}
 
@@ -1154,15 +1202,28 @@ private:
 		if (IsKeyPressed(KEY_B)) {
 			player.big = 1;
 		}
-		if (IsKeyPressed(KEY_G)) {
+		if (IsKeyPressed(KEY_G)) { //Generar Goomba
 			goomba.death = false;
+			goomba.side = true;
 			goomba.position.x = player.position.x + 200;
 			goomba.position.y = player.position.y;
 		}
-		if (IsKeyPressed(KEY_K)) {
+		if (IsKeyPressed(KEY_K)) { //Generar Koopa
 			koopa.death = false;
+			koopa.side = true;
 			koopa.position.x = player.position.x + 200;
 			koopa.position.y = player.position.y;
+		}
+		if (IsKeyPressed(KEY_M)) { //Generar Seta
+			mooshroom.active = true;
+			mooshroom.side = true;
+			mooshroom.position.x = player.position.x + 200;
+			mooshroom.position.y = player.position.y;
+		}
+		if (IsKeyPressed(KEY_F)) { //Generar Flor de Fuego
+			fireFlower.active = true;
+			fireFlower.position.x = player.position.x + 200;
+			fireFlower.position.y = player.position.y;
 		}
 	}
 
@@ -1697,7 +1758,10 @@ private:
 
 		for (const EnvElement& block : blocks) {
 			Texture2D textura = block.hit ? bloque_int_a : bloque_int;
-			if (ColorToInt(block.color) == ColorToInt(RED) ) {
+			if (ColorToInt(block.color) == ColorToInt(RED)) {
+				DrawTexturePro(textura, sourceRec4, { block.rect.x, block.rect.y, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+			}
+			if (ColorToInt(block.color) == ColorToInt(BROWN)) {
 				DrawTexturePro(textura, sourceRec4, { block.rect.x, block.rect.y, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
 			}
 		}
