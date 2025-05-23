@@ -463,16 +463,21 @@ private:
 		}
 
 		//Techo
-		for (EnvElement block : blocks) {
+		for (EnvElement& block : blocks) {
 			if (player.big && Timer > 0 && player.alive != 0 && player.speed.y < 0
 				&& block.rect.x <= player.position.x + player.mario_hitbox.width - 10
 				&& block.rect.x + block.rect.width + 10 >= player.position.x
 				&& block.rect.y + block.rect.height + block.rect.height <= player.position.y
 				&& block.rect.y + block.rect.height + block.rect.height + block.rect.height - 2 >= player.position.y + player.speed.y * deltaTime
-				&& ColorToInt(block.color) != ColorToInt(BLUE))
+				&& ColorToInt(block.color) != ColorToInt(BLUE))  // solo si no ha sido golpeado aún
 			{
 				player.speed.y = 0.0f;
 				player.position.y = block.rect.y + block.rect.height + block.rect.height + block.rect.height - 2;
+
+				if (ColorToInt(block.color) == ColorToInt(RED) && !block.hit) {
+					Money++;
+					block.hit = true;
+				}				
 			}
 			else if (!player.big && Timer > 0 && player.alive != 0
 				&& block.rect.x <= player.position.x + player.mario_hitbox.width - 5
@@ -483,6 +488,10 @@ private:
 			{
 				player.speed.y = 0.0f;
 				player.position.y = block.rect.y + block.rect.height + block.rect.height;
+				if (ColorToInt(block.color) == ColorToInt(RED) && !block.hit) {
+					Money++;
+					block.hit = true;
+				}
 			}
 		}
 
@@ -1105,7 +1114,6 @@ private:
 		}
 		if (IsKeyPressed(KEY_O)) {
 			Money++;
-			player.invencible = true;
 		}
 
 		if (elapsedTime >= 1.0f && Timer > 0 && player.alive == 1 && !flag.reached) {
@@ -1657,19 +1665,19 @@ private:
 		DrawTextureEx(escalera, { (8970), (250) }, 0.0f, 3.2, WHITE);
 		/*-*/
 
-		DrawTexturePro(bloque_int, sourceRec4, { 650, 400, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(bloque_int, sourceRec4, { 900, 400, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(bloque_int, sourceRec4, { 1000, 400, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(bloque_int, sourceRec4, { 950, 200, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(bloque_int, sourceRec4, { 3600, 400, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(bloque_int, sourceRec4, { 4400, 200, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(bloque_int, sourceRec4, { 5000, 400, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(bloque_int, sourceRec4, { 5125, 400, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(bloque_int, sourceRec4, { 5250, 400, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(bloque_int, sourceRec4, { 5125, 200, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(bloque_int, sourceRec4, { 6050, 200, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(bloque_int, sourceRec4, { 6100, 200, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(bloque_int, sourceRec4, { 8050, 400, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		for (const EnvElement& block : blocks) {
+			Texture2D textura = block.hit ? bloque_int_a : bloque_int;
+			if (ColorToInt(block.color) == ColorToInt(RED)) {
+				DrawTexturePro(textura, sourceRec4, { block.rect.x, block.rect.y, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+			}
+		}
+
+		for (const EnvElement& block : blocks) {
+			if (ColorToInt(block.color) == ColorToInt(BLACK)) {
+				DrawTextureEx(suelo_cueva, { -112, -500 }, 0.0f, 3.2f, WHITE);
+			}
+		}
+		
 		// Fondo negro
 		DrawTextureEx(negro, { -200, -1500 }, 0.0f, 1500.0f, WHITE);
 		

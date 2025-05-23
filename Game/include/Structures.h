@@ -85,9 +85,10 @@ struct Projectile {
 struct EnvElement {
     Rectangle rect;
     Color color;
+    bool hit;
 
-    EnvElement(float x, float y, float width, float height, Color col)
-        : rect{ x, y, width, height }, color(col) {
+    EnvElement(float x, float y, float width, float height, Color col, bool hit)
+        : rect{ x, y, width, height }, color(col), hit(false) {
     }
 };
 
