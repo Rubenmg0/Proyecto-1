@@ -6,7 +6,13 @@
 //Efectos de sonido
 extern Sound sfxJumpSmall;
 extern Sound sfxJumpSuper;
-extern Sound sfxMushroom;
+extern Sound sfxPowerUpTaken;
+extern Sound sfxFireBall;
+extern Sound sfxKick;
+extern Sound sfxPowerUpAppear;
+extern Sound sfxStomp;
+extern Sound sfxCoin_Block;
+extern Sound sfxPipe;
 extern Sound sfxGameOver;
 extern Sound sfxFlagpole;
 extern Sound sfxDeath;

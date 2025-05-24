@@ -143,11 +143,14 @@ private:
 				fireFlower.active = false;
 				fireFlower.position = { -110, 1400 };
 				goomba.position = { 1400, 600 };
+				koopa.position = { 1600, 600 };
+				shell.position = { 0, 1000 };
 				Timer = 400;
 				Score = 000000;
 				Money = 00;
 				player.alive = 1;
 				player.fire = 0;
+				goomba.side = true;
 				goomba.death = false;
 				koopa.death = false;
 				koopa.side = true;
@@ -192,18 +195,26 @@ private:
 
 			if (elapsedTime >= 3.0f) {
 				currentScreen = GameScreen::GAMEPLAY;
-				player.position = { 50, 600 };
+				if (player.position.x < 3950) {
+					player.position = { 50, 600 };
+				}
+				if (player.position.x >= 3950) {
+					player.position = { 3850, 600 };
+				}
 				camera.target.x = 333;
 				camera.target.y = 350;
-				goomba.position = { 1400, 600 };
 				mooshroom.position = { -110, 1400 };
 				mooshroom.active = false;
 				mooshroom.side = false;
 				fireFlower.active = false;
 				fireFlower.position = { -110, 1400 };
+				goomba.position = { 1400, 600 };
+				koopa.position = { 1600, 600 };
+				shell.position = { 0, 1000 };
 				Timer = 400;
 				player.alive = 1;
 				player.fire = 0;
+				goomba.side = true;
 				goomba.death = false;
 				koopa.death = false;
 				koopa.side = true;
@@ -380,6 +391,7 @@ private:
 
 		if (player.fire && player.big) {
 			if (IsKeyPressed(KEY_X) && !pipe.enteringPipe1 && !pipe.enteringPipe2 && !flag.reached && player.alive && Timer > 0) {
+				PlaySound(sfxFireBall);
 				fireBall.position = { player.position.x, player.position.y + -40 };
 				fireBall.active = true;
 				if (player.side) fireBall.speed.x = -650 * deltaTime;
@@ -516,23 +528,27 @@ private:
 				player.position.y = block.rect.y + block.rect.height + block.rect.height + block.rect.height - 2;
 
 				if (ColorToInt(block.color) == ColorToInt(RED) && !block.hit) { //Moneda
+					PlaySound(sfxCoin_Block);
 					Money++;
 					block.hit = true;
 				}
 				if (ColorToInt(block.color) == ColorToInt(BROWN) && !block.hit) { //Flor de fuego
+					PlaySound(sfxPowerUpAppear);
 					fireFlower.position = { block.rect.x + 22, block.rect.y + 35 };
 					fireFlower.emerging = true;
 					fireFlower.emergeOffset = 0.0f;
 					block.hit = true;
 				}
-				if (ColorToInt(block.color) == ColorToInt(PINK) && !block.hit) { //Seta
+				if (ColorToInt(block.color) == ColorToInt(PINK) && !block.hit) { //Estrella
+					PlaySound(sfxPowerUpAppear);
 					//mooshroom.side = false;
 					//mooshroom.position = { block.rect.x + 22, block.rect.y + 35 };
 					//mooshroom.emerging = true;
 					//mooshroom.emergeOffset = 0.0f;
 					block.hit = true;
 				}
-				if (ColorToInt(block.color) == ColorToInt(MAGENTA) && !block.hit && !desactived) { //Moneda
+				if (ColorToInt(block.color) == ColorToInt(MAGENTA) && !block.hit && !desactived) { //Moneda repetida
+					PlaySound(sfxCoin_Block);
 					Money++;
 					contador++;
 					desactived = true;
@@ -552,24 +568,28 @@ private:
 				player.speed.y = 0.0f;
 				player.position.y = block.rect.y + block.rect.height + block.rect.height;
 				if (ColorToInt(block.color) == ColorToInt(RED) && !block.hit) { //Moneda
+					PlaySound(sfxCoin_Block);
 					Money++;
 					block.hit = true;
 				}
 				if (ColorToInt(block.color) == ColorToInt(BROWN) && !block.hit) { //Seta
+					PlaySound(sfxPowerUpAppear);
 					mooshroom.side = false;
 					mooshroom.position = { block.rect.x + 22, block.rect.y + 35 };
 					mooshroom.emerging = true;
 					mooshroom.emergeOffset = 0.0f;
 					block.hit = true;
 				}
-				if (ColorToInt(block.color) == ColorToInt(PINK) && !block.hit) { //Seta
+				if (ColorToInt(block.color) == ColorToInt(PINK) && !block.hit) { //Estrella
+					PlaySound(sfxPowerUpAppear);
 					//mooshroom.side = false;
 					//mooshroom.position = { block.rect.x + 22, block.rect.y + 35 };
 					//mooshroom.emerging = true;
 					//mooshroom.emergeOffset = 0.0f;
 					block.hit = true;
 				}
-				if (ColorToInt(block.color) == ColorToInt(MAGENTA) && !block.hit && !desactived) { //Moneda
+				if (ColorToInt(block.color) == ColorToInt(MAGENTA) && !block.hit && !desactived) { //Moneda repetida
+					PlaySound(sfxCoin_Block);
 					Money++;
 					contador++;
 					desactived = true;
@@ -663,6 +683,7 @@ private:
 			player.position.y + player.mario_hitbox.height + 16 >= goomba.position.y && player.position.y <= goomba.position.y + goomba.goomba_hitbox.height)
 		{
 			if (player.position.y + player.mario_hitbox.height <= goomba.position.y && player.alive) {
+				PlaySound(sfxStomp);
 				goomba.death = true;
 				Score += 100;
 				player.speed.y = -PLAYER_JUMP_SPD + 100;
@@ -691,6 +712,7 @@ private:
 			player.position.y + player.mario_hitbox.height + 16 >= koopa.position.y && player.position.y <= koopa.position.y + koopa.goomba_hitbox.height)
 		{
 			if (player.position.y + player.mario_hitbox.height <= koopa.position.y && player.alive) {
+				PlaySound(sfxStomp);
 				shell.position = koopa.position;
 				shell.side = koopa.side;
 				koopa.death = true;
@@ -766,6 +788,7 @@ private:
 			fireBall.position.x <= goomba.position.x + goomba.goomba_hitbox.width + 20 &&
 			fireBall.position.y + fireBall.projectile_hitbox.height + 16 >= goomba.position.y && fireBall.position.y <= goomba.position.y + goomba.goomba_hitbox.height)
 		{
+			PlaySound(sfxKick);
 			Score += 100;
 			goomba.death = true;
 			fireBall.active = false;
@@ -776,10 +799,11 @@ private:
 			fireBall.position.x <= koopa.position.x + koopa.goomba_hitbox.width + 20 &&
 			fireBall.position.y + fireBall.projectile_hitbox.height + 16 >= koopa.position.y && fireBall.position.y <= koopa.position.y + koopa.goomba_hitbox.height)
 		{
+			PlaySound(sfxKick);
 			Score += 100;
 			koopa.death = true;
 			fireBall.active = false;
-			fireBall.position.y = 9000;
+			fireBall.position.y = 1000;
 		}
 
 		//Con el suelo
@@ -958,7 +982,7 @@ private:
 			player.position.y >= mooshroom.position.y && player.position.y <= mooshroom.position.y + mooshroom.powerup_hitbox.height &&
 			!mooshroom.emerging)
 		{
-			PlaySound(sfxMushroom);
+			PlaySound(sfxPowerUpTaken);
 			if (!player.big) player.big = true;
 			mooshroom.active = false;
 			Score += 1000;
@@ -971,6 +995,7 @@ private:
 			player.position.y >= fireFlower.position.y - 10 && player.position.y <= fireFlower.position.y + fireFlower.powerup_hitbox.height &&
 			!fireFlower.emerging)
 		{
+			PlaySound(sfxPowerUpTaken);
 			if (!player.fire && player.big) {
 				player.fire = true;
 				fireFlower.active = false;
@@ -981,7 +1006,7 @@ private:
 				player.big = true;
 				fireFlower.active = false;
 				Score += 1000;
-				fireFlower.position.x = 10000;
+				fireFlower.position.y = 1000;
 			}
 		}
 
@@ -1129,6 +1154,7 @@ private:
 		}
 
 		if (pipe.enteringPipe1) {
+			PlaySound(sfxPipe);
 			player.position.x += 0.5;
 
 			if (player.position.y >= 350) {
@@ -1147,6 +1173,7 @@ private:
 			pipe.enteringPipe2 = true;
 		}
 		if (pipe.enteringPipe2) {
+			PlaySound(sfxPipe);
 			player.position.x += 0.5;
 
 			if (player.position.x >= 600) {
@@ -1240,28 +1267,28 @@ private:
 			elapsedTime = 0.0f;
 		}
 
-		if (IsKeyPressed(KEY_B)) {
+		if (IsKeyPressed(KEY_B) && Timer > 0 && player.alive == 1 && !flag.reached) {
 			player.big = 1;
 		}
-		if (IsKeyPressed(KEY_G)) { //Generar Goomba
+		if (IsKeyPressed(KEY_G) && Timer > 0 && player.alive == 1 && !flag.reached) { //Generar Goomba
 			goomba.death = false;
 			goomba.side = true;
 			goomba.position.x = player.position.x + 200;
 			goomba.position.y = player.position.y;
 		}
-		if (IsKeyPressed(KEY_K)) { //Generar Koopa
+		if (IsKeyPressed(KEY_K) && Timer > 0 && player.alive == 1 && !flag.reached) { //Generar Koopa
 			koopa.death = false;
 			koopa.side = true;
 			koopa.position.x = player.position.x + 200;
 			koopa.position.y = player.position.y;
 		}
-		if (IsKeyPressed(KEY_M)) { //Generar Seta
+		if (IsKeyPressed(KEY_M) && Timer > 0 && player.alive == 1 && !flag.reached) { //Generar Seta
 			mooshroom.active = true;
 			mooshroom.side = true;
 			mooshroom.position.x = player.position.x + 200;
 			mooshroom.position.y = player.position.y;
 		}
-		if (IsKeyPressed(KEY_F)) { //Generar Flor de Fuego
+		if (IsKeyPressed(KEY_F) && Timer > 0 && player.alive == 1 && !flag.reached) { //Generar Flor de Fuego
 			fireFlower.active = true;
 			fireFlower.position.x = player.position.x + 200;
 			fireFlower.position.y = player.position.y;
@@ -1403,7 +1430,13 @@ private:
 
 		UnloadSound(sfxJumpSmall);
 		UnloadSound(sfxJumpSuper);
-		UnloadSound(sfxMushroom);
+		UnloadSound(sfxPowerUpTaken);
+		UnloadSound(sfxFireBall);
+		UnloadSound(sfxKick);
+		UnloadSound(sfxPowerUpAppear);
+		UnloadSound(sfxStomp);
+		UnloadSound(sfxCoin_Block);
+		UnloadSound(sfxPipe);
 		UnloadSound(sfxGameOver);
 		UnloadSound(sfxFlagpole);
 		UnloadSound(sfxDeath);
@@ -1631,7 +1664,7 @@ private:
 				DrawTexturePro(textura, sourceRec4, { block.rect.x, block.rect.y, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
 			}
 			if (ColorToInt(block.color) == ColorToInt(MAGENTA)) {
-				DrawTexturePro(textura, sourceRec4, { block.rect.x, block.rect.y, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+				DrawTextureEx(textura2, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
 			}
 			if (ColorToInt(block.color) == ColorToInt(PINK)) {
 				DrawTextureEx(textura2, { block.rect.x, block.rect.y}, 0.0f, 3.2f, WHITE);

@@ -3,7 +3,13 @@
 //Efectos de sonido
 Sound sfxJumpSmall;
 Sound sfxJumpSuper;
-Sound sfxMushroom;
+Sound sfxPowerUpTaken;
+Sound sfxFireBall;
+Sound sfxKick;
+Sound sfxPowerUpAppear;
+Sound sfxStomp;
+Sound sfxCoin_Block;
+Sound sfxPipe;
 Sound sfxGameOver;
 Sound sfxFlagpole;
 Sound sfxDeath;
@@ -18,7 +24,13 @@ Music musicInvencible_hurry;
 void LoadGameSounds() {
     sfxJumpSmall = LoadSound("Resources/Audio/FX/smb_jump-small.wav");
     sfxJumpSuper = LoadSound("Resources/Audio/FX/smb_jump-super.wav");
-    sfxMushroom = LoadSound("Resources/Audio/FX/smb_mushroom.wav");
+    sfxPowerUpTaken = LoadSound("Resources/Audio/FX/smb_mushroom.wav");
+    sfxFireBall = LoadSound("Resources/Audio/FX/smb_fireball.wav");
+    sfxKick = LoadSound("Resources/Audio/FX/smb_kick.wav");
+    sfxPowerUpAppear = LoadSound("Resources/Audio/FX/smb_powerup_appears.wav");
+    sfxStomp = LoadSound("Resources/Audio/FX/smb_stomp.wav");
+    sfxCoin_Block = LoadSound("Resources/Audio/FX/smb_coin.wav");
+    sfxPipe = LoadSound("Resources/Audio/FX/smb_pipe.wav");
     sfxGameOver = LoadSound("Resources/Audio/FX/smb_gameover.wav");
     sfxFlagpole = LoadSound("Resources/Audio/FX/smb_flagpole.wav");
     sfxDeath = LoadSound("Resources/Audio/Music/Muerte.ogg");
