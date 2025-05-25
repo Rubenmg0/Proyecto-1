@@ -62,7 +62,22 @@ private:
 
 	//Structs definitions
 	Mario player;
-	Enemy goomba;
+	Enemy goomba1;
+	Enemy goomba2;
+	Enemy goomba3;
+	Enemy goomba4;
+	Enemy goomba5;
+	Enemy goomba6;
+	Enemy goomba7;
+	Enemy goomba8;
+	Enemy goomba9;
+	Enemy goomba10;
+	Enemy goomba11;
+	Enemy goomba12;
+	Enemy goomba13;
+	Enemy goomba14;
+	Enemy goomba15;
+	Enemy goomba16;
 	Enemy koopa;
 	Enemy shell;
 	PowerUp mooshroom;
@@ -75,7 +90,9 @@ private:
 public:
 	//Initialise the game
 	Game() : currentScreen(GameScreen::LOGO), framesCounter(0), player(50, -600), frameCounter(0),
-		playFrameCounter(0), currentPlayFrame(0), goomba(1400, 600), koopa(1600, 600), flag(9375, 264), mooshroom(-100, 2000),
+		playFrameCounter(0), currentPlayFrame(0), goomba1(1400, 600), goomba2(1400, 600), goomba3(1400, 600), goomba4(1400, 600), goomba5(1400, 600), 
+		goomba6(1400, 600), goomba7(1400, 600),goomba8(1400, 600), goomba9(1400, 600), goomba10(1400, 600), goomba11(1400, 600), goomba12(1400, 600), 
+		goomba13(1400, 600), goomba14(1400, 600), goomba15(1400, 600), goomba16(1400, 600), koopa(1600, 600), flag(9375, 264), mooshroom(-100, 2000),
 		fireFlower(-150, 2000), fireBall(0, 9000), shell(0, 9000) {
 
 		InitWindow(screenWidth, screenHeight, "Super Mario + Screen Manager");
@@ -115,6 +132,168 @@ public:
 	}
 
 private:
+	//funciones Goomba
+	void Goomba_Activation(Enemy& goomba, Mario& player)
+	{
+		if (player.position.x - goomba.position.x <= -200 && !goomba.death && !goomba.death2 && player.alive != 0 && Timer > 0) {
+			goomba.activated = true;
+		}
+	}
+
+	void Goomba_Movement(Enemy& goomba, Mario& player, float& deltaTime)
+	{
+		if (goomba.activated && !goomba.death && !goomba.death2 && player.alive != 0 && goomba.side && Timer > 0) {
+			goomba.position.x += -120 * deltaTime;
+		}
+		if (goomba.activated && !goomba.death && !goomba.death2 && player.alive != 0 && !goomba.side && Timer > 0) {
+			goomba.position.x += 120 * deltaTime;
+		}
+	}
+
+	void Goomba_Death(Enemy& goomba, Mario& player) {
+		if (goomba.death) {
+			if (player.position.y >= goomba.position.y) {
+				goomba.position.y = 1000;
+			}
+		}
+	}
+	void Goomba_Death2(Enemy& goomba, float& deltaTime)
+	{
+		if (goomba.death2) {
+			goomba.speed.y += GRAVITY * deltaTime;
+			goomba.position.x += goomba.speed.x * deltaTime;
+			goomba.position.y += goomba.speed.y * deltaTime;
+		}
+	}
+
+	void Goomba_InTheMoon(Enemy& goomba)
+	{
+		if (goomba.position.y >= 1000) {
+			goomba.alive = false;
+		}
+	}
+
+	void Goomba_MarioCollision(Enemy& goomba, Mario& player)
+	{
+		if (goomba.alive && !goomba.death && !goomba.death2 && player.position.x + player.mario_hitbox.width + 10 >= goomba.position.x &&
+			player.position.x <= goomba.position.x + goomba.goomba_hitbox.width + 20 &&
+			player.position.y + player.mario_hitbox.height + 16 >= goomba.position.y && player.position.y <= goomba.position.y + goomba.goomba_hitbox.height)
+		{
+			if (player.position.y + player.mario_hitbox.height <= goomba.position.y && player.alive) {
+				PlaySound(sfxStomp);
+				goomba.death = true;
+				Score += 100;
+				player.speed.y = -PLAYER_JUMP_SPD + 100;
+				player.canJump = false;
+				player.canJump2 = true;
+				player.jumpTime = 0.0f;
+			}
+			else if (player.big && player.fire && !player.invencible) {
+				player.invencible = true;
+				player.fire = 0;
+				player.invulnerableTimer = 0.0f;
+
+			}
+			else if (player.big && !player.fire && !player.invencible) {
+				player.invencible = true;
+				player.big = 0;
+				player.invulnerableTimer = 0.0f;
+			}
+			else if (!player.big && !player.fire && !player.invencible) {
+				player.alive = 0;
+			}
+		}
+	}
+
+	void Goomba_Fuego(Enemy& goomba, Projectile& fireBall) {
+		if (goomba.alive && !goomba.death && !goomba.death2 && player.position.x + player.mario_hitbox.width + 10 >= goomba.position.x &&
+			player.position.x <= goomba.position.x + goomba.goomba_hitbox.width + 20 &&
+			player.position.y + player.mario_hitbox.height + 16 >= goomba.position.y && player.position.y <= goomba.position.y + goomba.goomba_hitbox.height)
+		{
+			if (player.position.y + player.mario_hitbox.height <= goomba.position.y && player.alive) {
+				PlaySound(sfxStomp);
+				goomba.death = true;
+				Score += 100;
+				player.speed.y = -PLAYER_JUMP_SPD + 100;
+				player.canJump = false;
+				player.canJump2 = true;
+				player.jumpTime = 0.0f;
+			}
+			else if (player.big && player.fire && !player.invencible) {
+				player.invencible = true;
+				player.fire = 0;
+				player.invulnerableTimer = 0.0f;
+
+			}
+			else if (player.big && !player.fire && !player.invencible) {
+				player.invencible = true;
+				player.big = 0;
+				player.invulnerableTimer = 0.0f;
+			}
+			else if (!player.big && !player.fire && !player.invencible) {
+				player.alive = 0;
+			}
+		}
+	}
+
+	void Goomba_Suelo(Enemy& goomba, Mario& player, EnvElement& block, bool& onGroundEnemy)
+	{
+		if (Timer > 0 && player.alive != 0 && goomba.activated && !goomba.death2
+			&& block.rect.x <= goomba.position.x + goomba.goomba_hitbox.width - 5
+			&& block.rect.x + block.rect.width + 10 >= goomba.position.x
+			&& block.rect.y + block.rect.height >= goomba.position.y
+			&& block.rect.y <= goomba.position.y
+			&& ColorToInt(block.color) != ColorToInt(BLUE)) {
+			onGroundEnemy = true;
+			goomba.speed.y = 0.0f;
+			goomba.position.y = block.rect.y;
+		}
+	}
+
+	void Goomba_fall(Enemy& goomba, Mario& player, bool& onGroundEnemy, float& deltaTime)
+	{
+		if (!onGroundEnemy && !goomba.death2 && player.alive && Timer > 0) {
+			goomba.position.y += (GRAVITY - 300) * deltaTime;
+			if (goomba.position.y > 0)
+			{
+				goomba.position.y += (GRAVITY - 300) * 2.0f * deltaTime; //Increase gravity in fall
+			}
+			else
+			{
+				goomba.position.y += (GRAVITY - 300) * deltaTime; //Normal upward gravity
+			}
+		}
+	}
+
+	void Goomba_Derecha(Enemy& goomba, Mario& player, EnvElement& block, float& nextXE)
+	{
+		if (Timer > 0 && player.alive != 0 && goomba.alive &&
+			goomba.activated && !goomba.side &&
+			goomba.position.y > block.rect.y &&
+			goomba.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
+			goomba.position.x - 10 <= block.rect.x &&
+			(nextXE + goomba.goomba_hitbox.width) >= block.rect.x - 15
+			&& ColorToInt(block.color) != ColorToInt(BLUE))
+		{
+			goomba.side = true;
+		}
+	}
+
+	void Goomba_Izquierda(Enemy& goomba, Mario& player, EnvElement& block, float& nextXE)
+	{
+		if (Timer > 0 && player.alive != 0 &&
+			goomba.activated && goomba.side &&
+			goomba.position.y > block.rect.y &&
+			goomba.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
+			goomba.position.x + 10 >= (block.rect.x + block.rect.width) &&
+			(nextXE) <= (block.rect.x + block.rect.width + 20)
+			&& ColorToInt(block.color) != ColorToInt(BLUE))
+		{
+			goomba.side = false;
+		}
+	}
+
+
 	void Update() {
 
 		//All Screens of the Game
@@ -145,7 +324,7 @@ private:
 				mooshroom.side = false;
 				fireFlower.active = false;
 				fireFlower.position = { -110, 1400 };
-				goomba.position = { 1400, 600 };
+				goomba1.position = { 1400, 600 };
 				koopa.position = { 1600, 600 };
 				shell.position = { 0, 1000 };
 				Timer = 400;
@@ -153,9 +332,85 @@ private:
 				Money = 00;
 				player.alive = 1;
 				player.fire = 0;
-				goomba.side = true;
-				goomba.death = false;
-				goomba.alive = true;
+				goomba1.side = true;
+				goomba1.death = false;
+				goomba1.alive = true;
+
+				goomba2.side = true;
+				goomba2.death = false;
+				goomba2.alive = true;
+				goomba2.position = { 1500, 600 };
+
+				goomba3.side = true;
+				goomba3.death = false;
+				goomba3.alive = true;
+				goomba3.position = { 1600, 600 };
+
+				goomba4.side = true;
+				goomba4.death = false;
+				goomba4.alive = true;
+				goomba4.position = { 1700, 600 };
+
+				goomba5.side = true;
+				goomba5.death = false;
+				goomba5.alive = true;
+				goomba5.position = { 1800, 600 };
+
+				goomba6.side = true;
+				goomba6.death = false;
+				goomba6.alive = true;
+				goomba6.position = { 1900, 600 };
+
+				goomba7.side = true;
+				goomba7.death = false;
+				goomba7.alive = true;
+				goomba7.position = { 2000, 600 };
+
+				goomba8.side = true;
+				goomba8.death = false;
+				goomba8.alive = true;
+				goomba8.position = { 2100, 600 };
+
+				goomba9.side = true;
+				goomba9.death = false;
+				goomba9.alive = true;
+				goomba9.position = { 2200, 600 };
+
+				goomba10.side = true;
+				goomba10.death = false;
+				goomba10.alive = true;
+				goomba10.position = { 2300, 600 };
+
+				goomba11.side = true;
+				goomba11.death = false;
+				goomba11.alive = true;
+				goomba11.position = { 2400, 600 };
+
+				goomba12.side = true;
+				goomba12.death = false;
+				goomba12.alive = true;
+				goomba12.position = { 2500, 600 };
+
+				goomba13.side = true;
+				goomba13.death = false;
+				goomba13.alive = true;
+				goomba13.position = { 2600, 600 };
+
+				goomba14.side = true;
+				goomba14.death = false;
+				goomba14.alive = true;
+				goomba14.position = { 2700, 600 };
+
+				goomba15.side = true;
+				goomba15.death = false;
+				goomba15.alive = true;
+				goomba15.position = { 2800, 600 };
+
+				goomba16.side = true;
+				goomba16.death = false;
+				goomba16.alive = true;
+				goomba16.position = { 2900, 600 };
+
 				koopa.death = false;
 				koopa.alive = true;
 				koopa.side = true;
@@ -213,15 +468,123 @@ private:
 				mooshroom.side = false;
 				fireFlower.active = false;
 				fireFlower.position = { -110, 1400 };
-				goomba.position = { 1400, 600 };
 				koopa.position = { 1600, 600 };
 				shell.position = { 0, 1000 };
 				Timer = 400;
 				player.alive = 1;
 				player.fire = 0;
-				goomba.side = true;
-				goomba.death = false;
-				goomba.alive = true;
+				goomba1.side = true;
+				goomba1.death = false;
+				goomba1.death2 = false;
+				goomba1.alive = true;
+				goomba1.activated = false;
+				goomba1.position = { 1400, 600 };
+
+				goomba2.side = true;
+				goomba2.death = false;
+				goomba2.death2 = false;
+				goomba2.alive = true;
+				goomba2.activated = false;
+				goomba2.position = { 1500, 600 };
+
+				goomba3.side = true;
+				goomba3.death = false;
+				goomba3.death2 = false;
+				goomba3.alive = true;
+				goomba3.activated = false;
+				goomba3.position = { 1600, 600 };
+
+				goomba4.side = true;
+				goomba4.death = false;
+				goomba4.death2 = false;
+				goomba4.alive = true;
+				goomba4.activated = false;
+				goomba4.position = { 1700, 600 };
+
+				goomba5.side = true;
+				goomba5.death = false;
+				goomba5.death2 = false;
+				goomba5.alive = true;
+				goomba5.activated = false;
+				goomba5.position = { 1800, 600 };
+
+				goomba6.side = true;
+				goomba6.death = false;
+				goomba6.death2 = false;
+				goomba6.alive = true;
+				goomba6.activated = false;
+				goomba6.position = { 1900, 600 };
+
+				goomba7.side = true;
+				goomba7.death = false;
+				goomba7.death2 = false;
+				goomba7.alive = true;
+				goomba7.activated = false;
+				goomba7.position = { 2000, 600 };
+
+				goomba8.side = true;
+				goomba8.death = false;
+				goomba8.death2 = false;
+				goomba8.alive = true;
+				goomba8.activated = false;
+				goomba8.position = { 2100, 600 };
+
+				goomba9.side = true;
+				goomba9.death = false;
+				goomba9.death2 = false;
+				goomba9.alive = true;
+				goomba9.activated = false;
+				goomba9.position = { 2200, 600 };
+
+				goomba10.side = true;
+				goomba10.death = false;
+				goomba10.death2 = false;
+				goomba10.alive = true;
+				goomba10.activated = false;
+				goomba10.position = { 2300, 600 };
+
+				goomba11.side = true;
+				goomba11.death = false;
+				goomba11.death2 = false;
+				goomba11.alive = true;
+				goomba11.activated = false;
+				goomba11.position = { 2400, 600 };
+
+				goomba12.side = true;
+				goomba12.death = false;
+				goomba12.death2 = false;
+				goomba12.alive = true;
+				goomba12.activated = false;
+				goomba12.position = { 2500, 600 };
+
+				goomba13.side = true;
+				goomba13.death = false;
+				goomba13.death2 = false;
+				goomba13.alive = true;
+				goomba13.activated = false;
+				goomba13.position = { 2600, 600 };
+
+				goomba14.side = true;
+				goomba14.death = false;
+				goomba14.death2 = false;
+				goomba14.alive = true;
+				goomba14.activated = false;
+				goomba14.position = { 2700, 600 };
+
+				goomba15.side = true;
+				goomba15.death = false;
+				goomba15.death2 = false;
+				goomba15.alive = true;
+				goomba15.activated = false;
+				goomba15.position = { 2800, 600 };
+
+				goomba16.side = true;
+				goomba16.death = false;
+				goomba16.death2 = false;
+				goomba16.alive = true;
+				goomba16.activated = false;
+				goomba16.position = { 2900, 600 };
+
 				koopa.death = false;
 				koopa.alive = true;
 				koopa.side = true;
@@ -345,13 +708,6 @@ private:
 				flag.reached = false;
 
 				// Reset enemies
-				goomba.position = { 1400, 600 };
-				goomba.side = true;
-				goomba.death = false;
-				goomba.death2 = false;
-				goomba.alive = true;
-				goomba.activated = false;
-
 				koopa.position = { 1600, 600 };
 				koopa.death = false;
 				koopa.death2 = false;
@@ -413,7 +769,22 @@ private:
 
 		if (player.big) player.mario_hitbox = { player.position.x, player.position.y, 23,32 };
 		if (!player.big) player.mario_hitbox = { player.position.x, player.position.y, 23,16 };
-		goomba.goomba_hitbox = { goomba.position.x, goomba.position.y, 16,16 };
+		goomba1.goomba_hitbox = { goomba1.position.x, goomba1.position.y, 16, 16 };
+		goomba2.goomba_hitbox = { goomba2.position.x, goomba2.position.y, 16, 16 };
+		goomba3.goomba_hitbox = { goomba3.position.x, goomba3.position.y, 16, 16 };
+		goomba4.goomba_hitbox = { goomba4.position.x, goomba4.position.y, 16, 16 };
+		goomba5.goomba_hitbox = { goomba5.position.x, goomba5.position.y, 16, 16 };
+		goomba6.goomba_hitbox = { goomba6.position.x, goomba6.position.y, 16, 16 };
+		goomba7.goomba_hitbox = { goomba7.position.x, goomba7.position.y, 16, 16 };
+		goomba8.goomba_hitbox = { goomba8.position.x, goomba8.position.y, 16, 16 };
+		goomba9.goomba_hitbox = { goomba9.position.x, goomba9.position.y, 16, 16 };
+		goomba10.goomba_hitbox = { goomba10.position.x, goomba10.position.y, 16, 16 };
+		goomba11.goomba_hitbox = { goomba11.position.x, goomba11.position.y, 16, 16 };
+		goomba12.goomba_hitbox = { goomba12.position.x, goomba12.position.y, 16, 16 };
+		goomba13.goomba_hitbox = { goomba13.position.x, goomba13.position.y, 16, 16 };
+		goomba14.goomba_hitbox = { goomba14.position.x, goomba14.position.y, 16, 16 };
+		goomba15.goomba_hitbox = { goomba15.position.x, goomba15.position.y, 16, 16 };
+		goomba16.goomba_hitbox = { goomba16.position.x, goomba16.position.y, 16, 16 };
 		player.mario_hitbox.x += player.speed.x;
 		player.mario_hitbox.y += player.speed.y;
 		mooshroom.powerup_hitbox = { mooshroom.position.x, mooshroom.position.y, 16,16 };
@@ -424,7 +795,22 @@ private:
 
 		bool hitObstacleFloor = false;
 		bool hitObstacleWall = false;
-		bool onGroundEnemy = false;
+		bool onGroundGoomba1 = false;
+		bool onGroundGoomba2 = false;
+		bool onGroundGoomba3 = false;
+		bool onGroundGoomba4 = false;
+		bool onGroundGoomba5 = false;
+		bool onGroundGoomba6 = false;
+		bool onGroundGoomba7 = false;
+		bool onGroundGoomba8 = false;
+		bool onGroundGoomba9 = false;
+		bool onGroundGoomba10 = false;
+		bool onGroundGoomba11 = false;
+		bool onGroundGoomba12 = false;
+		bool onGroundGoomba13 = false;
+		bool onGroundGoomba14 = false;
+		bool onGroundGoomba15 = false;
+		bool onGroundGoomba16 = false;
 		bool onGroundKoopa = false;
 		bool onGroundShell = false;
 		bool onGroundPowerUp = false;
@@ -545,35 +931,107 @@ private:
 		}
 
 		//GOOMBA
-		if (player.position.x - goomba.position.x <= -200 && !goomba.death && !goomba.death2 && player.alive != 0 && Timer > 0) {
-			goomba.activated = true;
-		}
+		Goomba_Activation(goomba1, player);
+		Goomba_Activation(goomba2, player);
+		Goomba_Activation(goomba3, player);
+		Goomba_Activation(goomba4, player);
+		Goomba_Activation(goomba5, player);
+		Goomba_Activation(goomba6, player);
+		Goomba_Activation(goomba7, player);
+		Goomba_Activation(goomba8, player);
+		Goomba_Activation(goomba9, player);
+		Goomba_Activation(goomba10, player);
+		Goomba_Activation(goomba11, player);
+		Goomba_Activation(goomba12, player);
+		Goomba_Activation(goomba13, player);
+		Goomba_Activation(goomba14, player);
+		Goomba_Activation(goomba15, player);
+		Goomba_Activation(goomba16, player);
 
-		goomba.speed.x = 1.0f;
-		if (goomba.activated && !goomba.death && !goomba.death2 && player.alive != 0 && goomba.side && Timer > 0) {
-			goomba.position.x += -120 * deltaTime;
-		}
-		if (goomba.activated && !goomba.death && !goomba.death2 && player.alive != 0 && !goomba.side && Timer > 0) {
-			goomba.position.x += 120 * deltaTime;
-		}
+		goomba1.speed.x = 1.0f;
+		goomba2.speed.x = 1.0f;
+		goomba3.speed.x = 1.0f;
+		goomba4.speed.x = 1.0f;
+		goomba5.speed.x = 1.0f;
+		goomba6.speed.x = 1.0f;
+		goomba7.speed.x = 1.0f;
+		goomba8.speed.x = 1.0f;
+		goomba9.speed.x = 1.0f;
+		goomba10.speed.x = 1.0f;
+		goomba11.speed.x = 1.0f;
+		goomba12.speed.x = 1.0f;
+		goomba13.speed.x = 1.0f;
+		goomba14.speed.x = 1.0f;
+		goomba15.speed.x = 1.0f;
+		goomba16.speed.x = 1.0f;
 
-		if (goomba.death) {
-			if (player.position.y >= goomba.position.y) {
-				goomba.position.y = 1000;
-			}
-		}
-		if (goomba.death2) {
-			goomba.speed.y += GRAVITY * deltaTime;
-			goomba.position.x += goomba.speed.x * deltaTime;
-			goomba.position.y += goomba.speed.y * deltaTime;
-			if (goomba.position.y >= goomba.goomba_hitbox.y + 100) {
-				goombaDeathInit = false;
-			}
-		}
+		Goomba_Movement(goomba1, player, deltaTime);
+		Goomba_Movement(goomba2, player, deltaTime);
+		Goomba_Movement(goomba3, player, deltaTime);
+		Goomba_Movement(goomba4, player, deltaTime);
+		Goomba_Movement(goomba5, player, deltaTime);
+		Goomba_Movement(goomba6, player, deltaTime);
+		Goomba_Movement(goomba7, player, deltaTime);
+		Goomba_Movement(goomba8, player, deltaTime);
+		Goomba_Movement(goomba9, player, deltaTime);
+		Goomba_Movement(goomba10, player, deltaTime);
+		Goomba_Movement(goomba11, player, deltaTime);
+		Goomba_Movement(goomba12, player, deltaTime);
+		Goomba_Movement(goomba13, player, deltaTime);
+		Goomba_Movement(goomba14, player, deltaTime);
+		Goomba_Movement(goomba15, player, deltaTime);
+		Goomba_Movement(goomba16, player, deltaTime);
 
-		if (goomba.position.y >= 1000) {
-			goomba.alive = false;
-		}
+		Goomba_Death(goomba1, player);
+		Goomba_Death(goomba2, player);
+		Goomba_Death(goomba3, player);
+		Goomba_Death(goomba4, player);
+		Goomba_Death(goomba5, player);
+		Goomba_Death(goomba6, player);
+		Goomba_Death(goomba7, player);
+		Goomba_Death(goomba8, player);
+		Goomba_Death(goomba9, player);
+		Goomba_Death(goomba10, player);
+		Goomba_Death(goomba11, player);
+		Goomba_Death(goomba12, player);
+		Goomba_Death(goomba13, player);
+		Goomba_Death(goomba14, player);
+		Goomba_Death(goomba15, player);
+		Goomba_Death(goomba16, player);
+
+		Goomba_Death2(goomba1, deltaTime);
+		Goomba_Death2(goomba2, deltaTime);
+		Goomba_Death2(goomba3, deltaTime);
+		Goomba_Death2(goomba4, deltaTime);
+		Goomba_Death2(goomba5, deltaTime);
+		Goomba_Death2(goomba6, deltaTime);
+		Goomba_Death2(goomba7, deltaTime);
+		Goomba_Death2(goomba8, deltaTime);
+		Goomba_Death2(goomba9, deltaTime);
+		Goomba_Death2(goomba10, deltaTime);
+		Goomba_Death2(goomba11, deltaTime);
+		Goomba_Death2(goomba12, deltaTime);
+		Goomba_Death2(goomba13, deltaTime);
+		Goomba_Death2(goomba14, deltaTime);
+		Goomba_Death2(goomba15, deltaTime);
+		Goomba_Death2(goomba16, deltaTime);
+
+		Goomba_InTheMoon(goomba1);
+		Goomba_InTheMoon(goomba2);
+		Goomba_InTheMoon(goomba3);
+		Goomba_InTheMoon(goomba4);
+		Goomba_InTheMoon(goomba5);
+		Goomba_InTheMoon(goomba6);
+		Goomba_InTheMoon(goomba7);
+		Goomba_InTheMoon(goomba8);
+		Goomba_InTheMoon(goomba9);
+		Goomba_InTheMoon(goomba10);
+		Goomba_InTheMoon(goomba11);
+		Goomba_InTheMoon(goomba12);
+		Goomba_InTheMoon(goomba13);
+		Goomba_InTheMoon(goomba14);
+		Goomba_InTheMoon(goomba15);
+		Goomba_InTheMoon(goomba16);
 
 		//Koopa
 		if (player.position.x - koopa.position.x <= -200 && !koopa.death && !koopa.death2 && player.alive != 0 && Timer > 0) {
@@ -804,35 +1262,25 @@ private:
 		//--------Colisiones de Enemigos--------\\
 
 		//Con Mario
-		if (goomba.alive && !goomba.death && !goomba.death2 && player.position.x + player.mario_hitbox.width + 10 >= goomba.position.x &&
-			player.position.x <= goomba.position.x + goomba.goomba_hitbox.width + 20 &&
-			player.position.y + player.mario_hitbox.height + 16 >= goomba.position.y && player.position.y <= goomba.position.y + goomba.goomba_hitbox.height)
-		{
-			if (player.position.y + player.mario_hitbox.height <= goomba.position.y && player.alive) {
-				PlaySound(sfxStomp);
-				goomba.death = true;
-				Score += 100;
-				player.speed.y = -PLAYER_JUMP_SPD + 100;
-				player.canJump = false;
-				player.canJump2 = true;
-				player.jumpTime = 0.0f;
-			}
-			else if (player.big && player.fire && !player.invencible) {
-				player.invencible = true;
-				player.fire = 0;
-				player.invulnerableTimer = 0.0f;
+		//Goomba
+		Goomba_MarioCollision(goomba1, player);
+		Goomba_MarioCollision(goomba2, player);
+		Goomba_MarioCollision(goomba3, player);
+		Goomba_MarioCollision(goomba4, player);
+		Goomba_MarioCollision(goomba5, player);
+		Goomba_MarioCollision(goomba6, player);
+		Goomba_MarioCollision(goomba7, player);
+		Goomba_MarioCollision(goomba8, player);
+		Goomba_MarioCollision(goomba9, player);
+		Goomba_MarioCollision(goomba10, player);
+		Goomba_MarioCollision(goomba11, player);
+		Goomba_MarioCollision(goomba12, player);
+		Goomba_MarioCollision(goomba13, player);
+		Goomba_MarioCollision(goomba14, player);
+		Goomba_MarioCollision(goomba15, player);
+		Goomba_MarioCollision(goomba16, player);
 
-			}
-			else if (player.big && !player.fire && !player.invencible) {
-				player.invencible = true;
-				player.big = 0;
-				player.invulnerableTimer = 0.0f;
-			}
-			else if (!player.big && !player.fire && !player.invencible) {
-				player.alive = 0;
-			}
-		}
-
+		//Koopa
 		if (koopa.alive && !koopa.death && !koopa.death2 && player.position.x + player.mario_hitbox.width + 10 >= koopa.position.x &&
 			player.position.x <= koopa.position.x + koopa.goomba_hitbox.width + 20 &&
 			player.position.y + player.mario_hitbox.height + 16 >= koopa.position.y && player.position.y <= koopa.position.y + koopa.goomba_hitbox.height)
@@ -910,19 +1358,22 @@ private:
 		}
 
 		//Con bola de fuego
-		if (goomba.alive && fireBall.position.x + fireBall.projectile_hitbox.width + 10 >= goomba.position.x && fireBall.active &&
-			fireBall.position.x <= goomba.position.x + goomba.goomba_hitbox.width + 20 &&
-			fireBall.position.y + fireBall.projectile_hitbox.height + 16 >= goomba.position.y && fireBall.position.y <= goomba.position.y + goomba.goomba_hitbox.height)
-		{
-			PlaySound(sfxKick);
-			Score += 100;
-			goomba.death2 = true;
-			fireBall.active = false;
-			goombaDeathInit = true;
-			fireBall.position.y = 2000;
-			goomba.speed.x = goomba.side ? -8.0f : 8.0f;
-			goomba.speed.y = -20.0f;
-		}
+		Goomba_Fuego(goomba1, fireBall);
+		Goomba_Fuego(goomba2, fireBall);
+		Goomba_Fuego(goomba3, fireBall);
+		Goomba_Fuego(goomba4, fireBall);
+		Goomba_Fuego(goomba5, fireBall);
+		Goomba_Fuego(goomba6, fireBall);
+		Goomba_Fuego(goomba7, fireBall);
+		Goomba_Fuego(goomba8, fireBall);
+		Goomba_Fuego(goomba9, fireBall);
+		Goomba_Fuego(goomba10, fireBall);
+		Goomba_Fuego(goomba11, fireBall);
+		Goomba_Fuego(goomba12, fireBall);
+		Goomba_Fuego(goomba13, fireBall);
+		Goomba_Fuego(goomba14, fireBall);
+		Goomba_Fuego(goomba15, fireBall);
+		Goomba_Fuego(goomba16, fireBall);
 
 		if (koopa.alive && fireBall.position.x + fireBall.projectile_hitbox.width + 10 >= koopa.position.x && fireBall.active &&
 			fireBall.position.x <= koopa.position.x + koopa.goomba_hitbox.width + 20 &&
@@ -940,29 +1391,41 @@ private:
 
 		//Con el suelo
 		for (EnvElement block : blocks) {
-			if (Timer > 0 && player.alive != 0 && goomba.activated && !goomba.death2
-				&& block.rect.x <= goomba.position.x + goomba.goomba_hitbox.width - 5
-				&& block.rect.x + block.rect.width + 10 >= goomba.position.x
-				&& block.rect.y + block.rect.height >= goomba.position.y
-				&& block.rect.y <= goomba.position.y
-				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW)) {
-				onGroundEnemy = true;
-				goomba.speed.y = 0.0f;
-				goomba.position.y = block.rect.y;
-			}
+			Goomba_Suelo(goomba1, player, block, onGroundGoomba1);
+			Goomba_Suelo(goomba2, player, block, onGroundGoomba2);
+			Goomba_Suelo(goomba3, player, block, onGroundGoomba3);
+			Goomba_Suelo(goomba4, player, block, onGroundGoomba4);
+			Goomba_Suelo(goomba5, player, block, onGroundGoomba5);
+			Goomba_Suelo(goomba6, player, block, onGroundGoomba6);
+			Goomba_Suelo(goomba7, player, block, onGroundGoomba7);
+			Goomba_Suelo(goomba8, player, block, onGroundGoomba8);
+			Goomba_Suelo(goomba9, player, block, onGroundGoomba9);
+			Goomba_Suelo(goomba10, player, block, onGroundGoomba10);
+			Goomba_Suelo(goomba11, player, block, onGroundGoomba11);
+			Goomba_Suelo(goomba12, player, block, onGroundGoomba12);
+			Goomba_Suelo(goomba13, player, block, onGroundGoomba13);
+			Goomba_Suelo(goomba14, player, block, onGroundGoomba14);
+			Goomba_Suelo(goomba15, player, block, onGroundGoomba15);
+			Goomba_Suelo(goomba16, player, block, onGroundGoomba16);
+
 		}
 
-		if (!onGroundEnemy && !goomba.death2 && player.alive && Timer > 0 && !goombaDeathInit) {
-			goomba.position.y += (GRAVITY - 300) * deltaTime;
-			if (goomba.position.y > 0)
-			{
-				goomba.position.y += (GRAVITY - 300) * 2.0f * deltaTime; //Increase gravity in fall
-			}
-			else
-			{
-				goomba.position.y += (GRAVITY - 300) * deltaTime; //Normal upward gravity
-			}
-		}
+		Goomba_fall(goomba1, player, onGroundGoomba1, deltaTime);
+		Goomba_fall(goomba2, player, onGroundGoomba2, deltaTime);
+		Goomba_fall(goomba3, player, onGroundGoomba3, deltaTime);
+		Goomba_fall(goomba4, player, onGroundGoomba4, deltaTime);
+		Goomba_fall(goomba5, player, onGroundGoomba5, deltaTime);
+		Goomba_fall(goomba6, player, onGroundGoomba6, deltaTime);
+		Goomba_fall(goomba7, player, onGroundGoomba7, deltaTime);
+		Goomba_fall(goomba8, player, onGroundGoomba8, deltaTime);
+		Goomba_fall(goomba9, player, onGroundGoomba9, deltaTime);
+		Goomba_fall(goomba10, player, onGroundGoomba10, deltaTime);
+		Goomba_fall(goomba11, player, onGroundGoomba11, deltaTime);
+		Goomba_fall(goomba12, player, onGroundGoomba12, deltaTime);
+		Goomba_fall(goomba13, player, onGroundGoomba13, deltaTime);
+		Goomba_fall(goomba14, player, onGroundGoomba14, deltaTime);
+		Goomba_fall(goomba15, player, onGroundGoomba15, deltaTime);
+		Goomba_fall(goomba16, player, onGroundGoomba16, deltaTime);
 
 		for (EnvElement block : blocks) {
 			if (Timer > 0 && player.alive != 0 && koopa.activated
@@ -1015,34 +1478,63 @@ private:
 		}
 
 		//Los lados Goomba
-		float nextXE = goomba.position.x + goomba.speed.x * deltaTime;
+		float nextXE1 = goomba1.position.x + goomba1.speed.x * deltaTime;
+		float nextXE2 = goomba2.position.x + goomba2.speed.x * deltaTime;
+		float nextXE3 = goomba3.position.x + goomba3.speed.x * deltaTime;
+		float nextXE4 = goomba4.position.x + goomba4.speed.x * deltaTime;
+		float nextXE5 = goomba5.position.x + goomba5.speed.x * deltaTime;
+		float nextXE6 = goomba6.position.x + goomba6.speed.x * deltaTime;
+		float nextXE7 = goomba7.position.x + goomba7.speed.x * deltaTime;
+		float nextXE8 = goomba8.position.x + goomba8.speed.x * deltaTime;
+		float nextXE9 = goomba9.position.x + goomba9.speed.x * deltaTime;
+		float nextXE10 = goomba10.position.x + goomba10.speed.x * deltaTime;
+		float nextXE11 = goomba11.position.x + goomba11.speed.x * deltaTime;
+		float nextXE12 = goomba12.position.x + goomba12.speed.x * deltaTime;
+		float nextXE13 = goomba13.position.x + goomba13.speed.x * deltaTime;
+		float nextXE14 = goomba14.position.x + goomba14.speed.x * deltaTime;
+		float nextXE15 = goomba15.position.x + goomba15.speed.x * deltaTime;
+		float nextXE16 = goomba16.position.x + goomba16.speed.x * deltaTime;
+
 
 		//Derecha
 		for (EnvElement block : blocks) {
-			if (Timer > 0 && player.alive != 0 && goomba.alive &&
-				goomba.activated && !goomba.side &&
-				goomba.position.y > block.rect.y &&
-				goomba.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
-				goomba.position.x - 10 <= block.rect.x &&
-				(nextXE + goomba.goomba_hitbox.width) >= block.rect.x - 15
-				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
-			{
-				goomba.side = true;
-			}
+			Goomba_Derecha(goomba1, player, block, nextXE1);
+			Goomba_Derecha(goomba2, player, block, nextXE2);
+			Goomba_Derecha(goomba3, player, block, nextXE3);
+			Goomba_Derecha(goomba4, player, block, nextXE4);
+			Goomba_Derecha(goomba5, player, block, nextXE5);
+			Goomba_Derecha(goomba6, player, block, nextXE6);
+			Goomba_Derecha(goomba7, player, block, nextXE7);
+			Goomba_Derecha(goomba8, player, block, nextXE8);
+			Goomba_Derecha(goomba9, player, block, nextXE9);
+			Goomba_Derecha(goomba10, player, block, nextXE10);
+			Goomba_Derecha(goomba11, player, block, nextXE11);
+			Goomba_Derecha(goomba12, player, block, nextXE12);
+			Goomba_Derecha(goomba13, player, block, nextXE13);
+			Goomba_Derecha(goomba14, player, block, nextXE14);
+			Goomba_Derecha(goomba15, player, block, nextXE15);
+			Goomba_Derecha(goomba16, player, block, nextXE16);
+
 		}
 
 		//Izquierda
 		for (EnvElement block : blocks) {
-			if (Timer > 0 && player.alive != 0 &&
-				goomba.activated && goomba.side &&
-				goomba.position.y > block.rect.y &&
-				goomba.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
-				goomba.position.x + 10 >= (block.rect.x + block.rect.width) &&
-				(nextXE) <= (block.rect.x + block.rect.width + 20)
-				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
-			{
-				goomba.side = false;
-			}
+			Goomba_Izquierda(goomba1, player, block, nextXE1);
+			Goomba_Izquierda(goomba2, player, block, nextXE2);
+			Goomba_Izquierda(goomba3, player, block, nextXE3);
+			Goomba_Izquierda(goomba4, player, block, nextXE4);
+			Goomba_Izquierda(goomba5, player, block, nextXE5);
+			Goomba_Izquierda(goomba6, player, block, nextXE6);
+			Goomba_Izquierda(goomba7, player, block, nextXE7);
+			Goomba_Izquierda(goomba8, player, block, nextXE8);
+			Goomba_Izquierda(goomba9, player, block, nextXE9);
+			Goomba_Izquierda(goomba10, player, block, nextXE10);
+			Goomba_Izquierda(goomba11, player, block, nextXE11);
+			Goomba_Izquierda(goomba12, player, block, nextXE12);
+			Goomba_Izquierda(goomba13, player, block, nextXE13);
+			Goomba_Izquierda(goomba14, player, block, nextXE14);
+			Goomba_Izquierda(goomba15, player, block, nextXE15);
+			Goomba_Izquierda(goomba16, player, block, nextXE16);
 		}
 
 		//Los lados Koopa
@@ -1471,7 +1963,22 @@ private:
 			mooshroom.side = false;
 			fireFlower.active = false;
 			fireFlower.position = { -110, 1400 };
-			goomba.position = { 1400, 600 };
+			goomba1.position = { 1400, 600 };
+			goomba2.position = { 1400, 600 };
+			goomba3.position = { 1400, 600 };
+			goomba4.position = { 1400, 600 };
+			goomba5.position = { 1400, 600 };
+			goomba6.position = { 1400, 600 };
+			goomba7.position = { 1400, 600 };
+			goomba8.position = { 1400, 600 };
+			goomba9.position = { 1400, 600 };
+			goomba10.position = { 1400, 600 };
+			goomba11.position = { 1400, 600 };
+			goomba12.position = { 1400, 600 };
+			goomba13.position = { 1400, 600 };
+			goomba14.position = { 1400, 600 };
+			goomba15.position = { 1400, 600 };
+			goomba16.position = { 1400, 600 };
 			koopa.position = { 1600, 600 };
 			shell.position = { 0, 1000 };
 			Timer = 400;
@@ -1482,10 +1989,85 @@ private:
 			player.lifes = 3;
 			player.big = 0;
 			player.fire = 0;
-			goomba.side = true;
-			goomba.death = false;
-			goomba.death2 = false;
-			goomba.alive = true;
+			goomba1.side = true;
+			goomba1.death = false;
+			goomba1.death2 = false;
+			goomba1.alive = true;
+
+			goomba2.side = true;
+			goomba2.death = false;
+			goomba2.death2 = false;
+			goomba2.alive = true;
+
+			goomba3.side = true;
+			goomba3.death = false;
+			goomba3.death2 = false;
+			goomba3.alive = true;
+
+			goomba4.side = true;
+			goomba4.death = false;
+			goomba4.death2 = false;
+			goomba4.alive = true;
+
+			goomba5.side = true;
+			goomba5.death = false;
+			goomba5.death2 = false;
+			goomba5.alive = true;
+
+			goomba6.side = true;
+			goomba6.death = false;
+			goomba6.death2 = false;
+			goomba6.alive = true;
+
+			goomba7.side = true;
+			goomba7.death = false;
+			goomba7.death2 = false;
+			goomba7.alive = true;
+
+			goomba8.side = true;
+			goomba8.death = false;
+			goomba8.death2 = false;
+			goomba8.alive = true;
+
+			goomba9.side = true;
+			goomba9.death = false;
+			goomba9.death2 = false;
+			goomba9.alive = true;
+
+			goomba10.side = true;
+			goomba10.death = false;
+			goomba10.death2 = false;
+			goomba10.alive = true;
+
+			goomba11.side = true;
+			goomba11.death = false;
+			goomba11.death2 = false;
+			goomba11.alive = true;
+
+			goomba12.side = true;
+			goomba12.death = false;
+			goomba12.death2 = false;
+			goomba12.alive = true;
+
+			goomba13.side = true;
+			goomba13.death = false;
+			goomba13.death2 = false;
+			goomba13.alive = true;
+
+			goomba14.side = true;
+			goomba14.death = false;
+			goomba14.death2 = false;
+			goomba14.alive = true;
+
+			goomba15.side = true;
+			goomba15.death = false;
+			goomba15.death2 = false;
+			goomba15.alive = true;
+
+			goomba16.side = true;
+			goomba16.death = false;
+			goomba16.death2 = false;
+			goomba16.alive = true;
 			koopa.death = false;
 			koopa.death2 = false;
 			koopa.side = true;
@@ -1521,12 +2103,12 @@ private:
 			player.big = 1;
 		}
 		if (IsKeyPressed(KEY_G) && Timer > 0 && player.alive == 1 && !flag.reached) { //Generar Goomba
-			goomba.death = false;
-			goomba.death2 = false;
-			goomba.alive = true;
-			goomba.side = true;
-			goomba.position.x = player.position.x + 200;
-			goomba.position.y = player.position.y;
+			goomba1.death = false;
+			goomba1.death2 = false;
+			goomba1.alive = true;
+			goomba1.side = true;
+			goomba1.position.x = player.position.x + 200;
+			goomba1.position.y = player.position.y;
 		}
 		if (IsKeyPressed(KEY_K) && Timer > 0 && player.alive == 1 && !flag.reached) { //Generar Koopa
 			koopa.death = false;
@@ -1740,11 +2322,11 @@ private:
 		int frameWidthG = 16;
 		int frameHeightG = 16;
 
-		if (!goomba.death && !goomba.death2) {
+		if (!goomba1.death && !goomba1.death2) {
 			int frameWidthG = 16;
 			int frameHeightG = 16;
 		}
-		if (goomba.death || goomba.death2) {
+		if (goomba1.death || goomba1.death2) {
 			int frameWidthG = 16;
 			int frameHeightG = 16;
 		}
@@ -1820,16 +2402,197 @@ private:
 		}
 
 		//Animation of Enemies
-		if (goomba.activated && player.alive != 0 && Timer > 0) {
+		// Goomba 1
+		if (goomba1.activated && player.alive != 0 && Timer > 0) {
 			if (frameTimeE >= frameSpeedE) {
 				frameTimeE = 0.0f;
 				currentFrameE = (currentFrameE + 1) % 3;
 			}
 			sourceRec2.x = (float)(currentFrameE * frameWidthG);
 		}
-		if (!goomba.death && !goomba.death2) goomba_sprite = Goomba;
-		if (goomba.death) goomba_sprite = Goomba_chafado;
-		if (goomba.death2) goomba_sprite = Goomba_invertido;
+		if (!goomba1.death && !goomba1.death2) goomba_sprite = Goomba;
+		if (goomba1.death) goomba_sprite = Goomba_chafado;
+		if (goomba1.death2) goomba_sprite = Goomba_invertido;
+
+		// Goomba 2
+		if (goomba2.activated && player.alive != 0 && Timer > 0) {
+			if (frameTimeE >= frameSpeedE) {
+				frameTimeE = 0.0f;
+				currentFrameE = (currentFrameE + 1) % 3;
+			}
+			sourceRec2.x = (float)(currentFrameE * frameWidthG);
+		}
+		if (!goomba2.death && !goomba2.death2) goomba_sprite = Goomba;
+		if (goomba2.death) goomba_sprite = Goomba_chafado;
+		if (goomba2.death2) goomba_sprite = Goomba_invertido;
+
+		// Goomba 3
+		if (goomba3.activated && player.alive != 0 && Timer > 0) {
+			if (frameTimeE >= frameSpeedE) {
+				frameTimeE = 0.0f;
+				currentFrameE = (currentFrameE + 1) % 3;
+			}
+			sourceRec2.x = (float)(currentFrameE * frameWidthG);
+		}
+		if (!goomba3.death && !goomba3.death2) goomba_sprite = Goomba;
+		if (goomba3.death) goomba_sprite = Goomba_chafado;
+		if (goomba3.death2) goomba_sprite = Goomba_invertido;
+
+		// Goomba 4
+		if (goomba4.activated && player.alive != 0 && Timer > 0) {
+			if (frameTimeE >= frameSpeedE) {
+				frameTimeE = 0.0f;
+				currentFrameE = (currentFrameE + 1) % 3;
+			}
+			sourceRec2.x = (float)(currentFrameE * frameWidthG);
+		}
+		if (!goomba4.death && !goomba4.death2) goomba_sprite = Goomba;
+		if (goomba4.death) goomba_sprite = Goomba_chafado;
+		if (goomba4.death2) goomba_sprite = Goomba_invertido;
+
+		// Goomba 5
+		if (goomba5.activated && player.alive != 0 && Timer > 0) {
+			if (frameTimeE >= frameSpeedE) {
+				frameTimeE = 0.0f;
+				currentFrameE = (currentFrameE + 1) % 3;
+			}
+			sourceRec2.x = (float)(currentFrameE * frameWidthG);
+		}
+		if (!goomba5.death && !goomba5.death2) goomba_sprite = Goomba;
+		if (goomba5.death) goomba_sprite = Goomba_chafado;
+		if (goomba5.death2) goomba_sprite = Goomba_invertido;
+
+		// Goomba 6
+		if (goomba6.activated && player.alive != 0 && Timer > 0) {
+			if (frameTimeE >= frameSpeedE) {
+				frameTimeE = 0.0f;
+				currentFrameE = (currentFrameE + 1) % 3;
+			}
+			sourceRec2.x = (float)(currentFrameE * frameWidthG);
+		}
+		if (!goomba6.death && !goomba6.death2) goomba_sprite = Goomba;
+		if (goomba6.death) goomba_sprite = Goomba_chafado;
+		if (goomba6.death2) goomba_sprite = Goomba_invertido;
+
+		// Goomba 7
+		if (goomba7.activated && player.alive != 0 && Timer > 0) {
+			if (frameTimeE >= frameSpeedE) {
+				frameTimeE = 0.0f;
+				currentFrameE = (currentFrameE + 1) % 3;
+			}
+			sourceRec2.x = (float)(currentFrameE * frameWidthG);
+		}
+		if (!goomba7.death && !goomba7.death2) goomba_sprite = Goomba;
+		if (goomba7.death) goomba_sprite = Goomba_chafado;
+		if (goomba7.death2) goomba_sprite = Goomba_invertido;
+
+		// Goomba 8
+		if (goomba8.activated && player.alive != 0 && Timer > 0) {
+			if (frameTimeE >= frameSpeedE) {
+				frameTimeE = 0.0f;
+				currentFrameE = (currentFrameE + 1) % 3;
+			}
+			sourceRec2.x = (float)(currentFrameE * frameWidthG);
+		}
+		if (!goomba8.death && !goomba8.death2) goomba_sprite = Goomba;
+		if (goomba8.death) goomba_sprite = Goomba_chafado;
+		if (goomba8.death2) goomba_sprite = Goomba_invertido;
+
+		// Goomba 9
+		if (goomba9.activated && player.alive != 0 && Timer > 0) {
+			if (frameTimeE >= frameSpeedE) {
+				frameTimeE = 0.0f;
+				currentFrameE = (currentFrameE + 1) % 3;
+			}
+			sourceRec2.x = (float)(currentFrameE * frameWidthG);
+		}
+		if (!goomba9.death && !goomba9.death2) goomba_sprite = Goomba;
+		if (goomba9.death) goomba_sprite = Goomba_chafado;
+		if (goomba9.death2) goomba_sprite = Goomba_invertido;
+
+		// Goomba 10
+		if (goomba10.activated && player.alive != 0 && Timer > 0) {
+			if (frameTimeE >= frameSpeedE) {
+				frameTimeE = 0.0f;
+				currentFrameE = (currentFrameE + 1) % 3;
+			}
+			sourceRec2.x = (float)(currentFrameE * frameWidthG);
+		}
+		if (!goomba10.death && !goomba10.death2) goomba_sprite = Goomba;
+		if (goomba10.death) goomba_sprite = Goomba_chafado;
+		if (goomba10.death2) goomba_sprite = Goomba_invertido;
+
+		// Goomba 11
+		if (goomba11.activated && player.alive != 0 && Timer > 0) {
+			if (frameTimeE >= frameSpeedE) {
+				frameTimeE = 0.0f;
+				currentFrameE = (currentFrameE + 1) % 3;
+			}
+			sourceRec2.x = (float)(currentFrameE * frameWidthG);
+		}
+		if (!goomba11.death && !goomba11.death2) goomba_sprite = Goomba;
+		if (goomba11.death) goomba_sprite = Goomba_chafado;
+		if (goomba11.death2) goomba_sprite = Goomba_invertido;
+
+		// Goomba 12
+		if (goomba12.activated && player.alive != 0 && Timer > 0) {
+			if (frameTimeE >= frameSpeedE) {
+				frameTimeE = 0.0f;
+				currentFrameE = (currentFrameE + 1) % 3;
+			}
+			sourceRec2.x = (float)(currentFrameE * frameWidthG);
+		}
+		if (!goomba12.death && !goomba12.death2) goomba_sprite = Goomba;
+		if (goomba12.death) goomba_sprite = Goomba_chafado;
+		if (goomba12.death2) goomba_sprite = Goomba_invertido;
+
+		// Goomba 13
+		if (goomba13.activated && player.alive != 0 && Timer > 0) {
+			if (frameTimeE >= frameSpeedE) {
+				frameTimeE = 0.0f;
+				currentFrameE = (currentFrameE + 1) % 3;
+			}
+			sourceRec2.x = (float)(currentFrameE * frameWidthG);
+		}
+		if (!goomba13.death && !goomba13.death2) goomba_sprite = Goomba;
+		if (goomba13.death) goomba_sprite = Goomba_chafado;
+		if (goomba13.death2) goomba_sprite = Goomba_invertido;
+
+		// Goomba 14
+		if (goomba14.activated && player.alive != 0 && Timer > 0) {
+			if (frameTimeE >= frameSpeedE) {
+				frameTimeE = 0.0f;
+				currentFrameE = (currentFrameE + 1) % 3;
+			}
+			sourceRec2.x = (float)(currentFrameE * frameWidthG);
+		}
+		if (!goomba14.death && !goomba14.death2) goomba_sprite = Goomba;
+		if (goomba14.death) goomba_sprite = Goomba_chafado;
+		if (goomba14.death2) goomba_sprite = Goomba_invertido;
+
+		// Goomba 15
+		if (goomba15.activated && player.alive != 0 && Timer > 0) {
+			if (frameTimeE >= frameSpeedE) {
+				frameTimeE = 0.0f;
+				currentFrameE = (currentFrameE + 1) % 3;
+			}
+			sourceRec2.x = (float)(currentFrameE * frameWidthG);
+		}
+		if (!goomba15.death && !goomba15.death2) goomba_sprite = Goomba;
+		if (goomba15.death) goomba_sprite = Goomba_chafado;
+		if (goomba15.death2) goomba_sprite = Goomba_invertido;
+
+		// Goomba 16
+		if (goomba16.activated && player.alive != 0 && Timer > 0) {
+			if (frameTimeE >= frameSpeedE) {
+				frameTimeE = 0.0f;
+				currentFrameE = (currentFrameE + 1) % 3;
+			}
+			sourceRec2.x = (float)(currentFrameE * frameWidthG);
+		}
+		if (!goomba16.death && !goomba16.death2) goomba_sprite = Goomba;
+		if (goomba16.death) goomba_sprite = Goomba_chafado;
+		if (goomba16.death2) goomba_sprite = Goomba_invertido;
 
 		if (koopa.activated && player.alive != 0 && Timer > 0) {
 			if (frameTimeE >= frameSpeedE) {
@@ -1961,7 +2724,23 @@ private:
 		DrawTextureEx(tubo, { 688, -1950 }, 0.0f, 3.2f, WHITE);
 		DrawTextureEx(tubo, { 688, -2000 }, 0.0f, 3.2f, WHITE);
 
-		DrawTexturePro(goomba_sprite, sourceRec2, { goomba.position.x - 20, goomba.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite, sourceRec2, { goomba1.position.x - 20, goomba1.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite, sourceRec2, { goomba2.position.x - 20, goomba2.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite, sourceRec2, { goomba3.position.x - 20, goomba3.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite, sourceRec2, { goomba4.position.x - 20, goomba4.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite, sourceRec2, { goomba5.position.x - 20, goomba5.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite, sourceRec2, { goomba6.position.x - 20, goomba6.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite, sourceRec2, { goomba7.position.x - 20, goomba7.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite, sourceRec2, { goomba8.position.x - 20, goomba8.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite, sourceRec2, { goomba9.position.x - 20, goomba9.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite, sourceRec2, { goomba10.position.x - 20, goomba10.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite, sourceRec2, { goomba11.position.x - 20, goomba11.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite, sourceRec2, { goomba12.position.x - 20, goomba12.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite, sourceRec2, { goomba13.position.x - 20, goomba13.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite, sourceRec2, { goomba14.position.x - 20, goomba14.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite, sourceRec2, { goomba15.position.x - 20, goomba15.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite, sourceRec2, { goomba16.position.x - 20, goomba16.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+
 		DrawTexturePro(Mooshroom, sourceRec2, { mooshroom.position.x - 20, mooshroom.position.y - 48, sourceRec.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
 		DrawTexturePro(FireFlower, sourceRec2, { fireFlower.position.x - 20, fireFlower.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
 		if (fireBall.active) {
