@@ -70,7 +70,7 @@ private:
 	Projectile fireBall;
 	Flag flag;
 	Pipe pipe;
-	FloatingScore scores[MAX_FLOATING_SCORES];
+	vector<FloatingScore> floatingScores;
 
 public:
 	//Initialise the game
@@ -312,10 +312,97 @@ private:
 			break;
 
 		case GameScreen::ENDING:
-
 			if (IsKeyPressed(KEY_ENTER)) {
+				// Reset player state completely
 				player.lifes = 3;
+				player.position = { 50, 600 };
+				player.alive = 1;
+				player.big = 0;
+				player.fire = 0;
+				player.invencible = false;
+				player.invulnerableTimer = 0.0f;
+				player.visible = true;
+				player.canJump = true;
+				player.canJump2 = false;
+				player.jumpTime = 0.0f;
+				player.speed = { 0, 0 };
+				player.side = false;
+
+				// Reset camera
+				camera.target.x = 333;
+				camera.target.y = 350;
+
+				// Reset game variables
+				Timer = 400;
+				Score = 000000;
+				Money = 00;
+				elapsedTime = 0.0f;
+				contmuerte = 0;
+				conttiempo = 0;
+				hurryMusicPlayed = false;
+
+				// Reset flag
 				flag.reached = false;
+
+				// Reset enemies
+				goomba.position = { 1400, 600 };
+				goomba.side = true;
+				goomba.death = false;
+				goomba.death2 = false;
+				goomba.alive = true;
+				goomba.activated = false;
+
+				koopa.position = { 1600, 600 };
+				koopa.death = false;
+				koopa.death2 = false;
+				koopa.alive = true;
+				koopa.side = true;
+				koopa.activated = false;
+
+				shell.position = { 0, 1000 };
+				shell.death = false;
+				shell.death2 = false;
+				shell.activated = false;
+				shell.speed.x = 0;
+				shell.alive = true;
+				shell.side = true;
+				shell.shell = 0;
+
+				// Reset power-ups
+				mooshroom.position = { -110, 1400 };
+				mooshroom.active = false;
+				mooshroom.side = false;
+				mooshroom.emerging = false;
+				mooshroom.emergeOffset = 0.0f;
+
+				fireFlower.active = false;
+				fireFlower.position = { -110, 1400 };
+				fireFlower.emerging = false;
+				fireFlower.emergeOffset = 0.0f;
+
+				// Reset fireball
+				fireBall.position = { 0, 9000 };
+				fireBall.active = false;
+				fireBall.timer = 0;
+
+				// Reset pipes
+				pipe.enteringPipe1 = false;
+				pipe.enteringPipe2 = false;
+
+				// Reset all blocks
+				for (EnvElement& block : blocks) {
+					block.hit = false;
+				}
+
+				// Reset mario sprite
+				mario_sprite = Mario_Right;
+
+				// Reset frame counters
+				framesCounter = 0;
+				frameCounter = 0;
+				playFrameCounter = 0;
+				currentPlayFrame = 0;
+
 				currentScreen = GameScreen::TITLE;
 			}
 			break;
@@ -1045,6 +1132,13 @@ private:
 				player.fire = true;
 				fireFlower.active = false;
 				Score += 1000;
+				for (const auto& score : floatingScores) {
+					DrawTextEx(marioFont, TextFormat("%d", 1000), { player.position.x, player.position.y }, 9, 1, WHITE);
+				}
+				for (auto& score : floatingScores) {
+					score.y -= 0.5f; // Movimiento hacia arriba
+					score.lifetime--;
+				}
 				fireFlower.position.y = 1000;
 			}
 			else {
@@ -1306,9 +1400,9 @@ private:
 
 		if (pipe.enteringPipe1) {
 			PlaySound(sfxPipe);
-			player.position.x += 0.5;
+			player.position.y += 0.1;
 
-			if (player.position.y >= 350) {
+			if (player.position.y >= 450) {
 				// Por ejemplo, cambia de zona
 				player.position.x = -10;
 				player.position.y = -1950;
@@ -1320,11 +1414,12 @@ private:
 		}
 
 		if (!pipe.enteringPipe2 && player.position.x >= pipe.pipe2.x - 20 && player.position.y >= pipe.pipe2.y
-			&& player.position.y < 0 && IsKeyDown(KEY_RIGHT) && player.position.x < 700) {
+			&& player.position.y < -800 && IsKeyDown(KEY_RIGHT) && player.position.x < 700) {
+			DrawTextureEx(tuberia_cueva, { 579, -1700 }, 0.0f, 3.2f, WHITE);
+			PlaySound(sfxPipe);
 			pipe.enteringPipe2 = true;
 		}
 		if (pipe.enteringPipe2) {
-			PlaySound(sfxPipe);
 			player.position.x += 0.5;
 
 			if (player.position.x >= 600) {
@@ -1772,10 +1867,10 @@ private:
 			sourceRec.x = frameWidthP * 6;
 		}
 
-		for (EnvElement block : blocks) //Para ver la hitbox de cada rectangulo
-		{
-			DrawRectangle(block.rect.x, block.rect.y, block.rect.width, block.rect.height, block.color);
-		}
+		//for (EnvElement block : blocks) //Para ver la hitbox de cada rectangulo
+		//{
+		//	DrawRectangle(block.rect.x, block.rect.y, block.rect.width, block.rect.height, block.color);
+		//}
 
 		//Draw all entities, structures and objetcs
 		//Tuberias 
@@ -1857,7 +1952,8 @@ private:
 		}
 
 		// Paredes Cueva (Derecha)
-		DrawTextureEx(tuberia_cueva, { 579, -1700 }, 0.0f, 3.2f, WHITE);
+		
+		
 		DrawTextureEx(tubo, { 688, -1750 }, 0.0f, 3.2f, WHITE);
 		DrawTextureEx(tubo, { 688, -1800 }, 0.0f, 3.2f, WHITE);
 		DrawTextureEx(tubo, { 688, -1850 }, 0.0f, 3.2f, WHITE);
@@ -1892,6 +1988,8 @@ private:
 		//META Y CASTILLO//
 		DrawTextureEx(flagTexture, { 9375, flag.position.y - flagTexture.height }, 0, 3, WHITE);
 		DrawTextureEx(castle, { (9675), (360) }, 0.0f, 3, WHITE);
+
+		//Mario
 		if (!player.big && !player.invencible) {
 			DrawTexturePro(mario_sprite, sourceRec, { player.position.x - 20, player.position.y - 48, sourceRec.width * 3, sourceRec.height * 3 }, { 0, 0 }, 0, WHITE);
 		}
@@ -1912,6 +2010,10 @@ private:
 			sourceRec.y = 32;
 			DrawTexturePro(mario_sprite, sourceRec, { player.position.x - 20, player.position.y - 96, sourceRec.width * 3, sourceRec.height * 3 }, { 0, 0 }, 0, WHITE);
 		}
+		DrawTextureEx(tuberia_b, { (2592), (399) }, 0.0f, 1.2, WHITE);
+		DrawTextureEx(tuberia_cueva, { 579, -1700 }, 0.0f, 3.2f, WHITE);
+		
+
 
 		if (player.position.x >= 9795) { //Mario arrived to the flag
 			camera.target.x = 9795;

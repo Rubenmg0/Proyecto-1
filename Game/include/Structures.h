@@ -114,7 +114,7 @@ struct Flag {
 /*------------------------------------------------------------*/
 struct Pipe {
     Rectangle pipe1 = { 2600, 350, 100, 200 };
-    Rectangle pipe2 = { 565, -585, 20, 90 };
+    Rectangle pipe2 = { 565, -1585, 20, 90 };
     bool enteringPipe1 = false;
     bool enteringPipe2 = false;
 };
@@ -124,11 +124,9 @@ struct Pipe {
 /*------------------------------------------------------------*/
 
 struct FloatingScore {
-    Vector2 position;
+    float x, y;
     int value;
     float lifetime;
-    float speedY;
-    bool active;
 };
 
 #endif 
