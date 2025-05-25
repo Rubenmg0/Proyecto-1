@@ -2,6 +2,32 @@
 #include "MapData.h"
 using namespace std;
 
+vector<EnvElement> monedas = {
+
+{  96, -1700, 30, 50, YELLOW,false },
+{ 146, -1700, 30, 50, YELLOW,false },
+{ 196, -1700, 30, 50, YELLOW,false },
+{ 246, -1700, 30, 50, YELLOW,false },
+{ 296, -1700, 30, 50, YELLOW,false },
+{ 346, -1700, 30, 50, YELLOW,false },
+{ 396, -1700, 30, 50, YELLOW,false },
+
+{  96, -1790, 30, 50, YELLOW,false },
+{ 146, -1790, 30, 50, YELLOW,false },
+{ 196, -1790, 30, 50, YELLOW,false },
+{ 246, -1790, 30, 50, YELLOW,false },
+{ 296, -1790, 30, 50, YELLOW,false },
+{ 346, -1790, 30, 50, YELLOW,false },
+{ 396, -1790, 30, 50, YELLOW,false },
+
+{ 146, -1880, 30, 50, YELLOW,false },
+{ 196, -1880, 30, 50, YELLOW,false },
+{ 246, -1880, 30, 50, YELLOW,false },
+{ 296, -1880, 30, 50, YELLOW,false },
+{ 346, -1880, 30, 50, YELLOW,false },
+
+};
+
 vector<EnvElement> blocks = {
 
 	{-200, 600, 3350, 200, VIOLET, false}, // SUELO
@@ -254,16 +280,105 @@ vector<EnvElement> blocks = {
 
 	//Cueba escenario
 		//Suelo
-	{ -112, -500, 850, 100, BLACK, false },
+	{ -112, -1500, 50, 50, BLACK, false },
+	{ -62, -1500, 50, 50, BLACK, false },
+	{ -12, -1500, 50, 50, BLACK, false },
+	{ 38, -1500, 50, 50, BLACK, false },
+	{ 88, -1500, 50, 50, BLACK, false },
+	{ 138, -1500, 50, 50, BLACK, false },
+	{ 188, -1500, 50, 50, BLACK, false },
+	{ 238, -1500, 50, 50, BLACK, false },
+	{ 288, -1500, 50, 50, BLACK, false },
+	{ 338, -1500, 50, 50, BLACK, false },
+	{ 388, -1500, 50, 50, BLACK, false },
+	{ 438, -1500, 50, 50, BLACK, false },
+	{ 488, -1500, 50, 50, BLACK, false },
+	{ 538, -1500, 50, 50, BLACK, false },
+	{ 588, -1500, 50, 50, BLACK, false },
+	{ 638, -1500, 50, 50, BLACK, false },
+	{ 688, -1500, 50, 50, BLACK, false },
+	{ 688, -1500, 50, 50, BLACK, false },
+	{ 738, -1500, 50, 50, BLACK, false },
+
+	{ -112, -1450, 50, 50, BLACK, false },
+	{ -62, -1450, 50, 50, BLACK, false },
+	{ -12, -1450, 50, 50, BLACK, false },
+	{ 38, -1450, 50, 50, BLACK, false },
+	{ 88, -1450, 50, 50, BLACK, false },
+	{ 138, -1450, 50, 50, BLACK, false },
+	{ 188, -1450, 50, 50, BLACK, false },
+	{ 238, -1450, 50, 50, BLACK, false },
+	{ 288, -1450, 50, 50, BLACK, false },
+	{ 338, -1450, 50, 50, BLACK, false },
+	{ 388, -1450, 50, 50, BLACK, false },
+	{ 438, -1450, 50, 50, BLACK, false },
+	{ 488, -1450, 50, 50, BLACK, false },
+	{ 538, -1450, 50, 50, BLACK, false },
+	{ 588, -1450, 50, 50, BLACK, false },
+	{ 638, -1450, 50, 50, BLACK, false },
+	{ 688, -1450, 50, 50, BLACK, false },
+	{ 738, -1450, 50, 50, BLACK, false },
+
 	//Paredes-
-	{ -112, -1000, 50, 350, BLACK, false },
-	{ 688, -1000, 50, 350, BLACK, false },
+	{ -112, -1550, 50, 50, LIGHTGRAY, false },
+	{ -112, -1600, 50, 50, LIGHTGRAY, false },
+	{ -112, -1650, 50, 50, LIGHTGRAY, false },
+	{ -112, -1700, 50, 50, LIGHTGRAY, false },
+	{ -112, -1750, 50, 50, LIGHTGRAY, false },
+	{ -112, -1800, 50, 50, LIGHTGRAY, false },
+	{ -112, -1850, 50, 50, LIGHTGRAY, false },
+	{ -112, -1900, 50, 50, LIGHTGRAY, false },
+	{ -112, -1950, 50, 50, LIGHTGRAY, false },
+	
+	{ 688, -1550, 50, 50, LIGHTGRAY, false },
+	{ 688, -1600, 50, 50, LIGHTGRAY, false },
+	{ 688, -1650, 50, 50, LIGHTGRAY, false },
+	{ 688, -1700, 50, 50, LIGHTGRAY, false },
+	{ 688, -1750, 50, 50, LIGHTGRAY, false },
+	{ 688, -1800, 50, 50, LIGHTGRAY, false },
+	{ 688, -1850, 50, 50, LIGHTGRAY, false },
+	{ 688, -1900, 50, 50, LIGHTGRAY, false },
+	{ 688, -1950, 50, 50, LIGHTGRAY, false },
 
 	//techo
-	{ 88, -1000, 350, 50, BLACK, false },//1
+	{ 88, -1950, 50, 50, LIGHTGRAY, false },
+	{ 138, -1950, 50, 50, LIGHTGRAY, false },
+	{ 188, -1950, 50, 50, LIGHTGRAY, false },
+	{ 238, -1950, 50, 50, LIGHTGRAY, false },
+	{ 288, -1950, 50, 50, LIGHTGRAY, false },
+	{ 338, -1950, 50, 50, LIGHTGRAY, false },
+	{ 388, -1950, 50, 50, LIGHTGRAY, false },
+
 
 	//Zona monedas
-	{ 88, -650, 350, 150, BLACK, false },//1
+	{ 88, -1550, 50, 50, LIGHTGRAY, false },
+	{ 138, -1550, 50, 50, LIGHTGRAY, false },
+	{ 188, -1550, 50, 50, LIGHTGRAY, false },
+	{ 238, -1550, 50, 50, LIGHTGRAY, false },
+	{ 288, -1550, 50, 50, LIGHTGRAY, false },
+	{ 338, -1550, 50, 50, LIGHTGRAY, false },
+	{ 388, -1550, 50, 50, LIGHTGRAY, false },
+
+	{ 88, -1600, 50, 50, LIGHTGRAY, false },
+	{ 138, -1600, 50, 50, LIGHTGRAY, false },
+	{ 188, -1600, 50, 50, LIGHTGRAY, false },
+	{ 238, -1600, 50, 50, LIGHTGRAY, false },
+	{ 288, -1600, 50, 50, LIGHTGRAY, false },
+	{ 338, -1600, 50, 50, LIGHTGRAY, false },
+	{ 388, -1600, 50, 50, LIGHTGRAY, false },
+
+	{ 88, -1650, 50, 50, LIGHTGRAY, false },
+	{ 138, -1650, 50, 50, LIGHTGRAY, false },
+	{ 188, -1650, 50, 50, LIGHTGRAY, false },
+	{ 238, -1650, 50, 50, LIGHTGRAY, false },
+	{ 288, -1650, 50, 50, LIGHTGRAY, false },
+	{ 338, -1650, 50, 50, LIGHTGRAY, false },
+	{ 388, -1650, 50, 50, LIGHTGRAY, false },
+
 	//tuberia
-	{ 578, -600, 100, 100, PURPLE, false },//1
+	{ 578, -1550, 50, 50, PURPLE, false },
+	{ 578, -1600, 50, 50, PURPLE, false },
+
+	{ 628, -1550, 50, 50, PURPLE, false },
+	{ 628, -1600, 50, 50, PURPLE, false },
 	};

@@ -1202,10 +1202,10 @@ private:
 			if (player.position.y >= 350) {
 				// Por ejemplo, cambia de zona
 				player.position.x = -10;
-				player.position.y = -950;
+				player.position.y = -1950;
 
 				camera.target.x = 333;
-				camera.target.y = -750;
+				camera.target.y = -1750;
 				pipe.enteringPipe1 = false;
 			}
 		}
@@ -1219,7 +1219,6 @@ private:
 			player.position.x += 0.5;
 
 			if (player.position.x >= 600) {
-				// Por ejemplo, cambia de zona
 				player.position.x = 7750;
 				player.position.y = 500;
 
@@ -1496,6 +1495,10 @@ private:
 	void DrawGameplay() {
 		BeginMode2D(camera);
 		ClearBackground(BLUE);
+<<<<<<< Updated upstream
+=======
+		DrawTextureEx(negro, { -200, -2200 }, 0.0f, 1000.0f, WHITE);
+>>>>>>> Stashed changes
 
 		//Player
 		int frameWidthP;
@@ -1660,9 +1663,14 @@ private:
 			sourceRec.x = frameWidthP * 6;
 		}
 	
-		for (EnvElement block : blocks) //Para ver la hitbox de cada rectangulo
+		//for (EnvElement block : blocks) //Para ver la hitbox de cada rectangulo
+		//{
+		//	DrawRectangle(block.rect.x, block.rect.y, block.rect.width, block.rect.height, block.color);
+		//}
+
+		for (EnvElement monedas : monedas)
 		{
-			DrawRectangle(block.rect.x, block.rect.y, block.rect.width, block.rect.height, block.color);
+			DrawRectangle(monedas.rect.x, monedas.rect.y, monedas.rect.width, monedas.rect.height, monedas.color);
 		}
 
 		//Draw all entities, structures and objetcs
@@ -1720,12 +1728,17 @@ private:
 			}
 		}
 
+<<<<<<< Updated upstream
 		//All Cave_ground //NO VA (de momento)
+=======
+		//All Cave_ground 
+>>>>>>> Stashed changes
 		for (const EnvElement& block : blocks) {
 			if (ColorToInt(block.color) == ColorToInt(BLACK)) {
 				DrawTextureEx(suelo_cueva, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
 			}
 		}
+<<<<<<< Updated upstream
 		
 		// Fondo negro
 		DrawTextureEx(negro, { -200, -1500 }, 0.0f, 1500.0f, WHITE);
@@ -1840,6 +1853,54 @@ private:
 				}
 			}
 		}
+=======
+
+		//All Cave_walls
+		for (const EnvElement& block : blocks) {
+			if (ColorToInt(block.color) == ColorToInt(LIGHTGRAY)) {
+				DrawTextureEx(ladrillo_cueva, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
+			}
+		}
+
+		//All coins
+		DrawTexturePro(money, sourceRec4, { 86, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 136, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 186, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 236, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 286, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 336, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 386, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+
+		DrawTexturePro(money, sourceRec4, { 86, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 136, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 186, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 236, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 286, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 336, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 386, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+
+		DrawTexturePro(money, sourceRec4, { 136, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 186, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 236, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 286, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 336, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+
+		// Paredes (Derecha)
+		DrawTextureEx(tuberia_cueva, { 579, -1700 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(tubo, { 688, -1750 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(tubo, { 688, -1800 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(tubo, { 688, -1850 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(tubo, { 688, -1900 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(tubo, { 688, -1950 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(tubo, { 688, -2000 }, 0.0f, 3.2f, WHITE);
+
+
+
+		DrawTexturePro(goomba_sprite, sourceRec2, { goomba.position.x - 20, goomba.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(Mooshroom, sourceRec2, { mooshroom.position.x - 20, mooshroom.position.y - 48, sourceRec.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
+		DrawTexturePro(FireFlower, sourceRec2, { fireFlower.position.x - 20, fireFlower.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
+		DrawTexturePro(FireBall, sourceRec2, { fireBall.position.x - 20, fireBall.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
+>>>>>>> Stashed changes
 		DrawTexturePro(Koopa, sourceRec3, { koopa.position.x - 20, koopa.position.y - 72, sourceRec3.width * 3, sourceRec3.height * 3 }, { 0,0 }, 0, WHITE);
 		DrawTexturePro(Shell, sourceRec2, { shell.position.x - 20, shell.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
 
