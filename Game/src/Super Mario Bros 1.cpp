@@ -1496,6 +1496,10 @@ private:
 		BeginMode2D(camera);
 		ClearBackground(BLUE);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+		DrawTextureEx(negro, { -200, -2200 }, 0.0f, 1000.0f, WHITE);
+>>>>>>> Stashed changes
 =======
 		DrawTextureEx(negro, { -200, -2200 }, 0.0f, 1000.0f, WHITE);
 >>>>>>> Stashed changes
@@ -1729,7 +1733,11 @@ private:
 		}
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 		//All Cave_ground //NO VA (de momento)
+=======
+		//All Cave_ground 
+>>>>>>> Stashed changes
 =======
 		//All Cave_ground 
 >>>>>>> Stashed changes
@@ -1738,6 +1746,7 @@ private:
 				DrawTextureEx(suelo_cueva, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
 			}
 		}
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 		
 		// Fondo negro
@@ -1895,11 +1904,57 @@ private:
 		DrawTextureEx(tubo, { 688, -2000 }, 0.0f, 3.2f, WHITE);
 
 
+=======
+
+		//All Cave_walls
+		for (const EnvElement& block : blocks) {
+			if (ColorToInt(block.color) == ColorToInt(LIGHTGRAY)) {
+				DrawTextureEx(ladrillo_cueva, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
+			}
+		}
+
+		//All coins
+		DrawTexturePro(money, sourceRec4, { 86, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 136, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 186, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 236, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 286, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 336, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 386, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+
+		DrawTexturePro(money, sourceRec4, { 86, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 136, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 186, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 236, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 286, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 336, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 386, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+
+		DrawTexturePro(money, sourceRec4, { 136, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 186, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 236, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 286, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(money, sourceRec4, { 336, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+
+		// Paredes (Derecha)
+		DrawTextureEx(tuberia_cueva, { 579, -1700 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(tubo, { 688, -1750 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(tubo, { 688, -1800 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(tubo, { 688, -1850 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(tubo, { 688, -1900 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(tubo, { 688, -1950 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(tubo, { 688, -2000 }, 0.0f, 3.2f, WHITE);
+
+
+>>>>>>> Stashed changes
 
 		DrawTexturePro(goomba_sprite, sourceRec2, { goomba.position.x - 20, goomba.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
 		DrawTexturePro(Mooshroom, sourceRec2, { mooshroom.position.x - 20, mooshroom.position.y - 48, sourceRec.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
 		DrawTexturePro(FireFlower, sourceRec2, { fireFlower.position.x - 20, fireFlower.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
 		DrawTexturePro(FireBall, sourceRec2, { fireBall.position.x - 20, fireBall.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 		DrawTexturePro(Koopa, sourceRec3, { koopa.position.x - 20, koopa.position.y - 72, sourceRec3.width * 3, sourceRec3.height * 3 }, { 0,0 }, 0, WHITE);
 		DrawTexturePro(Shell, sourceRec2, { shell.position.x - 20, shell.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
