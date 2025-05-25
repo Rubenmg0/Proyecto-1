@@ -300,7 +300,7 @@ private:
 			framesCounter++;
 			if (framesCounter >= 120) {
 				currentScreen = GameScreen::GAMEPLAY;
-				player.position = { 50, 600 };
+				player.position = { 6050, 600 };
 				camera.target.x = 333;
 				camera.target.y = 350;
 				mooshroom.position = { -110, 1400 };
@@ -2654,7 +2654,38 @@ private:
 			if (ColorToInt(block.color) == ColorToInt(GRAY)) {
 				DrawTextureEx(escalera, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
 			}
-		}
+		}		
+		// Wall Bug Fix
+		//1 stair
+		DrawTextureEx(escalera, { 6460, 550 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(escalera, { 6460, 500 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(escalera, { 6460, 450 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(escalera, { 6460, 400 }, 0.0f, 3.2f, WHITE);
+		//2 stair
+		DrawTextureEx(escalera, { 6590, 550 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(escalera, { 6590, 500 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(escalera, { 6590, 450 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(escalera, { 6590, 400 }, 0.0f, 3.2f, WHITE);
+		//3 stair
+		DrawTextureEx(escalera, { 7170, 550 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(escalera, { 7170, 500 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(escalera, { 7170, 450 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(escalera, { 7170, 400 }, 0.0f, 3.2f, WHITE);
+		//4 stair
+		DrawTextureEx(escalera, { 7320, 550 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(escalera, { 7320, 500 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(escalera, { 7320, 450 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(escalera, { 7320, 400 }, 0.0f, 3.2f, WHITE);
+		//5 stair
+		DrawTextureEx(escalera, { 8970, 550 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(escalera, { 8970, 500 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(escalera, { 8970, 450 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(escalera, { 8970, 400 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(escalera, { 8970, 350 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(escalera, { 8970, 300 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(escalera, { 8970, 250 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(escalera, { 8970, 200 }, 0.0f, 3.2f, WHITE);
+
 
 		DrawTexturePro(Mooshroom, sourceRec2, { mooshroom.position.x - 20, mooshroom.position.y - 48, sourceRec.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
 		DrawTexturePro(FireFlower, sourceRec2, { fireFlower.position.x - 20, fireFlower.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
@@ -2690,6 +2721,19 @@ private:
 				DrawTextureEx(ladrillo_cueva, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
 			}
 		}
+		//Wall bug fix
+
+		DrawTextureEx(ladrillo_cueva, { -112, -2000 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { -112, -1950 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { -112, -1900 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { -112, -1850 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { -112, -1800 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { -112, -1750 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { -112, -1700 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { -112, -1650 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { -112, -1600 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { -112, -1550 }, 0.0f, 3.2f, WHITE);
+
 
 		//All Coins
 		for (EnvElement& block : blocks) {

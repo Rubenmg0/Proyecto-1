@@ -103,31 +103,26 @@ vector<EnvElement> blocks = {
 	{6310, 550, 50, 50, GRAY, false},
 	{6360, 550, 50, 50, GRAY, false},
 	{6410, 550, 50, 50, GRAY, false},
-	{6460, 550, 50, 50, GRAY, false},
 	//Segundo escalon
 	{6360, 500, 50, 50, GRAY, false},
 	{6410, 500, 50, 50, GRAY, false},
-	{6460, 500, 50, 50, GRAY, false},
 	//Tercer escalon
 	{6410, 450, 50, 50, GRAY, false},
-	{6460, 450, 50, 50, GRAY, false},
 	//Quarto escalon
-	{6460, 400, 50, 50, GRAY, false },
+	{6460, 400, 50, 200, GRAY, false },
+
 	//-Invertida-//
 	//Primer escalón
-	{6590, 550, 50, 50, GRAY, false},
 	{6640, 550, 50, 50, GRAY, false},
 	{6690, 550, 50, 50, GRAY, false},
 	{6740, 550, 50, 50, GRAY, false},
 	//Segundo escalón
-	{6590, 500, 50, 50, GRAY, false},
 	{6640, 500, 50, 50, GRAY, false},
 	{6690, 500, 50, 50, GRAY, false},
 	//Tercer escalón
-	{6590, 450, 50, 50, GRAY, false},
 	{6640, 450, 50, 50, GRAY, false},
 	//Quarto escalón
-	{6590, 400, 50, 50, GRAY, false },
+	{6590, 400, 50,  200, GRAY, false },
 
 	//Segunda escalera
 	//Primer escalon
@@ -135,22 +130,19 @@ vector<EnvElement> blocks = {
 	{7020, 550, 50, 50, GRAY, false},
 	{7070, 550, 50, 50, GRAY, false},
 	{7120, 550, 50, 50, GRAY, false},
-	{7170, 550, 50, 50, GRAY, false},
 
 	//Segundo escalon
 	{7020, 500, 50, 50, GRAY, false},
 	{7070, 500, 50, 50, GRAY, false},
 	{7120, 500, 50, 50, GRAY, false},
-	{7170, 500, 50, 50, GRAY, false},
 
 	//Tercer escalon
 	{7070, 450, 50, 50, GRAY, false},
 	{7120, 450, 50, 50, GRAY, false},
-	{7170, 450, 50, 50, GRAY, false},
 
 	//Quarto escalon
 	{7120, 400, 50, 50, GRAY, false},
-	{7170, 400, 50, 50, GRAY, false},
+	{7170, 400, 50, 200, GRAY, false},
 
 	//BOQUETE 3
 	{ 7222, 590, 50, 50, BLUE, false },
@@ -162,22 +154,19 @@ vector<EnvElement> blocks = {
 
 	//-Invertida-//
 	//Primer escalón
-	{7320, 550, 50, 50, GRAY, false},
 	{7370, 550, 50, 50, GRAY, false},
 	{7420, 550, 50, 50, GRAY, false},
 	{7470, 550, 50, 50, GRAY, false},
 
 	//Segundo escalón
-	{7320, 500, 50, 50, GRAY, false},
 	{7370, 500, 50, 50, GRAY, false},
 	{7420, 500, 50, 50, GRAY, false},
 
 	//Tercer escalón
-	{7320, 450, 50, 50, GRAY, false},
 	{7370, 450, 50, 50, GRAY, false},
 
 	//Quarto escalón
-	{7320, 400, 50, 50, GRAY, false },
+	{7320, 400, 50, 200, GRAY, false },
 
 	//Tuberias finales
 	{7700, 500, 100, 100, PURPLE, false },
@@ -198,7 +187,6 @@ vector<EnvElement> blocks = {
 	{8820, 550, 50, 50, GRAY, false},
 	{8870, 550, 50, 50, GRAY, false},
 	{8920, 550, 50, 50, GRAY, false},
-	{8970, 550, 50, 50, GRAY, false},
 
 	// Segundo escalón (8 bloques)
 	{8620, 500, 50, 50, GRAY, false},
@@ -208,7 +196,6 @@ vector<EnvElement> blocks = {
 	{8820, 500, 50, 50, GRAY, false},
 	{8870, 500, 50, 50, GRAY, false},
 	{8920, 500, 50, 50, GRAY, false},
-	{8970, 500, 50, 50, GRAY, false},
 
 	// Tercer escalón (7 bloques)
 	{8670, 450, 50, 50, GRAY, false},
@@ -217,7 +204,6 @@ vector<EnvElement> blocks = {
 	{8820, 450, 50, 50, GRAY, false},
 	{8870, 450, 50, 50, GRAY, false},
 	{8920, 450, 50, 50, GRAY, false},
-	{8970, 450, 50, 50, GRAY, false},
 
 	// Cuarto escalón (6 bloques)
 	{8720, 400, 50, 50, GRAY, false},
@@ -225,29 +211,25 @@ vector<EnvElement> blocks = {
 	{8820, 400, 50, 50, GRAY, false},
 	{8870, 400, 50, 50, GRAY, false},
 	{8920, 400, 50, 50, GRAY, false},
-	{8970, 400, 50, 50, GRAY, false},
 
 	// Quinto escalón (5 bloques)
 	{8770, 350, 50, 50, GRAY, false},
 	{8820, 350, 50, 50, GRAY, false},
 	{8870, 350, 50, 50, GRAY, false},
 	{8920, 350, 50, 50, GRAY, false},
-	{8970, 350, 50, 50, GRAY, false},
 
 	// Sexto escalón (4 bloques)
 	{8820, 300, 50, 50, GRAY, false},
 	{8870, 300, 50, 50, GRAY, false},
 	{8920, 300, 50, 50, GRAY, false},
-	{8970, 300, 50, 50, GRAY, false},
 
 	// Séptimo escalón (3 bloques)
 	{8870, 250, 50, 50, GRAY, false},
 	{8920, 250, 50, 50, GRAY, false},
-	{8970, 250, 50, 50, GRAY, false},
 
 	// Octavo escalón (2 bloques)
 	{8920, 200, 50, 50, GRAY, false},
-	{8970, 200, 50, 50, GRAY, false},
+	{8970, 200, 50, 400, GRAY, false},
 
 	//Flag
 	{9375, 550, 50, 50, ORANGE, false },
@@ -294,16 +276,8 @@ vector<EnvElement> blocks = {
 	{ 738, -1450, 50, 50, BLACK, false },
 
 	//Paredes-
-	{ -112, -1550, 50, 50, LIGHTGRAY, false },
-	{ -112, -1600, 50, 50, LIGHTGRAY, false },
-	{ -112, -1650, 50, 50, LIGHTGRAY, false },
-	{ -112, -1700, 50, 50, LIGHTGRAY, false },
-	{ -112, -1750, 50, 50, LIGHTGRAY, false },
-	{ -112, -1800, 50, 50, LIGHTGRAY, false },
-	{ -112, -1850, 50, 50, LIGHTGRAY, false },
-	{ -112, -1900, 50, 50, LIGHTGRAY, false },
-	{ -112, -1950, 50, 50, LIGHTGRAY, false },
-	{ -112, -2000, 50, 50, LIGHTGRAY, false },
+	
+	{ -112, -2000, 50, 350, LIGHTGRAY, false },
 
 	{ 688, -2000, 50, 350, LIGHTGRAY, false },
 
