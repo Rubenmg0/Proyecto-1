@@ -829,7 +829,7 @@ private:
 			player.position.x -= PLAYER_HOR_SPD * deltaTime;
 			player.speed.x = -2.0f;
 		}
-		if (player.position.x > camera.target.x && camera.target.x < 9795 && player.position.y >= 0)
+		if (player.position.x > camera.target.x && camera.target.x < 9795 && player.position.y >= -500)
 		{
 			camera.target.x = player.position.x;
 		}

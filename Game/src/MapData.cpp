@@ -303,18 +303,18 @@ vector<EnvElement> blocks = {
 	{ -112, -1850, 50, 50, LIGHTGRAY, false },
 	{ -112, -1900, 50, 50, LIGHTGRAY, false },
 	{ -112, -1950, 50, 50, LIGHTGRAY, false },
+	{ -112, -2000, 50, 50, LIGHTGRAY, false },
 
 	{ 688, -2000, 50, 350, LIGHTGRAY, false },
 
 	//techo
-	{ 88, -1950, 50, 50, LIGHTGRAY, false },
-	{ 138, -1950, 50, 50, LIGHTGRAY, false },
-	{ 188, -1950, 50, 50, LIGHTGRAY, false },
-	{ 238, -1950, 50, 50, LIGHTGRAY, false },
-	{ 288, -1950, 50, 50, LIGHTGRAY, false },
-	{ 338, -1950, 50, 50, LIGHTGRAY, false },
-	{ 388, -1950, 50, 50, LIGHTGRAY, false },
-
+	{ 88, -2000, 50, 50, LIGHTGRAY, false },
+	{ 138, -2000, 50, 50, LIGHTGRAY, false },
+	{ 188, -2000, 50, 50, LIGHTGRAY, false },
+	{ 238, -2000, 50, 50, LIGHTGRAY, false },
+	{ 288, -2000, 50, 50, LIGHTGRAY, false },
+	{ 338, -2000, 50, 50, LIGHTGRAY, false },
+	{ 388, -2000, 50, 50, LIGHTGRAY, false },
 
 	//Zona monedas
 	{ 88, -1550, 50, 50, LIGHTGRAY, false },
