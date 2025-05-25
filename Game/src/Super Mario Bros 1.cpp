@@ -38,6 +38,7 @@ int Money = 00;
 float elapsedTime = 0.0f;
 int contmuerte = 0;
 int conttiempo = 0;
+#define MAX_FLOATING_SCORES 20
 
 
 /*--------------------------------------------------------------------------*/
@@ -69,6 +70,7 @@ private:
 	Projectile fireBall;
 	Flag flag;
 	Pipe pipe;
+	FloatingScore scores[MAX_FLOATING_SCORES];
 
 public:
 	//Initialise the game
@@ -80,6 +82,7 @@ public:
 		InitAudioDevice(); // Initialize audio device
 		SetTargetFPS(60);
 
+		
 		LoadGameSounds();
 		LoadGameMusic();
 		LoadGameTextures();
@@ -1192,7 +1195,7 @@ private:
 		}
 		
 		//Moneda
-		for (EnvElement block : blocks) { //Por arriba
+		for (EnvElement& block : blocks) { //Por arriba
 			if (Timer > 0 && player.alive != 0
 				&& block.rect.x <= player.position.x + player.mario_hitbox.width - 5
 				&& block.rect.x + block.rect.width + 10 >= player.position.x
@@ -1202,7 +1205,7 @@ private:
 			{
 				PlaySound(sfxCoin_Block);
 				Money++;
-				block.rect.y = block.rect.y - 1000;
+				
 				block.hit = true;
 			}
 		}
@@ -1217,7 +1220,7 @@ private:
 			{
 				PlaySound(sfxCoin_Block);
 				Money++;
-				block.rect.y = block.rect.y - 1000;
+				
 				block.hit = true;
 			}
 			else if (!player.big && Timer > 0 && player.alive != 0
@@ -1229,7 +1232,67 @@ private:
 			{
 				PlaySound(sfxCoin_Block);
 				Money++;
-				block.rect.y = block.rect.y - 1000;
+				
+				block.hit = true;
+			}
+		}
+
+		//--- COLISIÓN POR LA DERECHA (Mario viene de la izquierda) ---
+		for (EnvElement& block : blocks) {
+			if (player.big && Timer > 0 && player.alive != 0 &&
+				player.speed.x > 0 &&
+				player.position.y > block.rect.y &&
+				player.position.y < (block.rect.y + block.rect.height + block.rect.height + block.rect.height - 4) &&
+				player.position.x - 10 <= block.rect.x &&
+				(nextX + player.mario_hitbox.width) >= block.rect.x
+				&& ColorToInt(block.color) == ColorToInt(YELLOW) && !block.hit)
+			{
+				PlaySound(sfxCoin_Block);
+				Money++;
+				
+				block.hit = true;
+			}
+			else if (!player.big && Timer > 0 && player.alive != 0 &&
+				player.speed.x > 0 &&
+				player.position.y > block.rect.y &&
+				player.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
+				player.position.x - 10 <= block.rect.x &&
+				(nextX + player.mario_hitbox.width) >= block.rect.x
+				&& ColorToInt(block.color) == ColorToInt(YELLOW) && !block.hit)
+			{
+				PlaySound(sfxCoin_Block);
+				Money++;
+				
+				block.hit = true;
+			}
+		}
+
+		//--- COLISIÓN POR LA IZQUIERDA (Mario viene de la derecha) ---
+		for (EnvElement& block : blocks) {
+			if (player.big && Timer > 0 && player.alive != 0 &&
+				player.speed.x < 0 &&
+				player.position.y > block.rect.y &&
+				player.position.y < (block.rect.y + block.rect.height + block.rect.height + block.rect.height - 4) &&
+				player.position.x + 10 >= (block.rect.x + block.rect.width) &&
+				(nextX) <= (block.rect.x + block.rect.width + 14)
+				&& ColorToInt(block.color) == ColorToInt(YELLOW) && !block.hit)
+			{
+				PlaySound(sfxCoin_Block);
+				Money++;
+				
+				block.hit = true;
+			}
+			else if (!player.big && Timer > 0 && player.alive != 0 &&
+				player.speed.x < 0 &&
+				player.position.y > block.rect.y &&
+				player.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
+				player.position.x + 10 >= (block.rect.x + block.rect.width) &&
+				(nextX) <= (block.rect.x + block.rect.width + 14)
+				&& ColorToInt(block.color) == ColorToInt(YELLOW) && !block.hit)
+			{
+				PlaySound(sfxCoin_Block);
+				Money++;
+				
 				block.hit = true;
 			}
 		}
@@ -1784,9 +1847,12 @@ private:
 		}
 
 		//All Coins
-		for (const EnvElement& block : blocks) {
+		for (EnvElement& block : blocks) {
 			if (ColorToInt(block.color) == ColorToInt(YELLOW) && !block.hit) {
 				DrawTexturePro(money, sourceRec4, { block.rect.x - 8, block.rect.y, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+			}
+			else if (ColorToInt(block.color) == ColorToInt(YELLOW) && block.hit) {
+				block.rect.y = block.rect.y - 1000;
 			}
 		}
 

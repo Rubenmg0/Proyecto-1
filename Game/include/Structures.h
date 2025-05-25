@@ -119,6 +119,18 @@ struct Pipe {
     bool enteringPipe2 = false;
 };
 
+/*------------------------------------------------------------*/
+/*                      Text Puntuation                       */
+/*------------------------------------------------------------*/
+
+struct FloatingScore {
+    Vector2 position;
+    int value;
+    float lifetime;
+    float speedY;
+    bool active;
+};
+
 #endif 
 
 
