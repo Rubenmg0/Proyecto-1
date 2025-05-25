@@ -46,7 +46,23 @@ extern Texture2D Goomba_chafado;
 extern Texture2D Goomba_invertido;
 extern Texture2D Koopa;
 extern Texture2D Shell;
-extern Texture2D goomba_sprite;
+extern Texture2D goomba_sprite1;
+extern Texture2D goomba_sprite2;
+extern Texture2D goomba_sprite3;
+extern Texture2D goomba_sprite4;
+extern Texture2D goomba_sprite5;
+extern Texture2D goomba_sprite6;
+extern Texture2D goomba_sprite7;
+extern Texture2D goomba_sprite8;
+extern Texture2D goomba_sprite9;
+extern Texture2D goomba_sprite10;
+extern Texture2D goomba_sprite11;
+extern Texture2D goomba_sprite12;
+extern Texture2D goomba_sprite13;
+extern Texture2D goomba_sprite14;
+extern Texture2D goomba_sprite15;
+extern Texture2D goomba_sprite16;
+
 
 // Mario
 extern Texture2D Mario_Right;

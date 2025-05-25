@@ -41,7 +41,22 @@ Texture2D Goomba_chafado;
 Texture2D Goomba_invertido;
 Texture2D Koopa;
 Texture2D Shell;
-Texture2D goomba_sprite;
+Texture2D goomba_sprite1;
+Texture2D goomba_sprite2;
+Texture2D goomba_sprite3;
+Texture2D goomba_sprite4;
+Texture2D goomba_sprite5;
+Texture2D goomba_sprite6;
+Texture2D goomba_sprite7;
+Texture2D goomba_sprite8;
+Texture2D goomba_sprite9;
+Texture2D goomba_sprite10;
+Texture2D goomba_sprite11;
+Texture2D goomba_sprite12;
+Texture2D goomba_sprite13;
+Texture2D goomba_sprite14;
+Texture2D goomba_sprite15;
+Texture2D goomba_sprite16;
 
 // Mario
 Texture2D Mario_Right;
@@ -89,7 +104,23 @@ void LoadGameTextures() {
 	Goomba = LoadTexture("Resources/Sprites/Enemies/Goomba.png");
 	Goomba_chafado = LoadTexture("Resources/Sprites/Enemies/Goomba_chafado.png");
 	Goomba_invertido = LoadTexture("Resources/Sprites/Enemies/Goomba_invertido.png");
-	goomba_sprite = Goomba;
+	goomba_sprite1 = Goomba;
+	goomba_sprite2 = Goomba;
+	goomba_sprite3 = Goomba;
+	goomba_sprite4 = Goomba;
+	goomba_sprite5 = Goomba;
+	goomba_sprite6 = Goomba;
+	goomba_sprite7 = Goomba;
+	goomba_sprite8 = Goomba;
+	goomba_sprite9 = Goomba;
+	goomba_sprite10 = Goomba;
+	goomba_sprite11 = Goomba;
+	goomba_sprite12 = Goomba;
+	goomba_sprite13 = Goomba;
+	goomba_sprite14 = Goomba;
+	goomba_sprite15 = Goomba;
+	goomba_sprite16 = Goomba;
+
 	Koopa = LoadTexture("Resources/Sprites/Enemies/Koopa.png");
 	Shell = LoadTexture("Resources/Sprites/Enemies/Shell.png");
 

@@ -206,33 +206,17 @@ private:
 	}
 
 	void Goomba_Fuego(Enemy& goomba, Projectile& fireBall) {
-		if (goomba.alive && !goomba.death && !goomba.death2 && player.position.x + player.mario_hitbox.width + 10 >= goomba.position.x &&
-			player.position.x <= goomba.position.x + goomba.goomba_hitbox.width + 20 &&
-			player.position.y + player.mario_hitbox.height + 16 >= goomba.position.y && player.position.y <= goomba.position.y + goomba.goomba_hitbox.height)
+		if (goomba.alive && fireBall.position.x + fireBall.projectile_hitbox.width + 10 >= goomba.position.x && fireBall.active &&
+			fireBall.position.x <= goomba.position.x + goomba.goomba_hitbox.width + 20 &&
+			fireBall.position.y + fireBall.projectile_hitbox.height + 16 >= goomba.position.y && fireBall.position.y <= goomba.position.y + goomba.goomba_hitbox.height)
 		{
-			if (player.position.y + player.mario_hitbox.height <= goomba.position.y && player.alive) {
-				PlaySound(sfxStomp);
-				goomba.death = true;
-				Score += 100;
-				player.speed.y = -PLAYER_JUMP_SPD + 100;
-				player.canJump = false;
-				player.canJump2 = true;
-				player.jumpTime = 0.0f;
-			}
-			else if (player.big && player.fire && !player.invencible) {
-				player.invencible = true;
-				player.fire = 0;
-				player.invulnerableTimer = 0.0f;
-
-			}
-			else if (player.big && !player.fire && !player.invencible) {
-				player.invencible = true;
-				player.big = 0;
-				player.invulnerableTimer = 0.0f;
-			}
-			else if (!player.big && !player.fire && !player.invencible) {
-				player.alive = 0;
-			}
+			PlaySound(sfxKick);
+			Score += 100;
+			goomba.death2 = true;
+			fireBall.active = false;
+			fireBall.position.y = 2000;
+			goomba.speed.x = goomba.side ? -8.0f : 8.0f;
+			goomba.speed.y = -20.0f;
 		}
 	}
 
@@ -2410,9 +2394,9 @@ private:
 			}
 			sourceRec2.x = (float)(currentFrameE * frameWidthG);
 		}
-		if (!goomba1.death && !goomba1.death2) goomba_sprite = Goomba;
-		if (goomba1.death) goomba_sprite = Goomba_chafado;
-		if (goomba1.death2) goomba_sprite = Goomba_invertido;
+		if (!goomba1.death && !goomba1.death2) goomba_sprite1 = Goomba;
+		if (goomba1.death) goomba_sprite1 = Goomba_chafado;
+		if (goomba1.death2) goomba_sprite1 = Goomba_invertido;
 
 		// Goomba 2
 		if (goomba2.activated && player.alive != 0 && Timer > 0) {
@@ -2422,9 +2406,9 @@ private:
 			}
 			sourceRec2.x = (float)(currentFrameE * frameWidthG);
 		}
-		if (!goomba2.death && !goomba2.death2) goomba_sprite = Goomba;
-		if (goomba2.death) goomba_sprite = Goomba_chafado;
-		if (goomba2.death2) goomba_sprite = Goomba_invertido;
+		if (!goomba2.death && !goomba2.death2) goomba_sprite2 = Goomba;
+		if (goomba2.death) goomba_sprite2 = Goomba_chafado;
+		if (goomba2.death2) goomba_sprite2 = Goomba_invertido;
 
 		// Goomba 3
 		if (goomba3.activated && player.alive != 0 && Timer > 0) {
@@ -2434,9 +2418,9 @@ private:
 			}
 			sourceRec2.x = (float)(currentFrameE * frameWidthG);
 		}
-		if (!goomba3.death && !goomba3.death2) goomba_sprite = Goomba;
-		if (goomba3.death) goomba_sprite = Goomba_chafado;
-		if (goomba3.death2) goomba_sprite = Goomba_invertido;
+		if (!goomba3.death && !goomba3.death2) goomba_sprite3 = Goomba;
+		if (goomba3.death) goomba_sprite3 = Goomba_chafado;
+		if (goomba3.death2) goomba_sprite3 = Goomba_invertido;
 
 		// Goomba 4
 		if (goomba4.activated && player.alive != 0 && Timer > 0) {
@@ -2446,9 +2430,9 @@ private:
 			}
 			sourceRec2.x = (float)(currentFrameE * frameWidthG);
 		}
-		if (!goomba4.death && !goomba4.death2) goomba_sprite = Goomba;
-		if (goomba4.death) goomba_sprite = Goomba_chafado;
-		if (goomba4.death2) goomba_sprite = Goomba_invertido;
+		if (!goomba4.death && !goomba4.death2) goomba_sprite4 = Goomba;
+		if (goomba4.death) goomba_sprite4 = Goomba_chafado;
+		if (goomba4.death2) goomba_sprite4 = Goomba_invertido;
 
 		// Goomba 5
 		if (goomba5.activated && player.alive != 0 && Timer > 0) {
@@ -2458,9 +2442,9 @@ private:
 			}
 			sourceRec2.x = (float)(currentFrameE * frameWidthG);
 		}
-		if (!goomba5.death && !goomba5.death2) goomba_sprite = Goomba;
-		if (goomba5.death) goomba_sprite = Goomba_chafado;
-		if (goomba5.death2) goomba_sprite = Goomba_invertido;
+		if (!goomba5.death && !goomba5.death2) goomba_sprite5 = Goomba;
+		if (goomba5.death) goomba_sprite5 = Goomba_chafado;
+		if (goomba5.death2) goomba_sprite5 = Goomba_invertido;
 
 		// Goomba 6
 		if (goomba6.activated && player.alive != 0 && Timer > 0) {
@@ -2470,9 +2454,9 @@ private:
 			}
 			sourceRec2.x = (float)(currentFrameE * frameWidthG);
 		}
-		if (!goomba6.death && !goomba6.death2) goomba_sprite = Goomba;
-		if (goomba6.death) goomba_sprite = Goomba_chafado;
-		if (goomba6.death2) goomba_sprite = Goomba_invertido;
+		if (!goomba6.death && !goomba6.death2) goomba_sprite6 = Goomba;
+		if (goomba6.death) goomba_sprite6 = Goomba_chafado;
+		if (goomba6.death2) goomba_sprite6 = Goomba_invertido;
 
 		// Goomba 7
 		if (goomba7.activated && player.alive != 0 && Timer > 0) {
@@ -2482,9 +2466,9 @@ private:
 			}
 			sourceRec2.x = (float)(currentFrameE * frameWidthG);
 		}
-		if (!goomba7.death && !goomba7.death2) goomba_sprite = Goomba;
-		if (goomba7.death) goomba_sprite = Goomba_chafado;
-		if (goomba7.death2) goomba_sprite = Goomba_invertido;
+		if (!goomba7.death && !goomba7.death2) goomba_sprite7 = Goomba;
+		if (goomba7.death) goomba_sprite7 = Goomba_chafado;
+		if (goomba7.death2) goomba_sprite7 = Goomba_invertido;
 
 		// Goomba 8
 		if (goomba8.activated && player.alive != 0 && Timer > 0) {
@@ -2494,9 +2478,9 @@ private:
 			}
 			sourceRec2.x = (float)(currentFrameE * frameWidthG);
 		}
-		if (!goomba8.death && !goomba8.death2) goomba_sprite = Goomba;
-		if (goomba8.death) goomba_sprite = Goomba_chafado;
-		if (goomba8.death2) goomba_sprite = Goomba_invertido;
+		if (!goomba8.death && !goomba8.death2) goomba_sprite8 = Goomba;
+		if (goomba8.death) goomba_sprite8 = Goomba_chafado;
+		if (goomba8.death2) goomba_sprite8 = Goomba_invertido;
 
 		// Goomba 9
 		if (goomba9.activated && player.alive != 0 && Timer > 0) {
@@ -2506,9 +2490,9 @@ private:
 			}
 			sourceRec2.x = (float)(currentFrameE * frameWidthG);
 		}
-		if (!goomba9.death && !goomba9.death2) goomba_sprite = Goomba;
-		if (goomba9.death) goomba_sprite = Goomba_chafado;
-		if (goomba9.death2) goomba_sprite = Goomba_invertido;
+		if (!goomba9.death && !goomba9.death2) goomba_sprite9 = Goomba;
+		if (goomba9.death) goomba_sprite9 = Goomba_chafado;
+		if (goomba9.death2) goomba_sprite9 = Goomba_invertido;
 
 		// Goomba 10
 		if (goomba10.activated && player.alive != 0 && Timer > 0) {
@@ -2518,9 +2502,9 @@ private:
 			}
 			sourceRec2.x = (float)(currentFrameE * frameWidthG);
 		}
-		if (!goomba10.death && !goomba10.death2) goomba_sprite = Goomba;
-		if (goomba10.death) goomba_sprite = Goomba_chafado;
-		if (goomba10.death2) goomba_sprite = Goomba_invertido;
+		if (!goomba10.death && !goomba10.death2) goomba_sprite10 = Goomba;
+		if (goomba10.death) goomba_sprite10 = Goomba_chafado;
+		if (goomba10.death2) goomba_sprite10 = Goomba_invertido;
 
 		// Goomba 11
 		if (goomba11.activated && player.alive != 0 && Timer > 0) {
@@ -2530,9 +2514,9 @@ private:
 			}
 			sourceRec2.x = (float)(currentFrameE * frameWidthG);
 		}
-		if (!goomba11.death && !goomba11.death2) goomba_sprite = Goomba;
-		if (goomba11.death) goomba_sprite = Goomba_chafado;
-		if (goomba11.death2) goomba_sprite = Goomba_invertido;
+		if (!goomba11.death && !goomba11.death2) goomba_sprite11 = Goomba;
+		if (goomba11.death) goomba_sprite11 = Goomba_chafado;
+		if (goomba11.death2) goomba_sprite11 = Goomba_invertido;
 
 		// Goomba 12
 		if (goomba12.activated && player.alive != 0 && Timer > 0) {
@@ -2542,9 +2526,9 @@ private:
 			}
 			sourceRec2.x = (float)(currentFrameE * frameWidthG);
 		}
-		if (!goomba12.death && !goomba12.death2) goomba_sprite = Goomba;
-		if (goomba12.death) goomba_sprite = Goomba_chafado;
-		if (goomba12.death2) goomba_sprite = Goomba_invertido;
+		if (!goomba12.death && !goomba12.death2) goomba_sprite12 = Goomba;
+		if (goomba12.death) goomba_sprite12 = Goomba_chafado;
+		if (goomba12.death2) goomba_sprite12 = Goomba_invertido;
 
 		// Goomba 13
 		if (goomba13.activated && player.alive != 0 && Timer > 0) {
@@ -2554,9 +2538,9 @@ private:
 			}
 			sourceRec2.x = (float)(currentFrameE * frameWidthG);
 		}
-		if (!goomba13.death && !goomba13.death2) goomba_sprite = Goomba;
-		if (goomba13.death) goomba_sprite = Goomba_chafado;
-		if (goomba13.death2) goomba_sprite = Goomba_invertido;
+		if (!goomba13.death && !goomba13.death2) goomba_sprite13 = Goomba;
+		if (goomba13.death) goomba_sprite13 = Goomba_chafado;
+		if (goomba13.death2) goomba_sprite13 = Goomba_invertido;
 
 		// Goomba 14
 		if (goomba14.activated && player.alive != 0 && Timer > 0) {
@@ -2566,9 +2550,9 @@ private:
 			}
 			sourceRec2.x = (float)(currentFrameE * frameWidthG);
 		}
-		if (!goomba14.death && !goomba14.death2) goomba_sprite = Goomba;
-		if (goomba14.death) goomba_sprite = Goomba_chafado;
-		if (goomba14.death2) goomba_sprite = Goomba_invertido;
+		if (!goomba14.death && !goomba14.death2) goomba_sprite14 = Goomba;
+		if (goomba14.death) goomba_sprite14 = Goomba_chafado;
+		if (goomba14.death2) goomba_sprite14 = Goomba_invertido;
 
 		// Goomba 15
 		if (goomba15.activated && player.alive != 0 && Timer > 0) {
@@ -2578,9 +2562,9 @@ private:
 			}
 			sourceRec2.x = (float)(currentFrameE * frameWidthG);
 		}
-		if (!goomba15.death && !goomba15.death2) goomba_sprite = Goomba;
-		if (goomba15.death) goomba_sprite = Goomba_chafado;
-		if (goomba15.death2) goomba_sprite = Goomba_invertido;
+		if (!goomba15.death && !goomba15.death2) goomba_sprite15 = Goomba;
+		if (goomba15.death) goomba_sprite15 = Goomba_chafado;
+		if (goomba15.death2) goomba_sprite15 = Goomba_invertido;
 
 		// Goomba 16
 		if (goomba16.activated && player.alive != 0 && Timer > 0) {
@@ -2590,9 +2574,9 @@ private:
 			}
 			sourceRec2.x = (float)(currentFrameE * frameWidthG);
 		}
-		if (!goomba16.death && !goomba16.death2) goomba_sprite = Goomba;
-		if (goomba16.death) goomba_sprite = Goomba_chafado;
-		if (goomba16.death2) goomba_sprite = Goomba_invertido;
+		if (!goomba16.death && !goomba16.death2) goomba_sprite16 = Goomba;
+		if (goomba16.death) goomba_sprite16 = Goomba_chafado;
+		if (goomba16.death2) goomba_sprite16 = Goomba_invertido;
 
 		if (koopa.activated && player.alive != 0 && Timer > 0) {
 			if (frameTimeE >= frameSpeedE) {
@@ -2672,6 +2656,9 @@ private:
 			}
 		}
 
+		DrawTexturePro(Mooshroom, sourceRec2, { mooshroom.position.x - 20, mooshroom.position.y - 48, sourceRec.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
+		DrawTexturePro(FireFlower, sourceRec2, { fireFlower.position.x - 20, fireFlower.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
+
 		//All blocks ? and star
 		for (const EnvElement& block : blocks) {
 			Texture2D textura = block.hit ? bloque_int_a : bloque_int;
@@ -2724,25 +2711,24 @@ private:
 		DrawTextureEx(tubo, { 688, -1950 }, 0.0f, 3.2f, WHITE);
 		DrawTextureEx(tubo, { 688, -2000 }, 0.0f, 3.2f, WHITE);
 
-		DrawTexturePro(goomba_sprite, sourceRec2, { goomba1.position.x - 20, goomba1.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(goomba_sprite, sourceRec2, { goomba2.position.x - 20, goomba2.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(goomba_sprite, sourceRec2, { goomba3.position.x - 20, goomba3.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(goomba_sprite, sourceRec2, { goomba4.position.x - 20, goomba4.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(goomba_sprite, sourceRec2, { goomba5.position.x - 20, goomba5.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(goomba_sprite, sourceRec2, { goomba6.position.x - 20, goomba6.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(goomba_sprite, sourceRec2, { goomba7.position.x - 20, goomba7.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(goomba_sprite, sourceRec2, { goomba8.position.x - 20, goomba8.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(goomba_sprite, sourceRec2, { goomba9.position.x - 20, goomba9.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(goomba_sprite, sourceRec2, { goomba10.position.x - 20, goomba10.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(goomba_sprite, sourceRec2, { goomba11.position.x - 20, goomba11.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(goomba_sprite, sourceRec2, { goomba12.position.x - 20, goomba12.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(goomba_sprite, sourceRec2, { goomba13.position.x - 20, goomba13.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(goomba_sprite, sourceRec2, { goomba14.position.x - 20, goomba14.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(goomba_sprite, sourceRec2, { goomba15.position.x - 20, goomba15.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(goomba_sprite, sourceRec2, { goomba16.position.x - 20, goomba16.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite1, sourceRec2, { goomba1.position.x - 20, goomba1.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite2, sourceRec2, { goomba2.position.x - 20, goomba2.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite3, sourceRec2, { goomba3.position.x - 20, goomba3.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite4, sourceRec2, { goomba4.position.x - 20, goomba4.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite5, sourceRec2, { goomba5.position.x - 20, goomba5.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite6, sourceRec2, { goomba6.position.x - 20, goomba6.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite7, sourceRec2, { goomba7.position.x - 20, goomba7.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite8, sourceRec2, { goomba8.position.x - 20, goomba8.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite9, sourceRec2, { goomba9.position.x - 20, goomba9.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite10, sourceRec2, { goomba10.position.x - 20, goomba10.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite11, sourceRec2, { goomba11.position.x - 20, goomba11.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite12, sourceRec2, { goomba12.position.x - 20, goomba12.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite13, sourceRec2, { goomba13.position.x - 20, goomba13.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite14, sourceRec2, { goomba14.position.x - 20, goomba14.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite15, sourceRec2, { goomba15.position.x - 20, goomba15.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite16, sourceRec2, { goomba16.position.x - 20, goomba16.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
 
-		DrawTexturePro(Mooshroom, sourceRec2, { mooshroom.position.x - 20, mooshroom.position.y - 48, sourceRec.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
-		DrawTexturePro(FireFlower, sourceRec2, { fireFlower.position.x - 20, fireFlower.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
+		
 		if (fireBall.active) {
 			DrawTexturePro(FireBall, sourceRec2, { fireBall.position.x - 20, fireBall.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
 		}
