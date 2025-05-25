@@ -77,6 +77,7 @@ struct Projectile {
     Rectangle projectile_hitbox;
     Vector2 speed;
     bool active;
+    int timer = 0;
 
     Projectile(float x, float y)
         : position{ x, y }, active(false), speed{ 0, 0 } {

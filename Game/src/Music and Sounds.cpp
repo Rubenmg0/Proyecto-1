@@ -5,6 +5,7 @@ Sound sfxJumpSmall;
 Sound sfxJumpSuper;
 Sound sfxPowerUpTaken;
 Sound sfxFireBall;
+Sound sfxFireBallWall;
 Sound sfxKick;
 Sound sfxPowerUpAppear;
 Sound sfxStomp;
@@ -26,6 +27,7 @@ void LoadGameSounds() {
     sfxJumpSuper = LoadSound("Resources/Audio/FX/smb_jump-super.wav");
     sfxPowerUpTaken = LoadSound("Resources/Audio/FX/smb_mushroom.wav");
     sfxFireBall = LoadSound("Resources/Audio/FX/smb_fireball.wav");
+    sfxFireBallWall = LoadSound("Resources/Audio/FX/smb_bump.wav");
     sfxKick = LoadSound("Resources/Audio/FX/smb_kick.wav");
     sfxPowerUpAppear = LoadSound("Resources/Audio/FX/smb_powerup_appears.wav");
     sfxStomp = LoadSound("Resources/Audio/FX/smb_stomp.wav");

@@ -54,6 +54,8 @@ Texture2D mario_sprite;
 Texture2D Mooshroom;
 Texture2D FireFlower;
 Texture2D FireBall;
+Texture2D FireBallTick1;
+Texture2D FireBallTick2;
 
 // Typography
 Font marioFont;
@@ -106,6 +108,9 @@ void LoadGameTextures() {
 	FireFlower = LoadTexture("Resources/Sprites/Items/Power-ups.png");
 
 	FireBall = LoadTexture("Resources/Sprites/Items/Bolas_Fuego.png");
+	FireBallTick1 = LoadTexture("Resources/Sprites/Items/Explosion1.png");
+	FireBallTick2 = LoadTexture("Resources/Sprites/Items/Explosion2.png");
+
 
 	/*------------------------------------------------------------*/
 	/*                          Bloques                           */

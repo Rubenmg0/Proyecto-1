@@ -8,6 +8,7 @@ extern Sound sfxJumpSmall;
 extern Sound sfxJumpSuper;
 extern Sound sfxPowerUpTaken;
 extern Sound sfxFireBall;
+extern Sound sfxFireBallWall;
 extern Sound sfxKick;
 extern Sound sfxPowerUpAppear;
 extern Sound sfxStomp;

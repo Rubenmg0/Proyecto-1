@@ -154,6 +154,7 @@ private:
 				goomba.death = false;
 				goomba.alive = true;
 				koopa.death = false;
+				koopa.alive = true;
 				koopa.side = true;
 				shell.death = false;
 				shell.activated = false;
@@ -219,6 +220,7 @@ private:
 				goomba.death = false;
 				goomba.alive = true;
 				koopa.death = false;
+				koopa.alive = true;
 				koopa.side = true;
 				shell.death = false;
 				shell.activated = false;
@@ -340,6 +342,7 @@ private:
 		bool projectileHitObstacleFloor = false;
 		bool desactived = false;
 		bool goombaDeathInit = false;
+		bool koopaDeathInit = false;
 
 		float deltaTime = GetFrameTime();
 		elapsedTime += deltaTime * 2.5;
@@ -396,6 +399,7 @@ private:
 			if (IsKeyPressed(KEY_X) && !pipe.enteringPipe1 && !pipe.enteringPipe2 && !flag.reached && player.alive && Timer > 0) {
 				PlaySound(sfxFireBall);
 				fireBall.position = { player.position.x, player.position.y + -40 };
+				fireBall.timer = 0;
 				fireBall.active = true;
 				projectileHitObstacleFloor = true;
 				fireBall.speed.y = 300.0f * deltaTime;
@@ -500,7 +504,7 @@ private:
 		}
 
 		//Koopa
-		if (player.position.x - koopa.position.x <= -200 && koopa.death == false && player.alive != 0 && Timer > 0) {
+		if (player.position.x - koopa.position.x <= -200 && !koopa.death && !koopa.death2 && player.alive != 0 && Timer > 0) {
 			koopa.activated = true;
 		}
 		koopa.speed.x = 1.0f;
@@ -515,11 +519,12 @@ private:
 			koopa.position.y = 1000;
 		}
 		if (koopa.death2) {
+			koopa.position.y = 1000;
 			koopa.speed.y += GRAVITY * deltaTime;
 			koopa.position.x += koopa.speed.x * deltaTime;
 			koopa.position.y += koopa.speed.y * deltaTime;
 			if (koopa.position.y >= koopa.goomba_hitbox.y + 100) {
-				goombaDeathInit = false;
+				koopaDeathInit = false;
 			}
 		}
 
@@ -813,7 +818,7 @@ private:
 		}
 
 		//Con bola de fuego
-		if (goomba.alive && fireBall.position.x + fireBall.projectile_hitbox.width + 10 >= goomba.position.x &&
+		if (goomba.alive && fireBall.position.x + fireBall.projectile_hitbox.width + 10 >= goomba.position.x && fireBall.active &&
 			fireBall.position.x <= goomba.position.x + goomba.goomba_hitbox.width + 20 &&
 			fireBall.position.y + fireBall.projectile_hitbox.height + 16 >= goomba.position.y && fireBall.position.y <= goomba.position.y + goomba.goomba_hitbox.height)
 		{
@@ -827,7 +832,7 @@ private:
 			goomba.speed.y = -20.0f;
 		}
 
-		if (koopa.alive && fireBall.position.x + fireBall.projectile_hitbox.width + 10 >= koopa.position.x &&
+		if (koopa.alive && fireBall.position.x + fireBall.projectile_hitbox.width + 10 >= koopa.position.x && fireBall.active &&
 			fireBall.position.x <= koopa.position.x + koopa.goomba_hitbox.width + 20 &&
 			fireBall.position.y + fireBall.projectile_hitbox.height + 16 >= koopa.position.y && fireBall.position.y <= koopa.position.y + koopa.goomba_hitbox.height)
 		{
@@ -835,6 +840,7 @@ private:
 			Score += 200;
 			koopa.death2 = true;
 			fireBall.active = false;
+			koopaDeathInit = true;
 			fireBall.position.y = 2000;
 			koopa.speed.x = koopa.side ? -8.0f : 8.0f;
 			koopa.speed.y = -20.0f;
@@ -879,7 +885,7 @@ private:
 			}
 		}
 
-		if (!onGroundKoopa && player.alive && Timer > 0) {
+		if (!onGroundKoopa && !koopa.death2 && player.alive && Timer > 0 && !koopaDeathInit) {
 			koopa.position.y += (GRAVITY - 300) * deltaTime;
 			if (koopa.position.y > 0)
 			{
@@ -948,7 +954,7 @@ private:
 		}
 
 		//Los lados Koopa
-		float next = koopa.position.x + koopa.speed.x * deltaTime; 
+		float nextK = koopa.position.x + koopa.speed.x * deltaTime; 
 
 		//Derecha
 		for (EnvElement block : blocks) {
@@ -957,7 +963,7 @@ private:
 				koopa.position.y > block.rect.y &&
 				koopa.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
 				koopa.position.x - 10 <= block.rect.x &&
-				(next + koopa.goomba_hitbox.width) >= block.rect.x - 15
+				(nextK + koopa.goomba_hitbox.width) >= block.rect.x - 15
 				&& ColorToInt(block.color) != ColorToInt(BLUE))
 			{
 				koopa.side = true;
@@ -971,7 +977,7 @@ private:
 				koopa.position.y > block.rect.y &&
 				koopa.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
 				koopa.position.x + 10 >= (block.rect.x + block.rect.width) &&
-				(next) <= (block.rect.x + block.rect.width + 20)
+				(nextK) <= (block.rect.x + block.rect.width + 20)
 				&& ColorToInt(block.color) != ColorToInt(BLUE))
 			{
 				koopa.side = false;
@@ -1085,7 +1091,7 @@ private:
 
 			}
 		}
-		if (!projectileHitObstacleFloor && player.alive && Timer > 0) {
+		if (!projectileHitObstacleFloor && player.alive && Timer > 0 && fireBall.active) {
 			fireBall.position.y += (10) * deltaTime;
 			if (fireBall.position.y > 0)
 			{
@@ -1163,6 +1169,7 @@ private:
 				(nextF + fireBall.projectile_hitbox.width) >= block.rect.x - 15
 				&& ColorToInt(block.color) != ColorToInt(BLUE))
 			{
+				PlaySound(sfxFireBallWall);
 				fireBall.active = false;
 			}
 		}
@@ -1176,6 +1183,7 @@ private:
 				(nextF) <= (block.rect.x + block.rect.width + 12)
 				&& ColorToInt(block.color) != ColorToInt(BLUE))
 			{
+				PlaySound(sfxFireBallWall);
 				fireBall.active = false;
 			}
 		}
@@ -1487,7 +1495,7 @@ private:
 
 	void DrawGameplay() {
 		BeginMode2D(camera);
-		//ClearBackground(BLUE);
+		ClearBackground(BLUE);
 
 		//Player
 		int frameWidthP;
@@ -1659,168 +1667,181 @@ private:
 
 		//Draw all entities, structures and objetcs
 		//Tuberias 
-	//	DrawTextureEx(tuberia_s, { (1242), (500) }, 0.0f, 1.2, WHITE);
-	//	DrawTextureEx(tuberia_m, { (1667), (450) }, 0.0f, 1.2, WHITE);
-	//	DrawTextureEx(tuberia_b, { (2067), (399) }, 0.0f, 1.2, WHITE);
-	//	DrawTextureEx(tuberia_b, { (2592), (399) }, 0.0f, 1.2, WHITE);
-	//	DrawTextureEx(tuberia_s, { (7692), (500) }, 0.0f, 1.2, WHITE);
-	//	DrawTextureEx(tuberia_s, { (8452), (500) }, 0.0f, 1.2, WHITE);
+		DrawTextureEx(tuberia_s, { (1242), (500) }, 0.0f, 1.2, WHITE);
+		DrawTextureEx(tuberia_m, { (1667), (450) }, 0.0f, 1.2, WHITE);
+		DrawTextureEx(tuberia_b, { (2067), (399) }, 0.0f, 1.2, WHITE);
+		DrawTextureEx(tuberia_b, { (2592), (399) }, 0.0f, 1.2, WHITE);
+		DrawTextureEx(tuberia_s, { (7692), (500) }, 0.0f, 1.2, WHITE);
+		DrawTextureEx(tuberia_s, { (8452), (500) }, 0.0f, 1.2, WHITE);
 
-	//	//All background
-	//	DrawTextureEx(fondo, { (-113), (72) }, 0.0f, 3, WHITE);
-	//	DrawTextureEx(fondo, { (2190), (72) }, 0.0f, 3, WHITE);
-	//	DrawTextureEx(fondo, { (4490), (72) }, 0.0f, 3, WHITE);
-	//	DrawTextureEx(fondo, { (6790), (72) }, 0.0f, 3, WHITE);
-	//	DrawTextureEx(fondo, { (9090), (72) }, 0.0f, 3, WHITE);
+		//All background
+		DrawTextureEx(fondo, { (-113), (72) }, 0.0f, 3, WHITE);
+		DrawTextureEx(fondo, { (2190), (72) }, 0.0f, 3, WHITE);
+		DrawTextureEx(fondo, { (4490), (72) }, 0.0f, 3, WHITE);
+		DrawTextureEx(fondo, { (6790), (72) }, 0.0f, 3, WHITE);
+		DrawTextureEx(fondo, { (9090), (72) }, 0.0f, 3, WHITE);
 
-	//	//All voids
-	//	for (const EnvElement& block : blocks) {
-	//		if (ColorToInt(block.color) == ColorToInt(BLUE)) {
-	//			DrawTextureEx(azul, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
-	//		}
-	//	}
+		//All voids
+		for (const EnvElement& block : blocks) {
+			if (ColorToInt(block.color) == ColorToInt(BLUE)) {
+				DrawTextureEx(azul, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
+			}
+		}
 
-	//	//All bricks
-	//	for (const EnvElement& block : blocks) {
-	//		if (ColorToInt(block.color) == ColorToInt(GREEN)) {
-	//			DrawTextureEx(ladrillo, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
-	//		}
-	//	}
+		//All bricks
+		for (const EnvElement& block : blocks) {
+			if (ColorToInt(block.color) == ColorToInt(GREEN)) {
+				DrawTextureEx(ladrillo, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
+			}
+		}
 
-	//	//All stairs
-	//	for (const EnvElement& block : blocks) {
-	//		if (ColorToInt(block.color) == ColorToInt(GRAY)) {
-	//			DrawTextureEx(escalera, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
-	//		}
-	//	}
+		//All stairs
+		for (const EnvElement& block : blocks) {
+			if (ColorToInt(block.color) == ColorToInt(GRAY)) {
+				DrawTextureEx(escalera, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
+			}
+		}
 
-	//	//All blocks ? and star
-	//	for (const EnvElement& block : blocks) {
-	//		Texture2D textura = block.hit ? bloque_int_a : bloque_int;
-	//		Texture2D textura2 = block.hit ? bloque_int_a : ladrillo;
-	//		if (ColorToInt(block.color) == ColorToInt(RED)) {
-	//			DrawTexturePro(textura, sourceRec4, { block.rect.x, block.rect.y, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-	//		}
-	//		if (ColorToInt(block.color) == ColorToInt(BROWN)) {
-	//			DrawTexturePro(textura, sourceRec4, { block.rect.x, block.rect.y, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-	//		}
-	//		if (ColorToInt(block.color) == ColorToInt(MAGENTA)) {
-	//			DrawTextureEx(textura2, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
-	//		}
-	//		if (ColorToInt(block.color) == ColorToInt(PINK)) {
-	//			DrawTextureEx(textura2, { block.rect.x, block.rect.y}, 0.0f, 3.2f, WHITE);
-	//		}
-	//	}
+		//All blocks ? and star
+		for (const EnvElement& block : blocks) {
+			Texture2D textura = block.hit ? bloque_int_a : bloque_int;
+			Texture2D textura2 = block.hit ? bloque_int_a : ladrillo;
+			if (ColorToInt(block.color) == ColorToInt(RED)) {
+				DrawTexturePro(textura, sourceRec4, { block.rect.x, block.rect.y, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+			}
+			if (ColorToInt(block.color) == ColorToInt(BROWN)) {
+				DrawTexturePro(textura, sourceRec4, { block.rect.x, block.rect.y, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+			}
+			if (ColorToInt(block.color) == ColorToInt(MAGENTA)) {
+				DrawTextureEx(textura2, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
+			}
+			if (ColorToInt(block.color) == ColorToInt(PINK)) {
+				DrawTextureEx(textura2, { block.rect.x, block.rect.y}, 0.0f, 3.2f, WHITE);
+			}
+		}
 
-	//	//All Cave_ground //NO VA (de momento)
-	//	for (const EnvElement& block : blocks) {
-	//		if (ColorToInt(block.color) == ColorToInt(BLACK)) {
-	//			DrawTextureEx(suelo_cueva, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
-	//		}
-	//	}
-	//	
-	//	// Fondo negro
-	//	DrawTextureEx(negro, { -200, -1500 }, 0.0f, 1500.0f, WHITE);
-	//	
-	//// Suelo
-	//	DrawTextureEx(suelo_cueva, { -112, -500 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { -112, -450 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { -62, -500 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { -62, -450 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { -12, -500 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { -12, -450 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 38, -500 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 38, -450 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 88, -500 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 88, -450 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 138, -500 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 138, -450 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 188, -500 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 188, -450 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 238, -500 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 238, -450 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 288, -500 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 288, -450 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 338, -500 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 338, -450 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 388, -500 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 388, -450 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 438, -500 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 438, -450 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 488, -500 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 488, -450 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 538, -500 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 538, -450 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 588, -500 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 588, -450 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 638, -500 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 638, -450 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 688, -500 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 688, -450 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 738, -500 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(suelo_cueva, { 738, -450 }, 0.0f, 3.2f, WHITE);
+		//All Cave_ground //NO VA (de momento)
+		for (const EnvElement& block : blocks) {
+			if (ColorToInt(block.color) == ColorToInt(BLACK)) {
+				DrawTextureEx(suelo_cueva, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
+			}
+		}
+		
+		// Fondo negro
+		DrawTextureEx(negro, { -200, -1500 }, 0.0f, 1500.0f, WHITE);
+		
+	// Suelo
+		DrawTextureEx(suelo_cueva, { -112, -500 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { -112, -450 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { -62, -500 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { -62, -450 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { -12, -500 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { -12, -450 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 38, -500 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 38, -450 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 88, -500 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 88, -450 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 138, -500 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 138, -450 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 188, -500 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 188, -450 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 238, -500 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 238, -450 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 288, -500 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 288, -450 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 338, -500 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 338, -450 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 388, -500 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 388, -450 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 438, -500 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 438, -450 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 488, -500 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 488, -450 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 538, -500 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 538, -450 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 588, -500 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 588, -450 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 638, -500 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 638, -450 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 688, -500 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 688, -450 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 738, -500 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_cueva, { 738, -450 }, 0.0f, 3.2f, WHITE);
 
-	//	// Paredes (Izquierda)
-	//	DrawTextureEx(ladrillo_cueva, { -112, -550 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { -112, -600 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { -112, -650 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { -112, -700 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { -112, -750 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { -112, -800 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { -112, -850 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { -112, -900 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { -112, -950 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { -112, -1000 }, 0.0f, 3.2f, WHITE);
+		// Paredes (Izquierda)
+		DrawTextureEx(ladrillo_cueva, { -112, -550 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { -112, -600 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { -112, -650 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { -112, -700 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { -112, -750 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { -112, -800 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { -112, -850 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { -112, -900 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { -112, -950 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { -112, -1000 }, 0.0f, 3.2f, WHITE);
 
-	//	// Paredes (Derecha)
-	//	DrawTextureEx(tuberia_cueva, { 579, -700 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(tubo, { 688, -750 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(tubo, { 688, -800 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(tubo, { 688, -850 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(tubo, { 688, -900 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(tubo, { 688, -950 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(tubo, { 688, -1000 }, 0.0f, 3.2f, WHITE);
+		// Paredes (Derecha)
+		DrawTextureEx(tuberia_cueva, { 579, -700 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(tubo, { 688, -750 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(tubo, { 688, -800 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(tubo, { 688, -850 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(tubo, { 688, -900 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(tubo, { 688, -950 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(tubo, { 688, -1000 }, 0.0f, 3.2f, WHITE);
 
-	//	// Techo
-	//	DrawTextureEx(ladrillo_cueva, { 88,  -1000 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 138, -1000 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 188, -1000 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 238, -1000 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 288, -1000 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 338, -1000 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 388, -1000 }, 0.0f, 3.2f, WHITE);
+		// Techo
+		DrawTextureEx(ladrillo_cueva, { 88,  -1000 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 138, -1000 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 188, -1000 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 238, -1000 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 288, -1000 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 338, -1000 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 388, -1000 }, 0.0f, 3.2f, WHITE);
 
-	//	// Zona de Monedas
-	//	DrawTextureEx(ladrillo_cueva, { 88,  -550 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 138, -550 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 188, -550 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 238, -550 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 288, -550 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 338, -550 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 388, -550 }, 0.0f, 3.2f, WHITE);
+		// Zona de Monedas
+		DrawTextureEx(ladrillo_cueva, { 88,  -550 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 138, -550 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 188, -550 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 238, -550 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 288, -550 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 338, -550 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 388, -550 }, 0.0f, 3.2f, WHITE);
 
-	//	DrawTextureEx(ladrillo_cueva, { 88,  -600 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 138, -600 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 188, -600 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 238, -600 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 288, -600 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 338, -600 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 388, -600 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 88,  -600 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 138, -600 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 188, -600 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 238, -600 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 288, -600 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 338, -600 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 388, -600 }, 0.0f, 3.2f, WHITE);
 
-	//	DrawTextureEx(ladrillo_cueva, { 88,  -650 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 138, -650 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 188, -650 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 238, -650 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 288, -650 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 338, -650 }, 0.0f, 3.2f, WHITE);
-	//	DrawTextureEx(ladrillo_cueva, { 388, -650 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 88,  -650 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 138, -650 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 188, -650 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 238, -650 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 288, -650 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 338, -650 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(ladrillo_cueva, { 388, -650 }, 0.0f, 3.2f, WHITE);
 
-	//	DrawTexturePro(goomba_sprite, sourceRec2, { goomba.position.x - 20, goomba.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
-	//	DrawTexturePro(Mooshroom, sourceRec2, { mooshroom.position.x - 20, mooshroom.position.y - 48, sourceRec.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
-	//	DrawTexturePro(FireFlower, sourceRec2, { fireFlower.position.x - 20, fireFlower.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
-	//	DrawTexturePro(FireBall, sourceRec2, { fireBall.position.x - 20, fireBall.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
-	//	DrawTexturePro(Koopa, sourceRec3, { koopa.position.x - 20, koopa.position.y - 72, sourceRec3.width * 3, sourceRec3.height * 3 }, { 0,0 }, 0, WHITE);
-	//	DrawTexturePro(Shell, sourceRec2, { shell.position.x - 20, shell.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
+		DrawTexturePro(goomba_sprite, sourceRec2, { goomba.position.x - 20, goomba.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
+		DrawTexturePro(Mooshroom, sourceRec2, { mooshroom.position.x - 20, mooshroom.position.y - 48, sourceRec.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
+		DrawTexturePro(FireFlower, sourceRec2, { fireFlower.position.x - 20, fireFlower.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
+		if (fireBall.active) {
+			DrawTexturePro(FireBall, sourceRec2, { fireBall.position.x - 20, fireBall.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
+		}
+		else if (!fireBall.active) {
+			DrawTextureEx(FireBallTick1, { fireBall.position.x - 20, fireBall.position.y - 48 }, 0.0f, 3.2f, WHITE);
+			fireBall.timer += 2.0f * 0.8;
+			if (fireBall.timer >= 5.0f) {
+				DrawTextureEx(FireBallTick2, { fireBall.position.x - 20, fireBall.position.y - 48 }, 0.0f, 3.2f, WHITE);
+				if (fireBall.timer >= 10.0f) {
+					fireBall.position.y = 2000;
+					fireBall.timer = 0;
+				}
+			}
+		}
+		DrawTexturePro(Koopa, sourceRec3, { koopa.position.x - 20, koopa.position.y - 72, sourceRec3.width * 3, sourceRec3.height * 3 }, { 0,0 }, 0, WHITE);
+		DrawTexturePro(Shell, sourceRec2, { shell.position.x - 20, shell.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
 
 		//META Y CASTILLO//
 		DrawTextureEx(flagTexture, { 9375, flag.position.y - flagTexture.height }, 0, 3, WHITE);
