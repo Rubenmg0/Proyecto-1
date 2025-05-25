@@ -454,24 +454,6 @@ private:
 			}
 		}
 
-		//SHELL
-		if (player.position.x >= shell.position.x && player.alive != 0) {
-			shell.activated = true;
-		}
-
-		if (shell.activated && !shell.death && player.alive != 0 && shell.side && Timer > 0) {
-			shell.position.x += shell.speed.x * -deltaTime;
-		}
-		if (shell.activated && !shell.death && player.alive != 0 && !shell.side && Timer > 0) {
-			shell.position.x += shell.speed.x * deltaTime;
-		}
-
-		if (shell.death == true) {
-			if (player.position.y >= shell.position.y) {
-				shell.position.y = 1000;
-			}
-		}
-
 		//GOOMBA
 		if (player.position.x - goomba.position.x <= -200 && !goomba.death && !goomba.death2 && player.alive != 0 && Timer > 0) {
 			goomba.activated = true;
@@ -519,7 +501,9 @@ private:
 			koopa.position.y = 1000;
 		}
 		if (koopa.death2) {
-			koopa.position.y = 1000;
+			shell.position = koopa.position;
+			koopa.alive = false;
+			
 			koopa.speed.y += GRAVITY * deltaTime;
 			koopa.position.x += koopa.speed.x * deltaTime;
 			koopa.position.y += koopa.speed.y * deltaTime;
@@ -532,6 +516,24 @@ private:
 			koopa.alive = false;
 		}
 
+		//SHELL
+		if (player.position.x >= shell.position.x && player.alive != 0) {
+			shell.activated = true;
+		}
+
+		if (shell.activated && !shell.death && player.alive != 0 && shell.side && Timer > 0) {
+			shell.position.x += shell.speed.x * -deltaTime;
+		}
+		if (shell.activated && !shell.death && player.alive != 0 && !shell.side && Timer > 0) {
+			shell.position.x += shell.speed.x * deltaTime;
+		}
+		
+		if (shell.death2) {
+			shell.speed.y += GRAVITY * deltaTime;
+			shell.position.x += shell.speed.x * deltaTime;
+			shell.position.y += shell.speed.y * deltaTime;
+		}
+
 		//--------Colisiones de Mario--------\\
 
 		//Suelo
@@ -541,7 +543,7 @@ private:
 				&& block.rect.x + block.rect.width + 10 >= player.position.x
 				&& block.rect.y >= player.position.y
 				&& block.rect.y <= player.position.y + player.speed.y * deltaTime
-				&& ColorToInt(block.color) != ColorToInt(BLUE))
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
 			{
 				hitObstacleFloor = true;
 				player.speed.y = 0.0f;
@@ -556,7 +558,7 @@ private:
 				&& block.rect.x + block.rect.width + 10 >= player.position.x
 				&& block.rect.y + block.rect.height + block.rect.height <= player.position.y
 				&& block.rect.y + block.rect.height + block.rect.height + block.rect.height - 2 >= player.position.y + player.speed.y * deltaTime
-				&& ColorToInt(block.color) != ColorToInt(BLUE))
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
 			{
 				player.speed.y = 0.0f;
 				player.position.y = block.rect.y + block.rect.height + block.rect.height + block.rect.height - 2;
@@ -597,7 +599,7 @@ private:
 				&& block.rect.x + block.rect.width + 10 >= player.position.x
 				&& block.rect.y + block.rect.height + block.rect.height <= player.position.y
 				&& block.rect.y + block.rect.height + block.rect.height >= player.position.y + player.speed.y * deltaTime
-				&& ColorToInt(block.color) != ColorToInt(BLUE))
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
 			{
 				player.speed.y = 0.0f;
 				player.position.y = block.rect.y + block.rect.height + block.rect.height;
@@ -631,7 +633,7 @@ private:
 						block.hit = true;
 						contador = 0;
 					}
-				}
+				}				
 			}
 		}
 
@@ -646,7 +648,7 @@ private:
 				player.position.y < (block.rect.y + block.rect.height + block.rect.height + block.rect.height - 4) &&
 				player.position.x - 10 <= block.rect.x &&
 				(nextX + player.mario_hitbox.width) >= block.rect.x
-				&& ColorToInt(block.color) != ColorToInt(BLUE))
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
 			{
 				hitObstacleWall = true;
 				player.speed.x = 0;
@@ -658,7 +660,7 @@ private:
 				player.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
 				player.position.x - 10 <= block.rect.x &&
 				(nextX + player.mario_hitbox.width) >= block.rect.x
-				&& ColorToInt(block.color) != ColorToInt(BLUE))
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
 			{
 				hitObstacleWall = true;
 				player.speed.x = 0;
@@ -674,7 +676,7 @@ private:
 				player.position.y < (block.rect.y + block.rect.height + block.rect.height + block.rect.height - 4) &&
 				player.position.x + 10 >= (block.rect.x + block.rect.width) &&
 				(nextX) <= (block.rect.x + block.rect.width + 14)
-				&& ColorToInt(block.color) != ColorToInt(BLUE))
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
 			{
 				hitObstacleWall = true;
 				player.speed.x = 0;
@@ -686,7 +688,7 @@ private:
 				player.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
 				player.position.x + 10 >= (block.rect.x + block.rect.width) &&
 				(nextX) <= (block.rect.x + block.rect.width + 14)
-				&& ColorToInt(block.color) != ColorToInt(BLUE))
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
 			{
 				hitObstacleWall = true;
 				player.speed.x = 0;
@@ -853,7 +855,7 @@ private:
 				&& block.rect.x + block.rect.width + 10 >= goomba.position.x
 				&& block.rect.y + block.rect.height >= goomba.position.y
 				&& block.rect.y <= goomba.position.y
-				&& ColorToInt(block.color) != ColorToInt(BLUE)) {
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW)) {
 				onGroundEnemy = true;
 				goomba.speed.y = 0.0f;
 				goomba.position.y = block.rect.y;
@@ -878,7 +880,7 @@ private:
 				&& block.rect.x + block.rect.width + 10 >= koopa.position.x
 				&& block.rect.y + block.rect.height >= koopa.position.y
 				&& block.rect.y <= koopa.position.y
-				&& ColorToInt(block.color) != ColorToInt(BLUE)) {
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW)) {
 				onGroundKoopa = true;
 				koopa.speed.y = 0.0f;
 				koopa.position.y = block.rect.y;
@@ -903,14 +905,14 @@ private:
 				&& block.rect.x + block.rect.width + 10 >= shell.position.x
 				&& block.rect.y + block.rect.height >= shell.position.y
 				&& block.rect.y <= shell.position.y
-				&& ColorToInt(block.color) != ColorToInt(BLUE)) {
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW)) {
 				onGroundShell = true;
 				shell.speed.y = 0.0f;
 				shell.position.y = block.rect.y;
 			}
 		}
 
-		if (!onGroundShell && player.alive && Timer > 0) {
+		if (!onGroundShell && !shell.death2 && player.alive && Timer > 0) {
 			shell.position.y += (GRAVITY - 300) * deltaTime;
 			if (shell.position.y > 0)
 			{
@@ -933,7 +935,7 @@ private:
 				goomba.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
 				goomba.position.x - 10 <= block.rect.x &&
 				(nextXE + goomba.goomba_hitbox.width) >= block.rect.x - 15
-				&& ColorToInt(block.color) != ColorToInt(BLUE))
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
 			{
 				goomba.side = true;
 			}
@@ -947,7 +949,7 @@ private:
 				goomba.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
 				goomba.position.x + 10 >= (block.rect.x + block.rect.width) &&
 				(nextXE) <= (block.rect.x + block.rect.width + 20)
-				&& ColorToInt(block.color) != ColorToInt(BLUE))
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
 			{
 				goomba.side = false;
 			}
@@ -964,7 +966,7 @@ private:
 				koopa.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
 				koopa.position.x - 10 <= block.rect.x &&
 				(nextK + koopa.goomba_hitbox.width) >= block.rect.x - 15
-				&& ColorToInt(block.color) != ColorToInt(BLUE))
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
 			{
 				koopa.side = true;
 			}
@@ -978,7 +980,7 @@ private:
 				koopa.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
 				koopa.position.x + 10 >= (block.rect.x + block.rect.width) &&
 				(nextK) <= (block.rect.x + block.rect.width + 20)
-				&& ColorToInt(block.color) != ColorToInt(BLUE))
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
 			{
 				koopa.side = false;
 			}
@@ -994,7 +996,7 @@ private:
 				shell.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
 				shell.position.x - 10 <= block.rect.x &&
 				(nextshell + shell.goomba_hitbox.width) >= block.rect.x - 15
-				&& ColorToInt(block.color) != ColorToInt(BLUE))
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
 			{
 				shell.side = true;
 			}
@@ -1008,7 +1010,7 @@ private:
 				shell.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
 				shell.position.x + 10 >(block.rect.x + block.rect.width) &&
 				(nextshell) <= (block.rect.x + block.rect.width + 30)
-				&& ColorToInt(block.color) != ColorToInt(BLUE))
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
 			{
 				shell.side = false;
 			}
@@ -1057,7 +1059,7 @@ private:
 				&& block.rect.x + block.rect.width + 10 >= mooshroom.position.x
 				&& block.rect.y + block.rect.height >= mooshroom.position.y
 				&& block.rect.y <= mooshroom.position.y && !mooshroom.emerging
-				&& ColorToInt(block.color) != ColorToInt(BLUE)) {
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW)) {
 				onGroundPowerUp = true;
 				mooshroom.speed.y = 0.0f;
 				mooshroom.position.y = block.rect.y;
@@ -1069,7 +1071,7 @@ private:
 				&& block.rect.x + block.rect.width + 10 >= fireFlower.position.x
 				&& block.rect.y + block.rect.height >= fireFlower.position.y
 				&& block.rect.y <= fireFlower.position.y && !fireFlower.emerging
-				&& ColorToInt(block.color) != ColorToInt(BLUE)) {
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW)) {
 				onGroundPowerUpF = true;
 				fireFlower.speed.y = 0.0f;
 				fireFlower.position.y = block.rect.y;
@@ -1081,7 +1083,8 @@ private:
 				&& block.rect.x <= fireBall.position.x + fireBall.projectile_hitbox.width - 5
 				&& block.rect.x + block.rect.width + 10 >= fireBall.position.x
 				&& block.rect.y + block.rect.height >= fireBall.position.y
-				&& block.rect.y <= fireBall.position.y) {
+				&& block.rect.y <= fireBall.position.y && ColorToInt(block.color) != ColorToInt(BLUE)
+				&& ColorToInt(block.color) != ColorToInt(YELLOW)) {
 				projectileHitObstacleFloor = true;
 				fireBall.speed.y = 300.0f * deltaTime;
 				projectileHitObstacleFloor = false;
@@ -1137,7 +1140,7 @@ private:
 				mooshroom.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
 				mooshroom.position.x - 10 <= block.rect.x &&
 				(nextXP + mooshroom.powerup_hitbox.width) >= block.rect.x - 15
-				&& ColorToInt(block.color) != ColorToInt(BLUE))
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
 			{
 				mooshroom.side = true;
 			}
@@ -1151,7 +1154,7 @@ private:
 				mooshroom.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
 				mooshroom.position.x + 10 >= (block.rect.x + block.rect.width) &&
 				(nextXP) <= (block.rect.x + block.rect.width + 20)
-				&& ColorToInt(block.color) != ColorToInt(BLUE))
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
 			{
 				mooshroom.side = false;
 			}
@@ -1167,7 +1170,7 @@ private:
 				fireBall.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
 				fireBall.position.x - 10 <= block.rect.x &&
 				(nextF + fireBall.projectile_hitbox.width) >= block.rect.x - 15
-				&& ColorToInt(block.color) != ColorToInt(BLUE))
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
 			{
 				PlaySound(sfxFireBallWall);
 				fireBall.active = false;
@@ -1181,13 +1184,56 @@ private:
 				fireBall.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
 				fireBall.position.x >= (block.rect.x + block.rect.width) &&
 				(nextF) <= (block.rect.x + block.rect.width + 12)
-				&& ColorToInt(block.color) != ColorToInt(BLUE))
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
 			{
 				PlaySound(sfxFireBallWall);
 				fireBall.active = false;
 			}
 		}
+		
+		//Moneda
+		for (EnvElement block : blocks) { //Por arriba
+			if (Timer > 0 && player.alive != 0
+				&& block.rect.x <= player.position.x + player.mario_hitbox.width - 5
+				&& block.rect.x + block.rect.width + 10 >= player.position.x
+				&& block.rect.y >= player.position.y
+				&& block.rect.y <= player.position.y + player.speed.y * deltaTime
+				&& ColorToInt(block.color) == ColorToInt(YELLOW) && !block.hit)
+			{
+				PlaySound(sfxCoin_Block);
+				Money++;
+				block.rect.y = block.rect.y - 1000;
+				block.hit = true;
+			}
+		}
 
+		for (EnvElement& block : blocks) { //Por abajo
+			if (player.big && Timer > 0 && player.alive != 0 && player.speed.y < 0
+				&& block.rect.x <= player.position.x + player.mario_hitbox.width - 10
+				&& block.rect.x + block.rect.width + 10 >= player.position.x
+				&& block.rect.y + block.rect.height + block.rect.height <= player.position.y
+				&& block.rect.y + block.rect.height + block.rect.height + block.rect.height - 2 >= player.position.y + player.speed.y * deltaTime
+				&& ColorToInt(block.color) == ColorToInt(YELLOW) && !block.hit)
+			{
+				PlaySound(sfxCoin_Block);
+				Money++;
+				block.rect.y = block.rect.y - 1000;
+				block.hit = true;
+			}
+			else if (!player.big && Timer > 0 && player.alive != 0
+				&& block.rect.x <= player.position.x + player.mario_hitbox.width - 5
+				&& block.rect.x + block.rect.width + 10 >= player.position.x
+				&& block.rect.y + block.rect.height + block.rect.height <= player.position.y
+				&& block.rect.y + block.rect.height + block.rect.height >= player.position.y + player.speed.y * deltaTime
+				&& ColorToInt(block.color) == ColorToInt(YELLOW) && !block.hit)
+			{
+				PlaySound(sfxCoin_Block);
+				Money++;
+				block.rect.y = block.rect.y - 1000;
+				block.hit = true;
+			}
+		}
+		
 		//--------Colision Tuberia--------\\
 			// PIPES 
 		if (!pipe.enteringPipe1 && player.position.x + player.mario_hitbox.width - 5 >= pipe.pipe1.x && player.position.x <= pipe.pipe1.x + pipe.pipe1.width + 10
@@ -1319,6 +1365,7 @@ private:
 		if (IsKeyPressed(KEY_G) && Timer > 0 && player.alive == 1 && !flag.reached) { //Generar Goomba
 			goomba.death = false;
 			goomba.death2 = false;
+			goomba.alive = true;
 			goomba.side = true;
 			goomba.position.x = player.position.x + 200;
 			goomba.position.y = player.position.y;
@@ -1326,6 +1373,7 @@ private:
 		if (IsKeyPressed(KEY_K) && Timer > 0 && player.alive == 1 && !flag.reached) { //Generar Koopa
 			koopa.death = false;
 			koopa.death2 = false;
+			koopa.alive = true;
 			koopa.side = true;
 			koopa.position.x = player.position.x + 200;
 			koopa.position.y = player.position.y;
@@ -1735,30 +1783,14 @@ private:
 			}
 		}
 
-		//All coins
-		DrawTexturePro(money, sourceRec4, { 86, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 136, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 186, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 236, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 286, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 336, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 386, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+		//All Coins
+		for (const EnvElement& block : blocks) {
+			if (ColorToInt(block.color) == ColorToInt(YELLOW) && !block.hit) {
+				DrawTexturePro(money, sourceRec4, { block.rect.x - 8, block.rect.y, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
+			}
+		}
 
-		DrawTexturePro(money, sourceRec4, { 86, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 136, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 186, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 236, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 286, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 336, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 386, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-
-		DrawTexturePro(money, sourceRec4, { 136, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 186, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 236, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 286, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 336, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-
-		// Paredes (Derecha)
+		// Paredes Cueva (Derecha)
 		DrawTextureEx(tuberia_cueva, { 579, -1700 }, 0.0f, 3.2f, WHITE);
 		DrawTextureEx(tubo, { 688, -1750 }, 0.0f, 3.2f, WHITE);
 		DrawTextureEx(tubo, { 688, -1800 }, 0.0f, 3.2f, WHITE);
@@ -1784,8 +1816,12 @@ private:
 				}
 			}
 		}
-		DrawTexturePro(Koopa, sourceRec3, { koopa.position.x - 20, koopa.position.y - 72, sourceRec3.width * 3, sourceRec3.height * 3 }, { 0,0 }, 0, WHITE);
-		DrawTexturePro(Shell, sourceRec2, { shell.position.x - 20, shell.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
+		if (!koopa.death && !koopa.death2) {
+			DrawTexturePro(Koopa, sourceRec3, { koopa.position.x - 20, koopa.position.y - 72, sourceRec3.width * 3, sourceRec3.height * 3 }, { 0,0 }, 0, WHITE);
+		}
+		if (koopa.death || koopa.death2) {
+			DrawTexturePro(Shell, sourceRec2, { shell.position.x - 20, shell.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
+		}
 
 		//META Y CASTILLO//
 		DrawTextureEx(flagTexture, { 9375, flag.position.y - flagTexture.height }, 0, 3, WHITE);
@@ -1829,5 +1865,3 @@ int main() {
 	game.Run();
 	return 0;
 }
-
-

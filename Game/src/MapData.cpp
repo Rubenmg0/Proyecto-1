@@ -2,32 +2,6 @@
 #include "MapData.h"
 using namespace std;
 
-vector<EnvElement> monedas = {
-
-{  96, -1700, 30, 50, YELLOW,false },
-{ 146, -1700, 30, 50, YELLOW,false },
-{ 196, -1700, 30, 50, YELLOW,false },
-{ 246, -1700, 30, 50, YELLOW,false },
-{ 296, -1700, 30, 50, YELLOW,false },
-{ 346, -1700, 30, 50, YELLOW,false },
-{ 396, -1700, 30, 50, YELLOW,false },
-
-{  96, -1790, 30, 50, YELLOW,false },
-{ 146, -1790, 30, 50, YELLOW,false },
-{ 196, -1790, 30, 50, YELLOW,false },
-{ 246, -1790, 30, 50, YELLOW,false },
-{ 296, -1790, 30, 50, YELLOW,false },
-{ 346, -1790, 30, 50, YELLOW,false },
-{ 396, -1790, 30, 50, YELLOW,false },
-
-{ 146, -1880, 30, 50, YELLOW,false },
-{ 196, -1880, 30, 50, YELLOW,false },
-{ 246, -1880, 30, 50, YELLOW,false },
-{ 296, -1880, 30, 50, YELLOW,false },
-{ 346, -1880, 30, 50, YELLOW,false },
-
-};
-
 vector<EnvElement> blocks = {
 
 	{-200, 600, 3350, 200, VIOLET, false}, // SUELO
@@ -330,15 +304,7 @@ vector<EnvElement> blocks = {
 	{ -112, -1900, 50, 50, LIGHTGRAY, false },
 	{ -112, -1950, 50, 50, LIGHTGRAY, false },
 
-	{ 688, -1550, 50, 50, LIGHTGRAY, false },
-	{ 688, -1600, 50, 50, LIGHTGRAY, false },
-	{ 688, -1650, 50, 50, LIGHTGRAY, false },
-	{ 688, -1700, 50, 50, LIGHTGRAY, false },
-	{ 688, -1750, 50, 50, LIGHTGRAY, false },
-	{ 688, -1800, 50, 50, LIGHTGRAY, false },
-	{ 688, -1850, 50, 50, LIGHTGRAY, false },
-	{ 688, -1900, 50, 50, LIGHTGRAY, false },
-	{ 688, -1950, 50, 50, LIGHTGRAY, false },
+	{ 688, -2000, 50, 350, LIGHTGRAY, false },
 
 	//techo
 	{ 88, -1950, 50, 50, LIGHTGRAY, false },
@@ -375,11 +341,29 @@ vector<EnvElement> blocks = {
 	{ 338, -1650, 50, 50, LIGHTGRAY, false },
 	{ 388, -1650, 50, 50, LIGHTGRAY, false },
 
-	//tuberia
-	{ 578, -1550, 50, 50, PURPLE, false },
-	{ 578, -1600, 50, 50, PURPLE, false },
+	//Monedas
+	{ 96, -1700, 30, 50, YELLOW, false },
+	{ 146, -1700, 30, 50, YELLOW, false },
+	{ 196, -1700, 30, 50, YELLOW, false },
+	{ 246, -1700, 30, 50, YELLOW, false },
+	{ 296, -1700, 30, 50, YELLOW, false },
+	{ 346, -1700, 30, 50, YELLOW, false },
+	{ 396, -1700, 30, 50, YELLOW, false },
 
-	{ 628, -1550, 50, 50, PURPLE, false },
-	{ 628, -1600, 50, 50, PURPLE, false },
-	
+	{ 96, -1790, 30, 50, YELLOW, false },
+	{ 146, -1790, 30, 50, YELLOW, false },
+	{ 196, -1790, 30, 50, YELLOW, false },
+	{ 246, -1790, 30, 50, YELLOW, false },
+	{ 296, -1790, 30, 50, YELLOW, false },
+	{ 346, -1790, 30, 50, YELLOW, false },
+	{ 396, -1790, 30, 50, YELLOW, false },
+
+	{ 146, -1880, 30, 50, YELLOW, false },
+	{ 196, -1880, 30, 50, YELLOW, false },
+	{ 246, -1880, 30, 50, YELLOW, false },
+	{ 296, -1880, 30, 50, YELLOW, false },
+	{ 346, -1880, 30, 50, YELLOW, false },
+
+	//tuberia
+	{ 578, -1600, 100, 100, PURPLE, false },
 };
