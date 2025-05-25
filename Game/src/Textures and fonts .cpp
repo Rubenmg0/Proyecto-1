@@ -38,6 +38,7 @@ Texture2D icon_money;
 // Enemigos
 Texture2D Goomba;
 Texture2D Goomba_chafado;
+Texture2D Goomba_invertido;
 Texture2D Koopa;
 Texture2D Shell;
 Texture2D goomba_sprite;
@@ -85,6 +86,7 @@ void LoadGameTextures() {
 
 	Goomba = LoadTexture("Resources/Sprites/Enemies/Goomba.png");
 	Goomba_chafado = LoadTexture("Resources/Sprites/Enemies/Goomba_chafado.png");
+	Goomba_invertido = LoadTexture("Resources/Sprites/Enemies/Goomba_invertido.png");
 	goomba_sprite = Goomba;
 	Koopa = LoadTexture("Resources/Sprites/Enemies/Koopa.png");
 	Shell = LoadTexture("Resources/Sprites/Enemies/Shell.png");

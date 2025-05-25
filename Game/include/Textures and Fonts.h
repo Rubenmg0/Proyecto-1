@@ -43,6 +43,7 @@ extern Texture2D icon_money;
 // Enemigos
 extern Texture2D Goomba;
 extern Texture2D Goomba_chafado;
+extern Texture2D Goomba_invertido;
 extern Texture2D Koopa;
 extern Texture2D Shell;
 extern Texture2D goomba_sprite;

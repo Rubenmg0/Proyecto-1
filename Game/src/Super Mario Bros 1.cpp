@@ -152,6 +152,7 @@ private:
 				player.fire = 0;
 				goomba.side = true;
 				goomba.death = false;
+				goomba.alive = true;
 				koopa.death = false;
 				koopa.side = true;
 				shell.death = false;
@@ -216,6 +217,7 @@ private:
 				player.fire = 0;
 				goomba.side = true;
 				goomba.death = false;
+				goomba.alive = true;
 				koopa.death = false;
 				koopa.side = true;
 				shell.death = false;
@@ -337,6 +339,7 @@ private:
 		bool onGroundPowerUpF = false;
 		bool projectileHitObstacleFloor = false;
 		bool desactived = false;
+		bool goombaDeathInit = false;
 
 		float deltaTime = GetFrameTime();
 		elapsedTime += deltaTime * 2.5;
@@ -394,6 +397,9 @@ private:
 				PlaySound(sfxFireBall);
 				fireBall.position = { player.position.x, player.position.y + -40 };
 				fireBall.active = true;
+				projectileHitObstacleFloor = true;
+				fireBall.speed.y = 300.0f * deltaTime;
+				projectileHitObstacleFloor = false;
 				if (player.side) fireBall.speed.x = -650 * deltaTime;
 				else if (!player.side) fireBall.speed.x = 650 * deltaTime;
 			}
@@ -463,22 +469,34 @@ private:
 		}
 
 		//GOOMBA
-		if (player.position.x - goomba.position.x <= -200 && goomba.death == false && player.alive != 0 && Timer > 0) {
+		if (player.position.x - goomba.position.x <= -200 && !goomba.death && !goomba.death2 && player.alive != 0 && Timer > 0) {
 			goomba.activated = true;
 		}
 
 		goomba.speed.x = 1.0f;
-		if (goomba.activated && goomba.death == false && player.alive != 0 && goomba.side && Timer > 0) {
+		if (goomba.activated && !goomba.death && !goomba.death2 && player.alive != 0 && goomba.side && Timer > 0) {
 			goomba.position.x += -120 * deltaTime;
 		}
-		if (goomba.activated && goomba.death == false && player.alive != 0 && !goomba.side && Timer > 0) {
+		if (goomba.activated && !goomba.death && !goomba.death2 &&  player.alive != 0 && !goomba.side && Timer > 0) {
 			goomba.position.x += 120 * deltaTime;
 		}
 
-		if (goomba.death == true) {
+		if (goomba.death) {
 			if (player.position.y >= goomba.position.y) {
 				goomba.position.y = 1000;
 			}
+		}
+		if (goomba.death2) {
+			goomba.speed.y += GRAVITY * deltaTime;
+			goomba.position.x += goomba.speed.x * deltaTime;
+			goomba.position.y += goomba.speed.y * deltaTime;
+			if (goomba.position.y >= goomba.goomba_hitbox.y + 100) {
+				goombaDeathInit = false;
+			}
+		}
+
+		if (goomba.position.y >= 1000) {
+			goomba.alive = false;
 		}
 
 		//Koopa
@@ -486,16 +504,27 @@ private:
 			koopa.activated = true;
 		}
 		koopa.speed.x = 1.0f;
-		if (koopa.activated && koopa.death == false && player.alive != 0 && koopa.side && Timer > 0) {
+		if (koopa.activated && !koopa.death && !koopa.death2 && player.alive != 0 && koopa.side && Timer > 0) {
 			koopa.position.x += -120 * deltaTime;
 		}
-		if (koopa.activated && koopa.death == false && player.alive != 0 && !koopa.side && Timer > 0) {
+		if (koopa.activated && !koopa.death && !koopa.death2 && player.alive != 0 && !koopa.side && Timer > 0) {
 			koopa.position.x += 120 * deltaTime;
 		}
 
-		if (koopa.death == true) {
-			
+		if (koopa.death) {
 			koopa.position.y = 1000;
+		}
+		if (koopa.death2) {
+			koopa.speed.y += GRAVITY * deltaTime;
+			koopa.position.x += koopa.speed.x * deltaTime;
+			koopa.position.y += koopa.speed.y * deltaTime;
+			if (koopa.position.y >= koopa.goomba_hitbox.y + 100) {
+				goombaDeathInit = false;
+			}
+		}
+
+		if (koopa.position.y >= 1000) {
+			koopa.alive = false;
 		}
 
 		//--------Colisiones de Mario--------\\
@@ -678,7 +707,7 @@ private:
 		//--------Colisiones de Enemigos--------\\
 
 		//Con Mario
-		if (goomba.alive && !goomba.death && player.position.x + player.mario_hitbox.width + 10 >= goomba.position.x &&
+		if (goomba.alive && !goomba.death && !goomba.death2 && player.position.x + player.mario_hitbox.width + 10 >= goomba.position.x &&
 			player.position.x <= goomba.position.x + goomba.goomba_hitbox.width + 20 &&
 			player.position.y + player.mario_hitbox.height + 16 >= goomba.position.y && player.position.y <= goomba.position.y + goomba.goomba_hitbox.height)
 		{
@@ -707,7 +736,7 @@ private:
 			}
 		}
 
-		if (koopa.alive && !koopa.death && player.position.x + player.mario_hitbox.width + 10 >= koopa.position.x &&
+		if (koopa.alive && !koopa.death && !koopa.death2 && player.position.x + player.mario_hitbox.width + 10 >= koopa.position.x &&
 			player.position.x <= koopa.position.x + koopa.goomba_hitbox.width + 20 &&
 			player.position.y + player.mario_hitbox.height + 16 >= koopa.position.y && player.position.y <= koopa.position.y + koopa.goomba_hitbox.height)
 		{
@@ -790,9 +819,12 @@ private:
 		{
 			PlaySound(sfxKick);
 			Score += 100;
-			goomba.death = true;
+			goomba.death2 = true;
 			fireBall.active = false;
-			fireBall.position.y = 9000;
+			goombaDeathInit = true;
+			fireBall.position.y = 2000;
+			goomba.speed.x = goomba.side ? -8.0f : 8.0f;
+			goomba.speed.y = -20.0f;
 		}
 
 		if (koopa.alive && fireBall.position.x + fireBall.projectile_hitbox.width + 10 >= koopa.position.x &&
@@ -800,15 +832,17 @@ private:
 			fireBall.position.y + fireBall.projectile_hitbox.height + 16 >= koopa.position.y && fireBall.position.y <= koopa.position.y + koopa.goomba_hitbox.height)
 		{
 			PlaySound(sfxKick);
-			Score += 100;
-			koopa.death = true;
+			Score += 200;
+			koopa.death2 = true;
 			fireBall.active = false;
-			fireBall.position.y = 1000;
+			fireBall.position.y = 2000;
+			koopa.speed.x = koopa.side ? -8.0f : 8.0f;
+			koopa.speed.y = -20.0f;
 		}
 
 		//Con el suelo
 		for (EnvElement block : blocks) {
-			if (Timer > 0 && player.alive != 0 && goomba.activated
+			if (Timer > 0 && player.alive != 0 && goomba.activated && !goomba.death2
 				&& block.rect.x <= goomba.position.x + goomba.goomba_hitbox.width - 5
 				&& block.rect.x + block.rect.width + 10 >= goomba.position.x
 				&& block.rect.y + block.rect.height >= goomba.position.y
@@ -820,7 +854,7 @@ private:
 			}
 		}
 
-		if (!onGroundEnemy && player.alive && Timer > 0) {
+		if (!onGroundEnemy && !goomba.death2 && player.alive && Timer > 0 && !goombaDeathInit) {
 			goomba.position.y += (GRAVITY - 300) * deltaTime;
 			if (goomba.position.y > 0)
 			{
@@ -1238,8 +1272,12 @@ private:
 			player.fire = 0;
 			goomba.side = true;
 			goomba.death = false;
+			goomba.death2 = false;
+			goomba.alive = true;
 			koopa.death = false;
+			koopa.death2 = false;
 			koopa.side = true;
+			koopa.alive = true;
 			shell.death = false;
 			shell.activated = false;
 			elapsedTime = 0.0f;
@@ -1272,12 +1310,14 @@ private:
 		}
 		if (IsKeyPressed(KEY_G) && Timer > 0 && player.alive == 1 && !flag.reached) { //Generar Goomba
 			goomba.death = false;
+			goomba.death2 = false;
 			goomba.side = true;
 			goomba.position.x = player.position.x + 200;
 			goomba.position.y = player.position.y;
 		}
 		if (IsKeyPressed(KEY_K) && Timer > 0 && player.alive == 1 && !flag.reached) { //Generar Koopa
 			koopa.death = false;
+			koopa.death2 = false;
 			koopa.side = true;
 			koopa.position.x = player.position.x + 200;
 			koopa.position.y = player.position.y;
@@ -1485,11 +1525,11 @@ private:
 		int frameWidthG = 16;
 		int frameHeightG = 16;
 
-		if (!goomba.death) {
+		if (!goomba.death && !goomba.death2) {
 			int frameWidthG = 16;
 			int frameHeightG = 16;
 		}
-		if (goomba.death) {
+		if (goomba.death || goomba.death2) {
 			int frameWidthG = 16;
 			int frameHeightG = 16;
 		}
@@ -1572,8 +1612,9 @@ private:
 			}
 			sourceRec2.x = (float)(currentFrameE * frameWidthG);
 		}
-		if (!goomba.death) goomba_sprite = Goomba;
+		if (!goomba.death && !goomba.death2) goomba_sprite = Goomba;
 		if (goomba.death) goomba_sprite = Goomba_chafado;
+		if (goomba.death2) goomba_sprite = Goomba_invertido;
 
 		if (koopa.activated && player.alive != 0 && Timer > 0) {
 			if (frameTimeE >= frameSpeedE) {

@@ -41,12 +41,13 @@ struct Enemy {
     bool activated;
     bool alive;
     bool death;
+    bool death2;
     bool side; // 0 = Right, 1 = Left
     int shell = 0;
     bool shell2;
 
     Enemy(float x, float y)
-        : position{ x, y }, activated(false), alive(true), death(false), side(true), shell2(false) {
+        : position{ x, y }, activated(false), alive(true), death(false), death2(false), side(true), shell2(false) {
     }
 };
 
