@@ -80,9 +80,9 @@ public:
 		InitAudioDevice(); // Initialize audio device
 		SetTargetFPS(60);
 
-		LoadGameSounds(); 
-		LoadGameMusic(); 
-		LoadGameTextures(); 
+		LoadGameSounds();
+		LoadGameMusic();
+		LoadGameTextures();
 		LoadGameTypography();
 
 		//Camera of the game
@@ -481,7 +481,7 @@ private:
 		if (goomba.activated && !goomba.death && !goomba.death2 && player.alive != 0 && goomba.side && Timer > 0) {
 			goomba.position.x += -120 * deltaTime;
 		}
-		if (goomba.activated && !goomba.death && !goomba.death2 &&  player.alive != 0 && !goomba.side && Timer > 0) {
+		if (goomba.activated && !goomba.death && !goomba.death2 && player.alive != 0 && !goomba.side && Timer > 0) {
 			goomba.position.x += 120 * deltaTime;
 		}
 
@@ -814,7 +814,7 @@ private:
 			}
 		}
 		if (shell.speed.x != 0) {
-		shell.shell += GetFrameTime();
+			shell.shell += GetFrameTime();
 		}
 
 		//Con bola de fuego
@@ -889,11 +889,11 @@ private:
 			koopa.position.y += (GRAVITY - 300) * deltaTime;
 			if (koopa.position.y > 0)
 			{
-				koopa.position.y += (GRAVITY - 300) * 2.0f * deltaTime; 
+				koopa.position.y += (GRAVITY - 300) * 2.0f * deltaTime;
 			}
 			else
 			{
-				koopa.position.y += (GRAVITY - 300) * deltaTime; 
+				koopa.position.y += (GRAVITY - 300) * deltaTime;
 			}
 		}
 
@@ -914,7 +914,7 @@ private:
 			shell.position.y += (GRAVITY - 300) * deltaTime;
 			if (shell.position.y > 0)
 			{
-				shell.position.y += (GRAVITY - 300) * 2.0f * deltaTime; 
+				shell.position.y += (GRAVITY - 300) * 2.0f * deltaTime;
 			}
 			else
 			{
@@ -923,7 +923,7 @@ private:
 		}
 
 		//Los lados Goomba
-		float nextXE = goomba.position.x + goomba.speed.x * deltaTime; 
+		float nextXE = goomba.position.x + goomba.speed.x * deltaTime;
 
 		//Derecha
 		for (EnvElement block : blocks) {
@@ -954,7 +954,7 @@ private:
 		}
 
 		//Los lados Koopa
-		float nextK = koopa.position.x + koopa.speed.x * deltaTime; 
+		float nextK = koopa.position.x + koopa.speed.x * deltaTime;
 
 		//Derecha
 		for (EnvElement block : blocks) {
@@ -984,7 +984,7 @@ private:
 			}
 		}
 		//Los lados Shell
-		float nextshell = shell.position.x + shell.speed.x * deltaTime; 
+		float nextshell = shell.position.x + shell.speed.x * deltaTime;
 
 		//Derecha
 		for (EnvElement block : blocks) {
@@ -1006,7 +1006,7 @@ private:
 				shell.activated && shell.side &&
 				shell.position.y > block.rect.y &&
 				shell.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
-				shell.position.x + 10 > (block.rect.x + block.rect.width) &&
+				shell.position.x + 10 >(block.rect.x + block.rect.width) &&
 				(nextshell) <= (block.rect.x + block.rect.width + 30)
 				&& ColorToInt(block.color) != ColorToInt(BLUE))
 			{
@@ -1085,7 +1085,7 @@ private:
 				projectileHitObstacleFloor = true;
 				fireBall.speed.y = 300.0f * deltaTime;
 				projectileHitObstacleFloor = false;
-				
+
 				fireBall.position.y = block.rect.y + 5;
 				fireBall.position.y = block.rect.y - 50;
 
@@ -1095,11 +1095,11 @@ private:
 			fireBall.position.y += (10) * deltaTime;
 			if (fireBall.position.y > 0)
 			{
-				fireBall.position.y += (10) * 2.0f * deltaTime; 
+				fireBall.position.y += (10) * 2.0f * deltaTime;
 			}
 			else
 			{
-				fireBall.position.y += (10) * deltaTime; 
+				fireBall.position.y += (10) * deltaTime;
 			}
 		}
 
@@ -1107,11 +1107,11 @@ private:
 			mooshroom.position.y += (GRAVITY - 300) * deltaTime;
 			if (mooshroom.position.y > 0)
 			{
-				mooshroom.position.y += (GRAVITY - 300) * 2.0f * deltaTime; 
+				mooshroom.position.y += (GRAVITY - 300) * 2.0f * deltaTime;
 			}
 			else
 			{
-				mooshroom.position.y += (GRAVITY - 300) * deltaTime; 
+				mooshroom.position.y += (GRAVITY - 300) * deltaTime;
 			}
 		}
 		if (!onGroundPowerUpF && player.alive && Timer > 0 && !fireFlower.emerging) {
@@ -1127,7 +1127,7 @@ private:
 		}
 
 		//Los lados Mushroom
-		float nextXP = mooshroom.position.x + mooshroom.speed.x * deltaTime; 
+		float nextXP = mooshroom.position.x + mooshroom.speed.x * deltaTime;
 
 		//Derecha
 		for (EnvElement block : blocks) {
@@ -1139,7 +1139,7 @@ private:
 				(nextXP + mooshroom.powerup_hitbox.width) >= block.rect.x - 15
 				&& ColorToInt(block.color) != ColorToInt(BLUE))
 			{
-        				mooshroom.side = true;
+				mooshroom.side = true;
 			}
 		}
 
@@ -1202,10 +1202,10 @@ private:
 			if (player.position.y >= 350) {
 				// Por ejemplo, cambia de zona
 				player.position.x = -10;
-				player.position.y = -1950;
+				player.position.y = -950;
 
 				camera.target.x = 333;
-				camera.target.y = -1750;
+				camera.target.y = -750;
 				pipe.enteringPipe1 = false;
 			}
 		}
@@ -1219,6 +1219,7 @@ private:
 			player.position.x += 0.5;
 
 			if (player.position.x >= 600) {
+				// Por ejemplo, cambia de zona
 				player.position.x = 7750;
 				player.position.y = 500;
 
@@ -1495,14 +1496,6 @@ private:
 	void DrawGameplay() {
 		BeginMode2D(camera);
 		ClearBackground(BLUE);
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-		DrawTextureEx(negro, { -200, -2200 }, 0.0f, 1000.0f, WHITE);
->>>>>>> Stashed changes
-=======
-		DrawTextureEx(negro, { -200, -2200 }, 0.0f, 1000.0f, WHITE);
->>>>>>> Stashed changes
 
 		//Player
 		int frameWidthP;
@@ -1666,15 +1659,10 @@ private:
 			player.fire = 0;
 			sourceRec.x = frameWidthP * 6;
 		}
-	
-		//for (EnvElement block : blocks) //Para ver la hitbox de cada rectangulo
-		//{
-		//	DrawRectangle(block.rect.x, block.rect.y, block.rect.width, block.rect.height, block.color);
-		//}
 
-		for (EnvElement monedas : monedas)
+		for (EnvElement block : blocks) //Para ver la hitbox de cada rectangulo
 		{
-			DrawRectangle(monedas.rect.x, monedas.rect.y, monedas.rect.width, monedas.rect.height, monedas.color);
+			DrawRectangle(block.rect.x, block.rect.y, block.rect.width, block.rect.height, block.color);
 		}
 
 		//Draw all entities, structures and objetcs
@@ -1728,31 +1716,21 @@ private:
 				DrawTextureEx(textura2, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
 			}
 			if (ColorToInt(block.color) == ColorToInt(PINK)) {
-				DrawTextureEx(textura2, { block.rect.x, block.rect.y}, 0.0f, 3.2f, WHITE);
+				DrawTextureEx(textura2, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
 			}
 		}
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 		//All Cave_ground //NO VA (de momento)
-=======
-		//All Cave_ground 
->>>>>>> Stashed changes
-=======
-		//All Cave_ground 
->>>>>>> Stashed changes
 		for (const EnvElement& block : blocks) {
 			if (ColorToInt(block.color) == ColorToInt(BLACK)) {
 				DrawTextureEx(suelo_cueva, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
 			}
 		}
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-		
+
 		// Fondo negro
 		DrawTextureEx(negro, { -200, -1500 }, 0.0f, 1500.0f, WHITE);
-		
-	// Suelo
+
+		// Suelo
 		DrawTextureEx(suelo_cueva, { -112, -500 }, 0.0f, 3.2f, WHITE);
 		DrawTextureEx(suelo_cueva, { -112, -450 }, 0.0f, 3.2f, WHITE);
 		DrawTextureEx(suelo_cueva, { -62, -500 }, 0.0f, 3.2f, WHITE);
@@ -1862,100 +1840,6 @@ private:
 				}
 			}
 		}
-=======
-
-		//All Cave_walls
-		for (const EnvElement& block : blocks) {
-			if (ColorToInt(block.color) == ColorToInt(LIGHTGRAY)) {
-				DrawTextureEx(ladrillo_cueva, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
-			}
-		}
-
-		//All coins
-		DrawTexturePro(money, sourceRec4, { 86, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 136, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 186, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 236, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 286, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 336, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 386, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-
-		DrawTexturePro(money, sourceRec4, { 86, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 136, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 186, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 236, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 286, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 336, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 386, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-
-		DrawTexturePro(money, sourceRec4, { 136, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 186, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 236, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 286, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 336, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-
-		// Paredes (Derecha)
-		DrawTextureEx(tuberia_cueva, { 579, -1700 }, 0.0f, 3.2f, WHITE);
-		DrawTextureEx(tubo, { 688, -1750 }, 0.0f, 3.2f, WHITE);
-		DrawTextureEx(tubo, { 688, -1800 }, 0.0f, 3.2f, WHITE);
-		DrawTextureEx(tubo, { 688, -1850 }, 0.0f, 3.2f, WHITE);
-		DrawTextureEx(tubo, { 688, -1900 }, 0.0f, 3.2f, WHITE);
-		DrawTextureEx(tubo, { 688, -1950 }, 0.0f, 3.2f, WHITE);
-		DrawTextureEx(tubo, { 688, -2000 }, 0.0f, 3.2f, WHITE);
-
-
-=======
-
-		//All Cave_walls
-		for (const EnvElement& block : blocks) {
-			if (ColorToInt(block.color) == ColorToInt(LIGHTGRAY)) {
-				DrawTextureEx(ladrillo_cueva, { block.rect.x, block.rect.y }, 0.0f, 3.2f, WHITE);
-			}
-		}
-
-		//All coins
-		DrawTexturePro(money, sourceRec4, { 86, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 136, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 186, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 236, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 286, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 336, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 386, -1700, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-
-		DrawTexturePro(money, sourceRec4, { 86, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 136, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 186, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 236, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 286, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 336, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 386, -1790, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-
-		DrawTexturePro(money, sourceRec4, { 136, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 186, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 236, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 286, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(money, sourceRec4, { 336, -1880, sourceRec4.width * 3.2f, sourceRec4.height * 3.2f }, { 0, 0 }, 0, WHITE);
-
-		// Paredes (Derecha)
-		DrawTextureEx(tuberia_cueva, { 579, -1700 }, 0.0f, 3.2f, WHITE);
-		DrawTextureEx(tubo, { 688, -1750 }, 0.0f, 3.2f, WHITE);
-		DrawTextureEx(tubo, { 688, -1800 }, 0.0f, 3.2f, WHITE);
-		DrawTextureEx(tubo, { 688, -1850 }, 0.0f, 3.2f, WHITE);
-		DrawTextureEx(tubo, { 688, -1900 }, 0.0f, 3.2f, WHITE);
-		DrawTextureEx(tubo, { 688, -1950 }, 0.0f, 3.2f, WHITE);
-		DrawTextureEx(tubo, { 688, -2000 }, 0.0f, 3.2f, WHITE);
-
-
->>>>>>> Stashed changes
-
-		DrawTexturePro(goomba_sprite, sourceRec2, { goomba.position.x - 20, goomba.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0, 0 }, 0, WHITE);
-		DrawTexturePro(Mooshroom, sourceRec2, { mooshroom.position.x - 20, mooshroom.position.y - 48, sourceRec.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
-		DrawTexturePro(FireFlower, sourceRec2, { fireFlower.position.x - 20, fireFlower.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
-		DrawTexturePro(FireBall, sourceRec2, { fireBall.position.x - 20, fireBall.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 		DrawTexturePro(Koopa, sourceRec3, { koopa.position.x - 20, koopa.position.y - 72, sourceRec3.width * 3, sourceRec3.height * 3 }, { 0,0 }, 0, WHITE);
 		DrawTexturePro(Shell, sourceRec2, { shell.position.x - 20, shell.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
 
@@ -2001,3 +1885,5 @@ int main() {
 	game.Run();
 	return 0;
 }
+
+

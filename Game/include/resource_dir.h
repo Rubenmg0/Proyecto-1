@@ -54,7 +54,7 @@ extern "C" {            // Prevents name mangling of functions
         }
 
         const char* appDir = GetApplicationDirectory();
-       
+
         // check the applicationDir
         const char* dir = TextFormat("%s%s", appDir, folderName);
         if (DirectoryExists(dir))
@@ -93,3 +93,4 @@ extern "C" {            // Prevents name mangling of functions
 #if defined(__cplusplus)
 }
 #endif
+

@@ -7,7 +7,6 @@ using namespace std;
 #include "Structures.h" 
 
 extern vector<EnvElement> blocks;
-extern vector<EnvElement> monedas;
 
 void LoadMap();  // Función que inicializa todos los bloques
 
