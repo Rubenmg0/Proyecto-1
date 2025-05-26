@@ -63,9 +63,10 @@ struct PowerUp {
     bool emerging;
     float emergeOffset;
     float maxEmergeOffset = 30.0f;
+    bool Invincible;
 
     PowerUp(float x, float y)
-        : position{ x, y }, active(false), side(false), emerging(false) {
+        : position{ x, y }, active(false), side(false), emerging(false) , Invincible(false){
     }
 };
 

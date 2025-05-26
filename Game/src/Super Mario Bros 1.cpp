@@ -184,7 +184,7 @@ private:
 			player.position.x <= goomba.position.x + goomba.goomba_hitbox.width + 20 &&
 			player.position.y + player.mario_hitbox.height + 16 >= goomba.position.y && player.position.y <= goomba.position.y + goomba.goomba_hitbox.height)
 		{
-			if (player.position.y + player.mario_hitbox.height <= goomba.position.y && player.alive) {
+			if (player.position.y + player.mario_hitbox.height <= goomba.position.y && player.alive && !star.Invincible) {
 				PlaySound(sfxStomp);
 				goomba.death = true;
 				Score += 100;
@@ -193,19 +193,24 @@ private:
 				player.canJump2 = true;
 				player.jumpTime = 0.0f;
 			}
-			else if (player.big && player.fire && !player.invencible) {
+			else if (player.big && player.fire && !player.invencible && !star.Invincible) {
 				player.invencible = true;
 				player.fire = 0;
 				player.invulnerableTimer = 0.0f;
 
 			}
-			else if (player.big && !player.fire && !player.invencible) {
+			else if (player.big && !player.fire && !player.invencible && !star.Invincible) {
 				player.invencible = true;
 				player.big = 0;
 				player.invulnerableTimer = 0.0f;
 			}
-			else if (!player.big && !player.fire && !player.invencible) {
+			else if (!player.big && !player.fire && !player.invencible && !star.Invincible) {
 				player.alive = 0;
+			}
+			else if (star.Invincible) {
+				PlaySound(sfxKick);
+				goomba.death2 = true;
+				Score += 100;
 			}
 		}
 	}
@@ -1387,7 +1392,7 @@ private:
 			player.position.x <= koopa.position.x + koopa.goomba_hitbox.width + 20 &&
 			player.position.y + player.mario_hitbox.height + 16 >= koopa.position.y && player.position.y <= koopa.position.y + koopa.goomba_hitbox.height)
 		{
-			if (player.position.y + player.mario_hitbox.height <= koopa.position.y && player.alive) {
+			if (player.position.y + player.mario_hitbox.height <= koopa.position.y && player.alive && !star.Invincible) {
 				PlaySound(sfxStomp);
 				shell.position = koopa.position;
 				shell.side = koopa.side;
@@ -1398,18 +1403,23 @@ private:
 				player.canJump2 = true;
 				player.jumpTime = 0.0f;
 			}
-			else if (player.big && player.fire && !player.invencible) {
+			else if (player.big && player.fire && !player.invencible && !star.Invincible) {
 				player.invencible = true;
 				player.fire = 0;
 				player.invulnerableTimer = 0.0f;
 			}
-			else if (player.big && !player.fire && !player.invencible) {
+			else if (player.big && !player.fire && !player.invencible && !star.Invincible) {
 				player.invencible = true;
 				player.big = 0;
 				player.invulnerableTimer = 0.0f;
 			}
-			else if (!player.big && !player.fire && !player.invencible) {
+			else if (!player.big && !player.fire && !player.invencible && !star.Invincible) {
 				player.alive = 0;
+			}
+			else if (star.Invincible) {
+				PlaySound(sfxKick);
+				koopa.death2 = true;
+				Score += 100;
 			}
 		}
 
@@ -1445,14 +1455,27 @@ private:
 			else if (!player.big && !player.fire && !player.invencible && shell.speed.x > 0) {
 				player.alive = 0;
 			}
+
 		}
 
-		if (player.invencible) {
+		if (player.invencible && !star.Invincible) {
 			player.invulnerableTimer += GetFrameTime();
 			player.visible = fmod(player.invulnerableTimer, 0.15f) < 0.1f;
 			if (player.invulnerableTimer >= player.invulnerableDuration) {
 				player.invencible = false;
 				player.invulnerableTimer = 0.0f;
+			}
+		}
+		if (star.Invincible) {
+			player.invencible = true;
+			player.invulnerableTimer += GetFrameTime();
+			player.visible = fmod(player.invulnerableTimer, 0.15f) < 0.1f;
+			if (player.invulnerableTimer >= 10.0f) {
+				player.invencible = false;
+				star.Invincible = false;
+				player.invulnerableTimer = 0.0f;
+				StopMusicStream;
+				PlayMusicStream(musicOverworld);
 			}
 		}
 		if (shell.speed.x != 0) {
@@ -1749,8 +1772,11 @@ private:
 			player.position.y >= star.position.y && player.position.y <= star.position.y + star.powerup_hitbox.height &&
 			!star.emerging)
 		{
+			
 			PlaySound(sfxPowerUpTaken);
-			if (!player.big) player.big = true; //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			StopMusicStream;
+			PlayMusicStream(musicInvencible);
+			star.Invincible = true;
 			star.active = false;
 			Score += 1000;
 			star.position.y = 1000;
@@ -2441,7 +2467,12 @@ private:
 	}
 
 	void AudioGameplay() {
+		if (!star.Invincible) {
 		UpdateMusicStream(musicOverworld);
+		}
+		if (star.Invincible) {
+			UpdateMusicStream(musicInvencible);
+		}
 		UpdateMusicStream(musicOverworld_hurry);
 	}
 
