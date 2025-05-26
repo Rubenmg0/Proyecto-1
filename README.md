@@ -44,15 +44,18 @@ The story takes place in the Mushroom Kingdom, where Bowser has kidnapped the pr
 ## 🚀 Alpha Features Implemented
 
 - ✅ All enemies added to the map 👾  
-- ✅ Classic enemy: Koopa 🐢  
+- ✅ Classic enemy: Koopa 🐢
+- ✅ Collision between enemies💥
 - ✅ Power-ups: Fire Flower 🔥 and Star ⭐  
 - ✅ Power-up animation when exiting blocks 🎁  
 - ✅ Underground secret zone   
 - ✅ Coin collection 💰  
 - ✅ Functional UI: score, lives, timer, etc. 🧾  
-- ✅ Block interaction ⬛  
+- ✅ Block interaction ?
+- ✅ Break bricks 🧱
 - ✅ Spawn point after dying 💀➡️🟢  
-- ✅ All missing sounds and music added 🎶  
+- ✅ All missing sounds and music added 🎶
+- ✅ Implement all collisions ✊
 - ✅ Project organized into multiple `.cpp` and `.h` files 📁  
 - ✅ Infinite memory issue resolved ♾️🧠  
 - ✅ Bug fixes and improved collision handling 🐛🔧  
