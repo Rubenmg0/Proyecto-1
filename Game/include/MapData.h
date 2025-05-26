@@ -6,8 +6,6 @@ using namespace std;
 #include "raylib.h"
 #include "Structures.h" 
 
-extern vector<EnvElement> blocks;
-
-void LoadMap();  // Función que inicializa todos los bloques
+extern vector<EnvElement> CreateBlocks();
 
 #endif

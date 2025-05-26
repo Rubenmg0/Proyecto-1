@@ -91,9 +91,15 @@ struct EnvElement {
     Rectangle rect;
     Color color;
     bool hit;
+    //Mario hit while small state
+    bool bouncing = false;
+    float bounceOffset = 0.0f;
+    float bounceSpeed = -2.0f;
+    float originalY = 0.0f;
 
     EnvElement(float x, float y, float width, float height, Color col, bool hit)
-        : rect{ x, y, width, height }, color(col), hit(false) {
+        : rect{ x, y, width, height }, color(col), hit(hit),
+        bouncing(false), bounceOffset(0.0f), originalY(y) {
     }
 };
 

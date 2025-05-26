@@ -89,6 +89,9 @@ private:
 	Pipe pipe;
 	vector<FloatingScore> floatingScores;
 
+	vector<EnvElement> initialBlocks = CreateBlocks();
+	vector<EnvElement> blocks = initialBlocks;
+
 public:
 	//Initialise the game
 	Game() : currentScreen(GameScreen::LOGO), framesCounter(0), player(50, -600), frameCounter(0),
@@ -335,7 +338,6 @@ private:
 				fireFlower.position = { -110, 1400 };
 				star.active = false;
 				star.position = { -110, 1400 };
-				goomba1.position = { 950, 600 };
 				koopa.position = { 1400, 600 };
 				shell.position = { 0, 1000 };
 				Timer = 400;
@@ -347,6 +349,7 @@ private:
 				goomba1.side = true;
 				goomba1.death = false;
 				goomba1.alive = true;
+				goomba1.position = { 950, 600 };
 
 				goomba2.side = true;
 				goomba2.death = false;
@@ -590,7 +593,7 @@ private:
 				goomba15.death2 = false;
 				goomba15.alive = true;
 				goomba15.activated = false;
-				goomba15.position = { 2800, 600 };
+				goomba15.position = { 8300, 600 };
 
 				goomba16.side = true;
 				goomba16.death = false;
@@ -607,9 +610,7 @@ private:
 				elapsedTime = 0.0f;
 				contmuerte = 0;
 				conttiempo = 0;
-				for (EnvElement& block : blocks) {
-					block.hit = false;
-				}
+				blocks = CreateBlocks();
 
 				PlayMusicStream(musicOverworld);
 			}
@@ -765,9 +766,7 @@ private:
 				pipe.enteringPipe2 = false;
 
 				// Reset all blocks
-				for (EnvElement& block : blocks) {
-					block.hit = false;
-				}
+				blocks = CreateBlocks();
 
 				// Reset mario sprite
 				mario_sprite = Mario_Right;
@@ -1141,26 +1140,26 @@ private:
 				player.position.y = block.rect.y;
 			}
 		}
-		for (EnvElement& block : blocks) {
 
-			if (player.big && Timer > 0 && player.alive != 0 && player.speed.y < 0
-				&& block.rect.x <= player.position.x + player.mario_hitbox.width - 10
-				&& block.rect.x + block.rect.width + 10 >= player.position.x
-				&& block.rect.y + block.rect.height + block.rect.height <= player.position.y
-				&& block.rect.y + block.rect.height + block.rect.height + block.rect.height - 2 >= player.position.y + player.speed.y * deltaTime
-				&& ColorToInt(block.color) == ColorToInt(GREEN)) {
-				// Rompe si es grande y el bloque no fue golpeado aún
-				if (player.big) {
-					block.rect.width = 0;
-					block.rect.height = 0;
-					block.color = { 0, 0, 0, 0 };
+		// ANIMACIÓN DE REBOTE DE BLOQUES
+		for (EnvElement& block : blocks) {
+			if (block.bouncing) {
+				block.bounceOffset += block.bounceSpeed;
+				block.rect.y += block.bounceSpeed;
+
+				if (block.bounceOffset <= -5.0f) {
+					block.bounceSpeed *= -1;
 				}
-				else {
-					// Solo animación de rebote del bloque (si querés)
+
+				if (block.bounceOffset >= 0.0f) {
+					block.rect.y = block.originalY;
+					block.bouncing = false;
+					block.bounceOffset = 0.0f;
+					block.bounceSpeed = -2.0f;
 				}
-				player.speed.y = 0;
 			}
 		}
+
 		//Techo
 		for (EnvElement& block : blocks) {
 			if (player.big && Timer > 0 && player.alive != 0 && player.speed.y < 0
@@ -1172,6 +1171,11 @@ private:
 			{
 				player.speed.y = 0.0f;
 				player.position.y = block.rect.y + block.rect.height + block.rect.height + block.rect.height - 2;
+
+				if (ColorToInt(block.color) == ColorToInt(GREEN)) {
+					block.rect.y = 3000;
+					player.speed.y = 0;
+				}
 
 				if (ColorToInt(block.color) == ColorToInt(RED) && !block.hit) { //Moneda
 					PlaySound(sfxCoin_Block);
@@ -1211,8 +1215,15 @@ private:
 				&& block.rect.y + block.rect.height + block.rect.height >= player.position.y + player.speed.y * deltaTime
 				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
 			{
+				if (!block.bouncing && !block.hit) {
+					block.bouncing = true;
+					block.originalY = block.rect.y;
+					block.bounceOffset = 0.0f;
+				}
+
 				player.speed.y = 0.0f;
 				player.position.y = block.rect.y + block.rect.height + block.rect.height;
+
 				if (ColorToInt(block.color) == ColorToInt(RED) && !block.hit) { //Moneda
 					PlaySound(sfxCoin_Block);
 					Money++;
@@ -1243,7 +1254,7 @@ private:
 						block.hit = true;
 						contador = 0;
 					}
-				}				
+				}
 			}
 		}
 
@@ -2206,9 +2217,7 @@ private:
 			shell.activated = false;
 			elapsedTime = 0.0f;
 			contmuerte = 0;
-			for (EnvElement& block : blocks) {
-				block.hit = false;
-			}
+			blocks = CreateBlocks();
 		}
 
 		if (IsKeyPressed(KEY_P)) {
