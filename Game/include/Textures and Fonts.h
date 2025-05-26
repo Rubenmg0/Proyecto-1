@@ -40,7 +40,7 @@ extern Texture2D tuberia_cueva;
 
 // Objects
 extern Texture2D money;
-
+extern Texture2D money_b;
 // Other Textures
 extern Texture2D logoTexture;
 extern Texture2D UI;

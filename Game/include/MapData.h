@@ -7,5 +7,4 @@ using namespace std;
 #include "Structures.h" 
 
 extern vector<EnvElement> CreateBlocks();
-
 #endif

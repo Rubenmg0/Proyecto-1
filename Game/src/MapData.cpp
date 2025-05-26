@@ -1,7 +1,6 @@
 #include "raylib.h"
 #include "MapData.h"
 using namespace std;
-
 vector<EnvElement> CreateBlocks() {
 	return {
 

@@ -88,6 +88,8 @@ private:
 	Flag bandera;
 	Flag banderinn;
 	Pipe pipe;
+	CoinPop moneda;
+
 	FloatingScore scores[MAX_FLOATING_SCORES];
 
 	vector<EnvElement> initialBlocks = CreateBlocks();
@@ -105,7 +107,7 @@ public:
 		playFrameCounter(0), currentPlayFrame(0), goomba1(950, 600), goomba2(1400, 600), goomba3(1400, 600), goomba4(1400, 600), goomba5(1400, 600),
 		goomba6(1400, 600), goomba7(1400, 600),goomba8(1400, 600), goomba9(1400, 600), goomba10(1400, 600), goomba11(1400, 600), goomba12(1400, 600), 
 		goomba13(1400, 600), goomba14(1400, 600), goomba15(1400, 600), goomba16(1400, 600), koopa(1600, 600), flag(9375, 264), mooshroom(-100, 2000),
-		fireFlower(-150, 2000), star(-125, 2000), fireBall(0, 9000), shell(0, 9000), banderinn(9775, 320), bandera(9350, flag.position.y - flagTexture.height + 5) {
+		fireFlower(-150, 2000), star(-125, 2000), fireBall(0, 9000), shell(0, 9000), banderinn(9775, 320), bandera(9350, flag.position.y - flagTexture.height + 5){
 
 		InitWindow(screenWidth, screenHeight, "Super Mario + Screen Manager");
 		InitAudioDevice(); // Initialize audio device
@@ -1303,6 +1305,7 @@ private:
 					PlaySound(sfxCoin_Block);
 					Money++;
 					SpawnFloatingScore({ block.rect.x + 4, block.rect.y - 30 }, 200);
+					moneda.active = true;
 					block.hit = true;
 				}
 				if (ColorToInt(block.color) == ColorToInt(BROWN) && !block.hit) { //Flor de fuego
@@ -1325,6 +1328,7 @@ private:
 					Money++;
 					SpawnFloatingScore({ block.rect.x + 4, block.rect.y - 30 }, 200);
 					contador++;
+					moneda.active = true;
 					desactived = true;
 					if (contador == 8) {
 						block.hit = true;
@@ -1353,6 +1357,7 @@ private:
 				if (ColorToInt(block.color) == ColorToInt(RED) && !block.hit) { //Moneda
 					PlaySound(sfxCoin_Block);
 					Money++;
+					moneda.active = true;
 					SpawnFloatingScore({ block.rect.x + 4, block.rect.y - 30 }, 200);
 					block.hit = true;
 				}
@@ -1376,6 +1381,7 @@ private:
 					PlaySound(sfxCoin_Block);
 					Money++;
 					SpawnFloatingScore({ block.rect.x + 4, block.rect.y - 30 }, 200);
+					moneda.active = true;
 					contador++;
 					desactived = true;
 					if (contador == 8) {
@@ -1385,7 +1391,7 @@ private:
 				}
 			}
 		}
-
+	
 		//Lados
 		float nextX = player.position.x + player.speed.x * deltaTime; //Calcula la posición futura en X
 
@@ -3008,8 +3014,8 @@ private:
 		DrawTextureEx(fondo, { (4490), (72) }, 0.0f, 3, WHITE);
 		DrawTextureEx(fondo, { (6790), (72) }, 0.0f, 3, WHITE);
 		DrawTextureEx(fondo, { (9090), (72) }, 0.0f, 3, WHITE);
+	
 
-		
 		//All voids
 		for (const EnvElement& block : blocks) {
 			if (ColorToInt(block.color) == ColorToInt(BLUE)) {
@@ -3065,6 +3071,22 @@ private:
 		DrawTexturePro(Mooshroom, sourceRec2, { mooshroom.position.x - 20, mooshroom.position.y - 48, sourceRec.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
 		DrawTexturePro(FireFlower, sourceRec2, { fireFlower.position.x - 20, fireFlower.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
 		DrawTexturePro(Star, sourceRec2, { star.position.x - 20, star.position.y - 48, sourceRec.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
+		// Monedas 
+
+		for (EnvElement& block : blocks) {
+			
+			if (moneda.active && !moneda.altura) {
+				moneda.position += 0.01;
+				if (ColorToInt(block.color) == ColorToInt(RED) && block.hit || ColorToInt(block.color) == ColorToInt(MAGENTA) && !block.hit) {
+					DrawTexturePro(money_b, sourceRec4, { block.rect.x, block.rect.y - moneda.position, sourceRec4.width * 3, sourceRec4.height * 3 }, { 0, 0 }, 0, WHITE);
+				}
+				if (moneda.position >= 85)
+				{
+					moneda.active = false;
+					moneda.position = 0;
+				}
+			}
+		}
 
 		//All blocks ? and star
 		for (const EnvElement& block : blocks) {
@@ -3120,9 +3142,10 @@ private:
 				block.rect.y = block.rect.y - 1000;
 			}
 		}
+		
 
 		// Paredes Cueva (Derecha)
-		
+
 		DrawTextureEx(tubo, { 688, -1750 }, 0.0f, 3.2f, WHITE);
 		DrawTextureEx(tubo, { 688, -1800 }, 0.0f, 3.2f, WHITE);
 		DrawTextureEx(tubo, { 688, -1850 }, 0.0f, 3.2f, WHITE);
@@ -3169,7 +3192,7 @@ private:
 			DrawTexturePro(Shell, sourceRec2, { shell.position.x - 20, shell.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
 		}
 
-
+		
 		//META Y CASTILLO//
 		DrawTextureEx(flagTexture, { 9375, flag.position.y - flagTexture.height }, 0, 3, WHITE);
 		if (!flag.reached) {
