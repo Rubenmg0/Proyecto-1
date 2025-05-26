@@ -11,9 +11,17 @@ extern Texture2D escalera;
 extern Texture2D ladrillo_cueva;
 extern Texture2D suelo_cueva;
 
+extern Texture2D roto1;
+extern Texture2D roto2;
+extern Texture2D roto3;
+extern Texture2D roto4;
+
 // Interactive Structures
 extern Texture2D flagTexture;
 extern Texture2D tuberia;
+extern Texture2D meta;
+extern Texture2D banderin;
+
 extern class Pipe pipe;
 extern class Flag flag;
 
@@ -22,6 +30,8 @@ extern Texture2D castle;
 extern Texture2D fondo;
 extern Texture2D azul;
 extern Texture2D negro;
+extern Texture2D puntos;
+
 
 // Pipes
 extern Texture2D tuberia_s;

@@ -8,15 +8,23 @@ Texture2D escalera;
 Texture2D ladrillo_cueva;
 Texture2D suelo_cueva;
 
+Texture2D roto1;
+Texture2D roto2;
+Texture2D roto3;
+Texture2D roto4;
+
 // Interactive Structures
 Texture2D flagTexture;
 Texture2D tuberia;
+Texture2D meta;
+Texture2D banderin;
 
 // Map
 Texture2D castle;
 Texture2D fondo;
 Texture2D azul;
 Texture2D negro;
+Texture2D puntos;
 
 // Pipes
 Texture2D tuberia_s;
@@ -131,6 +139,7 @@ void LoadGameTextures() {
 	fondo = LoadTexture("Resources/Sprites/Background/Fondo.png");
 	azul = LoadTexture("Resources/Sprites/Background/Azul.png");
 	negro = LoadTexture("Resources/Sprites/Background/negro.png");
+	puntos = LoadTexture("Resources/Sprites/Background/Puntuaciones.png");
 
 	/*------------------------------------------------------------*/
 	/*                           Items                            */
@@ -154,6 +163,11 @@ void LoadGameTextures() {
 	ladrillo_cueva = LoadTexture("Resources/Sprites/Bloques/Ladrillo_cueva.png");
 	suelo_cueva = LoadTexture("Resources/Sprites/Bloques/Suelo_cueva.png");
 
+	roto1 = LoadTexture("Resources/Sprites/Bloques/break1.png");
+	roto1 = LoadTexture("Resources/Sprites/Bloques/break2.png");
+	roto1 = LoadTexture("Resources/Sprites/Bloques/break3.png");
+	roto1 = LoadTexture("Resources/Sprites/Bloques/break4.png");
+
 	/*------------------------------------------------------------*/
 	/*                          Tileset                           */
 	/*------------------------------------------------------------*/
@@ -165,6 +179,9 @@ void LoadGameTextures() {
 	tuberia_b = LoadTexture("Resources/Sprites/Tileset/Tuberia3.png");
 	tuberia_cueva = LoadTexture("Resources/Sprites/Tileset/Tuberia_cueva.png");
 	tubo = LoadTexture("Resources/Sprites/Tileset/Tubo.png");
+	meta = LoadTexture("Resources/Sprites/Tileset/Meta.png");
+	banderin = LoadTexture("Resources/Sprites/Tileset/banderin.png");
+
 }
 void LoadGameTypography() {
 	marioFont = LoadFont("Resources/Fonts/MarioFont.ttf");

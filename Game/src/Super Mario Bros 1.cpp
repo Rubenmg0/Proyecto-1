@@ -90,7 +90,7 @@ private:
 public:
 	//Initialise the game
 	Game() : currentScreen(GameScreen::LOGO), framesCounter(0), player(50, -600), frameCounter(0),
-		playFrameCounter(0), currentPlayFrame(0), goomba1(1400, 600), goomba2(1400, 600), goomba3(1400, 600), goomba4(1400, 600), goomba5(1400, 600), 
+		playFrameCounter(0), currentPlayFrame(0), goomba1(950, 600), goomba2(1400, 600), goomba3(1400, 600), goomba4(1400, 600), goomba5(1400, 600),
 		goomba6(1400, 600), goomba7(1400, 600),goomba8(1400, 600), goomba9(1400, 600), goomba10(1400, 600), goomba11(1400, 600), goomba12(1400, 600), 
 		goomba13(1400, 600), goomba14(1400, 600), goomba15(1400, 600), goomba16(1400, 600), koopa(1600, 600), flag(9375, 264), mooshroom(-100, 2000),
 		fireFlower(-150, 2000), fireBall(0, 9000), shell(0, 9000) {
@@ -135,7 +135,7 @@ private:
 	//funciones Goomba
 	void Goomba_Activation(Enemy& goomba, Mario& player)
 	{
-		if (player.position.x - goomba.position.x <= -200 && !goomba.death && !goomba.death2 && player.alive != 0 && Timer > 0) {
+		if (player.position.x >= goomba.position.x - 600 && !goomba.death && !goomba.death2 && player.alive != 0 && Timer > 0) {
 			goomba.activated = true;
 		}
 	}
@@ -222,7 +222,7 @@ private:
 
 	void Goomba_Suelo(Enemy& goomba, Mario& player, EnvElement& block, bool& onGroundEnemy)
 	{
-		if (Timer > 0 && player.alive != 0 && goomba.activated && !goomba.death2
+		if (Timer > 0 && player.alive != 0 && !goomba.death2
 			&& block.rect.x <= goomba.position.x + goomba.goomba_hitbox.width - 5
 			&& block.rect.x + block.rect.width + 10 >= goomba.position.x
 			&& block.rect.y + block.rect.height >= goomba.position.y
@@ -300,7 +300,7 @@ private:
 			framesCounter++;
 			if (framesCounter >= 120) {
 				currentScreen = GameScreen::GAMEPLAY;
-				player.position = { 6050, 600 };
+				player.position = { 50, 600 };
 				camera.target.x = 333;
 				camera.target.y = 350;
 				mooshroom.position = { -110, 1400 };
@@ -308,14 +308,15 @@ private:
 				mooshroom.side = false;
 				fireFlower.active = false;
 				fireFlower.position = { -110, 1400 };
-				goomba1.position = { 1400, 600 };
-				koopa.position = { 1600, 600 };
+				goomba1.position = { 950, 600 };
+				koopa.position = { 1400, 600 };
 				shell.position = { 0, 1000 };
 				Timer = 400;
 				Score = 000000;
 				Money = 00;
 				player.alive = 1;
 				player.fire = 0;
+
 				goomba1.side = true;
 				goomba1.death = false;
 				goomba1.alive = true;
@@ -323,77 +324,77 @@ private:
 				goomba2.side = true;
 				goomba2.death = false;
 				goomba2.alive = true;
-				goomba2.position = { 1500, 600 };
+				goomba2.position = { 1850, 600 };
 
 				goomba3.side = true;
 				goomba3.death = false;
 				goomba3.alive = true;
-				goomba3.position = { 1600, 600 };
+				goomba3.position = { 2200, 600 };
 
 				goomba4.side = true;
 				goomba4.death = false;
 				goomba4.alive = true;
-				goomba4.position = { 1700, 600 };
+				goomba4.position = { 2280, 600 };
 
 				goomba5.side = true;
 				goomba5.death = false;
 				goomba5.alive = true;
-				goomba5.position = { 1800, 600 };
+				goomba5.position = { 3700, 150 };
 
 				goomba6.side = true;
 				goomba6.death = false;
 				goomba6.alive = true;
-				goomba6.position = { 1900, 600 };
+				goomba6.position = { 3850, 150 };
 
 				goomba7.side = true;
 				goomba7.death = false;
 				goomba7.alive = true;
-				goomba7.position = { 2000, 600 };
+				goomba7.position = { 4500, 600 };
 
 				goomba8.side = true;
 				goomba8.death = false;
 				goomba8.alive = true;
-				goomba8.position = { 2100, 600 };
+				goomba8.position = { 4580, 600 };
 
 				goomba9.side = true;
 				goomba9.death = false;
 				goomba9.alive = true;
-				goomba9.position = { 2200, 600 };
+				goomba9.position = { 5350, 600 };
 
 				goomba10.side = true;
 				goomba10.death = false;
 				goomba10.alive = true;
-				goomba10.position = { 2300, 600 };
+				goomba10.position = { 5430, 600 };
 
 				goomba11.side = true;
 				goomba11.death = false;
 				goomba11.alive = true;
-				goomba11.position = { 2400, 600 };
+				goomba11.position = { 5800, 600 };
 
 				goomba12.side = true;
 				goomba12.death = false;
 				goomba12.alive = true;
-				goomba12.position = { 2500, 600 };
+				goomba12.position = { 5880, 600 };
 
 				goomba13.side = true;
 				goomba13.death = false;
 				goomba13.alive = true;
-				goomba13.position = { 2600, 600 };
+				goomba13.position = { 6100, 600 };
 
 				goomba14.side = true;
 				goomba14.death = false;
 				goomba14.alive = true;
-				goomba14.position = { 2700, 600 };
+				goomba14.position = { 6180, 600 };
 
 				goomba15.side = true;
 				goomba15.death = false;
 				goomba15.alive = true;
-				goomba15.position = { 2800, 600 };
+				goomba15.position = { 8300, 600 };
 
 				goomba16.side = true;
 				goomba16.death = false;
 				goomba16.alive = true;
-				goomba16.position = { 2900, 600 };
+				goomba16.position = { 8380, 600 };
 
 				koopa.death = false;
 				koopa.alive = true;
