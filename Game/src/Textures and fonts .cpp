@@ -7,7 +7,7 @@ Texture2D ladrillo;
 Texture2D escalera;
 Texture2D ladrillo_cueva;
 Texture2D suelo_cueva;
-
+Texture2D suelo_m;
 Texture2D roto1;
 Texture2D roto2;
 Texture2D roto3;
@@ -141,6 +141,7 @@ void LoadGameTextures() {
 	azul = LoadTexture("Resources/Sprites/Background/Azul.png");
 	negro = LoadTexture("Resources/Sprites/Background/negro.png");
 	puntos = LoadTexture("Resources/Sprites/Background/Puntuaciones.png");
+	suelo_m = LoadTexture("Resources/Sprites/Bloques/suelo.png");
 
 	/*------------------------------------------------------------*/
 	/*                           Items                            */

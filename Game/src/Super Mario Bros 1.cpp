@@ -408,7 +408,7 @@ private:
 				goomba8.side = true;
 				goomba8.death = false;
 				goomba8.alive = true;
-				goomba8.position = { 4610, 600 };
+				goomba8.position = { 4620, 600 };
 
 				goomba9.side = true;
 				goomba9.death = false;
@@ -418,7 +418,7 @@ private:
 				goomba10.side = true;
 				goomba10.death = false;
 				goomba10.alive = true;
-				goomba10.position = { 5460, 600 };
+				goomba10.position = { 5480, 600 };
 
 				goomba11.side = true;
 				goomba11.death = false;
@@ -428,17 +428,17 @@ private:
 				goomba12.side = true;
 				goomba12.death = false;
 				goomba12.alive = true;
-				goomba12.position = { 5910, 600 };
+				goomba12.position = { 5930, 600 };
 
 				goomba13.side = true;
 				goomba13.death = false;
 				goomba13.alive = true;
-				goomba13.position = { 6030, 600 };
+				goomba13.position = { 6050, 600 };
 
 				goomba14.side = true;
 				goomba14.death = false;
 				goomba14.alive = true;
-				goomba14.position = { 6090, 600 };
+				goomba14.position = { 6120, 600 };
 
 				goomba15.side = true;
 				goomba15.death = false;
@@ -448,7 +448,7 @@ private:
 				goomba16.side = true;
 				goomba16.death = false;
 				goomba16.alive = true;
-				goomba16.position = { 8360, 600 };
+				goomba16.position = { 8370, 600 };
 
 				koopa.death = false;
 				koopa.alive = true;
@@ -519,98 +519,98 @@ private:
 				goomba1.death2 = false;
 				goomba1.alive = true;
 				goomba1.activated = false;
-				goomba1.position = { 1400, 600 };
+				goomba1.position = { 950, 600 };
 
 				goomba2.side = true;
 				goomba2.death = false;
 				goomba2.death2 = false;
 				goomba2.alive = true;
 				goomba2.activated = false;
-				goomba2.position = { 1500, 600 };
+				goomba2.position = { 1850, 600 };
 
 				goomba3.side = true;
 				goomba3.death = false;
 				goomba3.death2 = false;
 				goomba3.alive = true;
 				goomba3.activated = false;
-				goomba3.position = { 1600, 600 };
+				goomba3.position = { 2300, 600 };
 
 				goomba4.side = true;
 				goomba4.death = false;
 				goomba4.death2 = false;
 				goomba4.alive = true;
 				goomba4.activated = false;
-				goomba4.position = { 1700, 600 };
+				goomba4.position = { 2400, 600 };
 
 				goomba5.side = true;
 				goomba5.death = false;
 				goomba5.death2 = false;
 				goomba5.alive = true;
 				goomba5.activated = false;
-				goomba5.position = { 1800, 600 };
+				goomba5.position = { 3800, 600 };
 
 				goomba6.side = true;
 				goomba6.death = false;
 				goomba6.death2 = false;
 				goomba6.alive = true;
 				goomba6.activated = false;
-				goomba6.position = { 1900, 600 };
+				goomba6.position = { 3900, 600 };
 
 				goomba7.side = true;
 				goomba7.death = false;
 				goomba7.death2 = false;
 				goomba7.alive = true;
 				goomba7.activated = false;
-				goomba7.position = { 2000, 600 };
+				goomba7.position = { 4550, 600 };
 
 				goomba8.side = true;
 				goomba8.death = false;
 				goomba8.death2 = false;
 				goomba8.alive = true;
 				goomba8.activated = false;
-				goomba8.position = { 2100, 600 };
+				goomba8.position = { 4620, 600 };
 
 				goomba9.side = true;
 				goomba9.death = false;
 				goomba9.death2 = false;
 				goomba9.alive = true;
 				goomba9.activated = false;
-				goomba9.position = { 2200, 600 };
+				goomba9.position = { 5410, 600 };
 
 				goomba10.side = true;
 				goomba10.death = false;
 				goomba10.death2 = false;
 				goomba10.alive = true;
 				goomba10.activated = false;
-				goomba10.position = { 2300, 600 };
+				goomba10.position = { 5480, 600 };
 
 				goomba11.side = true;
 				goomba11.death = false;
 				goomba11.death2 = false;
 				goomba11.alive = true;
 				goomba11.activated = false;
-				goomba11.position = { 2400, 600 };
+				goomba11.position = { 5860, 600 };
 
 				goomba12.side = true;
 				goomba12.death = false;
 				goomba12.death2 = false;
 				goomba12.alive = true;
 				goomba12.activated = false;
-				goomba12.position = { 2500, 600 };
+				goomba12.position = { 5930, 600 };
 
 				goomba13.side = true;
 				goomba13.death = false;
 				goomba13.death2 = false;
 				goomba13.alive = true;
 				goomba13.activated = false;
-				goomba13.position = { 2600, 600 };
+				goomba13.position = { 6050, 600 };
 
 				goomba14.side = true;
 				goomba14.death = false;
 				goomba14.death2 = false;
 				goomba14.alive = true;
 				goomba14.activated = false;
-				goomba14.position = { 2700, 600 };
+				goomba14.position = { 6120, 600 };
 
 				goomba15.side = true;
 				goomba15.death = false;
@@ -624,7 +624,7 @@ private:
 				goomba16.death2 = false;
 				goomba16.alive = true;
 				goomba16.activated = false;
-				goomba16.position = { 2900, 600 };
+				goomba16.position = { 8370, 600 };
 
 				koopa.death = false;
 				koopa.alive = true;
@@ -2813,7 +2813,6 @@ private:
 		DrawTextureEx(tuberia_s, { (1242), (500) }, 0.0f, 1.2, WHITE);
 		DrawTextureEx(tuberia_m, { (1667), (450) }, 0.0f, 1.2, WHITE);
 		DrawTextureEx(tuberia_b, { (2067), (399) }, 0.0f, 1.2, WHITE);
-		DrawTextureEx(tuberia_b, { (2592), (399) }, 0.0f, 1.2, WHITE);
 		DrawTextureEx(tuberia_s, { (7692), (500) }, 0.0f, 1.2, WHITE);
 		DrawTextureEx(tuberia_s, { (8452), (500) }, 0.0f, 1.2, WHITE);
 
@@ -2824,6 +2823,7 @@ private:
 		DrawTextureEx(fondo, { (6790), (72) }, 0.0f, 3, WHITE);
 		DrawTextureEx(fondo, { (9090), (72) }, 0.0f, 3, WHITE);
 
+		
 		//All voids
 		for (const EnvElement& block : blocks) {
 			if (ColorToInt(block.color) == ColorToInt(BLUE)) {
@@ -2937,7 +2937,6 @@ private:
 
 		// Paredes Cueva (Derecha)
 		
-		
 		DrawTextureEx(tubo, { 688, -1750 }, 0.0f, 3.2f, WHITE);
 		DrawTextureEx(tubo, { 688, -1800 }, 0.0f, 3.2f, WHITE);
 		DrawTextureEx(tubo, { 688, -1850 }, 0.0f, 3.2f, WHITE);
@@ -2984,6 +2983,7 @@ private:
 			DrawTexturePro(Shell, sourceRec2, { shell.position.x - 20, shell.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
 		}
 
+
 		//META Y CASTILLO//
 		DrawTextureEx(flagTexture, { 9375, flag.position.y - flagTexture.height }, 0, 3, WHITE);
 		DrawTextureEx(castle, { (9675), (360) }, 0.0f, 3, WHITE);
@@ -3010,6 +3010,9 @@ private:
 			DrawTexturePro(mario_sprite, sourceRec, { player.position.x - 20, player.position.y - 96, sourceRec.width * 3, sourceRec.height * 3 }, { 0, 0 }, 0, WHITE);
 		}
 		DrawTextureEx(tuberia_b, { (2592), (399) }, 0.0f, 1.2, WHITE);
+		DrawTextureEx(suelo_m, { 2570, 599 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_m, { 2620, 599 }, 0.0f, 3.2f, WHITE);
+		DrawTextureEx(suelo_m, { 2670, 599 }, 0.0f, 3.2f, WHITE);
 		DrawTextureEx(tuberia_cueva, { 579, -1700 }, 0.0f, 3.2f, WHITE);
 		
 

@@ -10,6 +10,7 @@ extern Texture2D ladrillo;
 extern Texture2D escalera;
 extern Texture2D ladrillo_cueva;
 extern Texture2D suelo_cueva;
+extern Texture2D suelo_m;
 
 extern Texture2D roto1;
 extern Texture2D roto2;

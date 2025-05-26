@@ -92,8 +92,8 @@ vector<EnvElement> CreateBlocks() {
 		{5800, 200, 50, 50, GREEN, false},
 
 		{6000, 200, 50, 50, GREEN, false},
-		{6050, 200, 50, 50, GREEN, false},
-		{6100, 200, 50, 50, GREEN, false},
+		{6050, 200, 50, 50, RED, false},
+		{6100, 200, 50, 50, RED, false},
 		{6150, 200, 50, 50, GREEN, false},
 
 		{6050, 400, 50, 50, GREEN, false},
