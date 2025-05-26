@@ -15,6 +15,8 @@ This project is a recreation of the iconic **Super Mario Bros** level 1-1, a pla
 
 The story takes place in the Mushroom Kingdom, where Bowser has kidnapped the princess and locked her in his castle 🏰. Mario sets out on an adventure across 8 worlds to rescue her.
 
+🎯 The goal is to reach the end of each level, defeating enemies and collecting coins 💰, until reaching the final castle 🏰.
+
 ## 🎮 How to Play
 
 - ⬅️ `←` Move left  
@@ -24,7 +26,26 @@ The story takes place in the Mushroom Kingdom, where Bowser has kidnapped the pr
 - 🏃 `Shift` Run  
 - 🔥 `X` Shoot fireballs (if Fire Flower is active)
 
-🎯 The goal is to reach the end of each level, defeating enemies and collecting coins 💰, until reaching the final castle 🏰.
+## 🎯 In-Game Shortcuts
+
+These are special key bindings available during gameplay, mainly for testing and debugging purposes:
+
+- 🔄 R – Reset the entire level
+- 💀 P – Instantly kill the player
+- ➕ L – Add 50 points to the score
+- 💯 I – Add 1000 points to the score
+- 🪙 O – Add 1 coin to the coin counter
+- 🍄 B – Grow Mario (as if collecting a Super Mushroom)
+- 🐾 G – Spawn a Goomba at Mario’s position
+- 🐢 K – Spawn a Koopa at Mario’s position
+- 🍄 M – Spawn a Super Mushroom
+- 🔥 F – Spawn a Fire Flower
+- ⭐ J – Spawn a Star power-up
+- ⏩ F1 – Teleport to the first third of the level
+- ⏩ F2 – Teleport to the second third of the level
+- ⏩ F3 – Teleport to the final third of the level
+  
+🧪 These shortcuts are intended for development and testing, but feel free to explore and use them during gameplay!
 
 ## ✅ Prototype Features Implemented
 
@@ -32,7 +53,7 @@ The story takes place in the Mushroom Kingdom, where Bowser has kidnapped the pr
 - ✅ Classic enemy: Goomba   
 - ✅ Power-up: Super Mushroom 🍄  
 - ✅ Side-scrolling level  
-- ✅ Right-only camera scrolling   
+- ✅ Right-only camera scrolling 📷➡️
 - ✅ Full recreation of level 1-1 🎮  
 - ✅ Win/Lose conditions ✔️❌  
 - ✅ UI functionality: score and lives 📊  
@@ -48,10 +69,10 @@ The story takes place in the Mushroom Kingdom, where Bowser has kidnapped the pr
 - ✅ Collision between enemies💥
 - ✅ Power-ups: Fire Flower 🔥 and Star ⭐  
 - ✅ Power-up animation when exiting blocks 🎁  
-- ✅ Underground secret zone   
+- ✅ Underground secret zone 🕳️
 - ✅ Coin collection 💰  
 - ✅ Functional UI: score, lives, timer, etc. 🧾  
-- ✅ Block interaction ?
+- ✅ Block interaction and item reveal on hit ⬛➡️🎁
 - ✅ Break bricks 🧱
 - ✅ Spawn point after dying 💀➡️🟢  
 - ✅ All missing sounds and music added 🎶
