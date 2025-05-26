@@ -85,6 +85,7 @@ private:
 	PowerUp star;
 	Projectile fireBall;
 	Flag flag;
+	Flag bandera;
 	Flag banderinn;
 	Pipe pipe;
 	FloatingScore scores[MAX_FLOATING_SCORES];
@@ -104,7 +105,7 @@ public:
 		playFrameCounter(0), currentPlayFrame(0), goomba1(950, 600), goomba2(1400, 600), goomba3(1400, 600), goomba4(1400, 600), goomba5(1400, 600),
 		goomba6(1400, 600), goomba7(1400, 600),goomba8(1400, 600), goomba9(1400, 600), goomba10(1400, 600), goomba11(1400, 600), goomba12(1400, 600), 
 		goomba13(1400, 600), goomba14(1400, 600), goomba15(1400, 600), goomba16(1400, 600), koopa(1600, 600), flag(9375, 264), mooshroom(-100, 2000),
-		fireFlower(-150, 2000), star(-125, 2000), fireBall(0, 9000), shell(0, 9000), banderinn(9775, 320){
+		fireFlower(-150, 2000), star(-125, 2000), fireBall(0, 9000), shell(0, 9000), banderinn(9775, 320), bandera(9350, flag.position.y - flagTexture.height + 5) {
 
 		InitWindow(screenWidth, screenHeight, "Super Mario + Screen Manager");
 		InitAudioDevice(); // Initialize audio device
@@ -162,6 +163,9 @@ private:
 	{
 		if (player.position.x >= goomba.position.x - 450 && !goomba.death && !goomba.death2 && player.alive != 0 && Timer > 0) {
 			goomba.activated = true;
+		}
+		if ((goomba.activated && goomba.position.x <= camera.target.x - 480) || (goomba.activated && goomba.position.x >= camera.target.x + 550)) {
+			goomba.activated = false;
 		}
 	}
 
@@ -232,13 +236,14 @@ private:
 				PlaySound(sfxKick);
 				goomba.death2 = true;
 				Score += 100;
+				SpawnFloatingScore({ goomba.position.x - 4, goomba.position.y - 100 }, 100);
 			}
 		}
 	}
 
 	void Goomba_Fuego(Enemy& goomba, Projectile& fireBall) {
 		if (goomba.alive && fireBall.position.x + fireBall.projectile_hitbox.width + 10 >= goomba.position.x && fireBall.active &&
-			fireBall.position.x <= goomba.position.x + goomba.goomba_hitbox.width + 20 &&
+			fireBall.position.x <= goomba.position.x + goomba.goomba_hitbox.width + 20 && !goomba.death2 &&
 			fireBall.position.y + fireBall.projectile_hitbox.height + 16 >= goomba.position.y && fireBall.position.y <= goomba.position.y + goomba.goomba_hitbox.height)
 		{
 			PlaySound(sfxKick);
@@ -436,14 +441,14 @@ private:
 				goomba5.death2 = false;
 				goomba5.alive = true;
 				goomba5.activated = false;
-				goomba5.position = { 3800, 600 };
+				goomba5.position = { 3800, 150 };
 
 				goomba6.side = true;
 				goomba6.death = false;
 				goomba6.death2 = false;
 				goomba6.alive = true;
 				goomba6.activated = false;
-				goomba6.position = { 3900, 600 };
+				goomba6.position = { 3900, 150 };
 
 				goomba7.side = true;
 				goomba7.death = false;
@@ -518,6 +523,7 @@ private:
 				koopa.death = false;
 				koopa.alive = true;
 				koopa.side = true;
+				koopa.activated = false;
 				shell.death = false;
 				shell.activated = false;
 				elapsedTime = 0.0f;
@@ -564,7 +570,13 @@ private:
 				}
 				if (player.position.x >= 3950) {
 					player.position = { 3850, 600 };
-					camera.target.x = 4000;
+					camera.target.x = 4200;
+					goomba1.death = true;
+					goomba2.death = true;
+					goomba3.death = true;
+					goomba4.death = true;
+					goomba5.death = true;
+					goomba6.death = true;
 				}
 				camera.target.x = 333;
 				camera.target.y = 350;
@@ -613,14 +625,14 @@ private:
 				goomba5.death2 = false;
 				goomba5.alive = true;
 				goomba5.activated = false;
-				goomba5.position = { 3800, 600 };
+				goomba5.position = { 3800, 150 };
 
 				goomba6.side = true;
 				goomba6.death = false;
 				goomba6.death2 = false;
 				goomba6.alive = true;
 				goomba6.activated = false;
-				goomba6.position = { 3900, 600 };
+				goomba6.position = { 3900, 150 };
 
 				goomba7.side = true;
 				goomba7.death = false;
@@ -695,6 +707,7 @@ private:
 				koopa.death = false;
 				koopa.alive = true;
 				koopa.side = true;
+				koopa.activated = false;
 				shell.death = false;
 				shell.activated = false;
 				elapsedTime = 0.0f;
@@ -1009,6 +1022,15 @@ private:
 		if (fireBall.active) {
 			fireBall.position += fireBall.speed;
 		}
+		if ((fireBall.active && fireBall.position.x <= camera.target.x - 480) || (fireBall.active && fireBall.position.x >= camera.target.x + 480)) {
+			fireBall.active = false;
+		}
+		if ((shell.activated && shell.position.x <= camera.target.x - 480) || (shell.activated && shell.position.x >= camera.target.x + 480)) {
+			shell.activated = false;
+		}
+		if ((koopa.activated && koopa.position.x <= camera.target.x - 480) || (koopa.activated && koopa.position.x >= camera.target.x + 480)) {
+			koopa.activated = false;
+		}
 
 		if (Timer <= 0 || player.alive == 0) {
 			hitObstacleFloor = false;
@@ -1220,9 +1242,8 @@ private:
 			shell.position.x += shell.speed.x * deltaTime;
 		}
 		
-		if (shell.death2) {
+		if (koopa.death2) {
 			shell.speed.y += GRAVITY * deltaTime;
-			shell.position.x += shell.speed.x * deltaTime;
 			shell.position.y += shell.speed.y * deltaTime;
 		}
 
@@ -1249,7 +1270,7 @@ private:
 				block.bounceOffset += block.bounceSpeed;
 				block.rect.y += block.bounceSpeed;
 
-				if (block.bounceOffset <= -5.0f) {
+				if (block.bounceOffset <= -10.0f) {
 					block.bounceSpeed *= -1;
 				}
 
@@ -1273,6 +1294,13 @@ private:
 			{
 				player.speed.y = 0.0f;
 				player.position.y = block.rect.y + block.rect.height + block.rect.height + block.rect.height - 2;
+
+				if (!block.bouncing && !block.hit && ColorToInt(block.color) != ColorToInt(GREEN)) {
+					PlaySound(sfxBump);
+					block.bouncing = true;
+					block.originalY = block.rect.y;
+					block.bounceOffset = 0.0f;
+				}
 
 				if (ColorToInt(block.color) == ColorToInt(GREEN)) {
 					PlaySound(sfxBreakBlock);
@@ -1497,6 +1525,7 @@ private:
 				PlaySound(sfxKick);
 				koopa.death2 = true;
 				Score += 100;
+				SpawnFloatingScore({ koopa.position.x - 4, koopa.position.y - 100 }, 100);
 			}
 		}
 
@@ -1656,7 +1685,7 @@ private:
 		}
 
 		for (EnvElement block : blocks) {
-			if (Timer > 0 && player.alive != 0 && shell.activated
+			if (Timer > 0 && player.alive != 0 && shell.activated && !koopa.death2
 				&& block.rect.x <= shell.position.x + shell.goomba_hitbox.width - 5
 				&& block.rect.x + block.rect.width + 10 >= shell.position.x
 				&& block.rect.y + block.rect.height >= shell.position.y
@@ -1668,7 +1697,7 @@ private:
 			}
 		}
 
-		if (!onGroundShell && !shell.death2 && player.alive && Timer > 0) {
+		if (!onGroundShell && player.alive && Timer > 0) {
 			shell.position.y += (GRAVITY - 300) * deltaTime;
 			if (shell.position.y > 0)
 			{
@@ -1853,6 +1882,7 @@ private:
 			star.Invincible = true;
 			star.active = false;
 			Score += 1000;
+			SpawnFloatingScore({ fireFlower.position.x + 4, fireFlower.position.y - 100 }, 1000);
 			star.position.y = 1000;
 		}
 
@@ -2215,9 +2245,9 @@ private:
 
 		if (flag.reached) {
 			if (!hitObstacleFloor && player.position.y != 550) {
-				player.position.y += 1 * 0.01;
+				player.position.y += 3 * 0.50;
 			}
-			else if (hitObstacleFloor) {
+			else if (hitObstacleFloor && bandera.position.y >= 640) {
 				if (player.position.y >= flag.position.y + 50) {
 					float playerMovementSpeed = 120.0f * GetFrameTime();
 					player.position.x += playerMovementSpeed;
@@ -2302,14 +2332,14 @@ private:
 			goomba5.death2 = false;
 			goomba5.alive = true;
 			goomba5.activated = false;
-			goomba5.position = { 3800, 600 };
+			goomba5.position = { 3800, 150 };
 
 			goomba6.side = true;
 			goomba6.death = false;
 			goomba6.death2 = false;
 			goomba6.alive = true;
 			goomba6.activated = false;
-			goomba6.position = { 3900, 600 };
+			goomba6.position = { 3900, 150 };
 
 			goomba7.side = true;
 			goomba7.death = false;
@@ -2384,6 +2414,7 @@ private:
 			koopa.death2 = false;
 			koopa.side = true;
 			koopa.alive = true;
+			koopa.activated = false;
 			shell.death = false;
 			shell.activated = false;
 			elapsedTime = 0.0f;
@@ -2641,12 +2672,19 @@ private:
 			frameHeightP = 32;
 		}
 
-		if (!player.side && !player.fire) mario_sprite = Mario_Right;
-		else if (player.side && !player.fire) mario_sprite = Mario_Left;
-		else if (!player.side && player.fire && player.big) mario_sprite = Mario_Fire_Right;
-		else if (player.side && player.fire && player.big) mario_sprite = Mario_Fire_Left;
+		if (!player.side && !player.fire && !star.Invincible) mario_sprite = Mario_Right;
+		else if (player.side && !player.fire && !star.Invincible) mario_sprite = Mario_Left;
+		else if (!player.side && player.fire && player.big && !star.Invincible) mario_sprite = Mario_Fire_Right;
+		else if (player.side && player.fire && player.big && !star.Invincible) mario_sprite = Mario_Fire_Left;
+		else if (!player.side && star.Invincible) mario_sprite = Mario_Star_Right;
+		else if (player.side && star.Invincible) mario_sprite = Mario_Star_Left;
+
 
 		Rectangle sourceRec = { 0, 0, (float)frameWidthP, (float)frameHeightP };
+
+		if (star.Invincible) {
+			Rectangle sourceRec = { 0, 48, (float)frameWidthP, (float)frameHeightP };
+		}
 
 		static float frameTime = 0.0f;
 		static int currentFrame = 0;
@@ -2685,8 +2723,10 @@ private:
 
 		//Animation of Mario
 		if (IsKeyDown(KEY_RIGHT) && !IsKeyDown(KEY_LEFT) && Timer > 0 && player.alive != 0 && !flag.reached && !pipe.enteringPipe1 && !pipe.enteringPipe2 || flag.reached && camera.target.x < 9795 && (player.position.y == 600 || player.position.y == 550)) {
-			if (!player.fire) mario_sprite = Mario_Right;
-			else if (player.fire) mario_sprite = Mario_Fire_Right;
+			if (!player.fire && !star.Invincible) mario_sprite = Mario_Right;
+			else if (player.fire && !star.Invincible) mario_sprite = Mario_Fire_Right;
+			else if (star.Invincible) mario_sprite = Mario_Star_Right;
+
 			player.side = 0;
 			if (IsKeyDown(KEY_LEFT_SHIFT) && !flag.reached) {
 				frameSpeed = 0.05f; //Increases running speed
@@ -2705,8 +2745,10 @@ private:
 		}
 
 		if (IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_RIGHT) && Timer > 0 && player.alive != 0 && !flag.reached && !pipe.enteringPipe1 && !pipe.enteringPipe2) {
-			if (!player.fire) mario_sprite = Mario_Left;
-			else if (player.fire) mario_sprite = Mario_Fire_Left;
+			if (!player.fire && !star.Invincible) mario_sprite = Mario_Left;
+			else if (player.fire && !star.Invincible) mario_sprite = Mario_Fire_Left;
+			else if (star.Invincible) mario_sprite = Mario_Star_Left;
+			
 			player.side = 1;
 			if (IsKeyDown(KEY_LEFT_SHIFT) && !flag.reached) {
 				frameSpeed = 0.05f; //Increases running speed
@@ -3140,6 +3182,15 @@ private:
 
 		//META Y CASTILLO//
 		DrawTextureEx(flagTexture, { 9375, flag.position.y - flagTexture.height }, 0, 3, WHITE);
+		if (!flag.reached) {
+			DrawTextureEx(meta, { 9350, flag.position.y - flagTexture.height + 5 }, 0, 3, WHITE);
+		}
+		if (flag.reached) {
+			DrawTextureEx(meta, { 9350, bandera.position.y - flagTexture.height + 5 }, 0, 3, WHITE);
+			if (bandera.position.y < 640) {
+				bandera.position.y += 6 * 0.50;
+			}
+		}
 		DrawTextureEx(castle, { (9675), (360) }, 0.0f, 3, WHITE);
 
 		for (int i = 0; i < MAX_FLOATING_SCORES; i++) {
@@ -3149,23 +3200,72 @@ private:
 		}
 
 		//Mario
-		if (!player.big && !player.invencible) {
+		if (!player.big && !player.invencible && !star.Invincible) {
 			DrawTexturePro(mario_sprite, sourceRec, { player.position.x - 20, player.position.y - 48, sourceRec.width * 3, sourceRec.height * 3 }, { 0, 0 }, 0, WHITE);
 		}
-		else if (!player.big && player.visible && player.invencible) {
+		else if (!player.big && player.visible && player.invencible && !star.Invincible) {
 			DrawTexturePro(mario_sprite, sourceRec, { player.position.x - 20, player.position.y - 48, sourceRec.width * 3, sourceRec.height * 3 }, { 0, 0 }, 0, WHITE);
 		}
 
-		if (player.big && !player.fire && !player.invencible) {
+		if (player.big && !player.fire && !player.invencible && !star.Invincible) {
 			sourceRec.y = 16;
 			DrawTexturePro(mario_sprite, sourceRec, { player.position.x - 20, player.position.y - 96, sourceRec.width * 3, sourceRec.height * 3 }, { 0, 0 }, 0, WHITE);
 		}
-		else if (player.big && !player.fire && player.visible && player.invencible) {
+		else if (player.big && !player.fire && player.visible && player.invencible && !star.Invincible) {
 			sourceRec.y = 16;
 			DrawTexturePro(mario_sprite, sourceRec, { player.position.x - 20, player.position.y - 96, sourceRec.width * 3, sourceRec.height * 3 }, { 0, 0 }, 0, WHITE);
 		}
 
-		if (player.big && player.fire) {
+
+		if (!player.big && !player.fire && star.Invincible) {
+			sourceRec.y = 0;
+			DrawTexturePro(mario_sprite, sourceRec, { player.position.x - 20, player.position.y - 48, sourceRec.width * 3, sourceRec.height * 3 }, { 0, 0 }, 0, WHITE);
+			star.variant += 2 * 0.5;
+			if (star.variant >= 10.0f) {
+				sourceRec.y = 48;
+				DrawTexturePro(mario_sprite, sourceRec, { player.position.x - 20, player.position.y - 48, sourceRec.width * 3, sourceRec.height * 3 }, { 0, 0 }, 0, WHITE);
+				star.variant += 2 * 0.5;
+				if (star.variant >= 20.0f) {
+					sourceRec.y = 96;
+					DrawTexturePro(mario_sprite, sourceRec, { player.position.x - 20, player.position.y - 48, sourceRec.width * 3, sourceRec.height * 3 }, { 0, 0 }, 0, WHITE);
+					star.variant += 2 * 0.5;
+					if (star.variant >= 30.0f) {
+						sourceRec.y = 144;
+						DrawTexturePro(mario_sprite, sourceRec, { player.position.x - 20, player.position.y - 48, sourceRec.width * 3, sourceRec.height * 3 }, { 0, 0 }, 0, WHITE);
+						star.variant += 2 * 0.5;
+						if (star.variant >= 40.0f) {
+							star.variant = 0;
+						}
+					}
+				}
+			}
+		}
+		if (player.big && !player.fire && star.Invincible) {
+			sourceRec.y = 16;
+			DrawTexturePro(mario_sprite, sourceRec, { player.position.x - 20, player.position.y - 96, sourceRec.width * 3, sourceRec.height * 3 }, { 0, 0 }, 0, WHITE);
+			star.variant += 2 * 0.5;
+			if (star.variant >= 10.0f) {
+				sourceRec.y = 64;
+				DrawTexturePro(mario_sprite, sourceRec, { player.position.x - 20, player.position.y - 96, sourceRec.width * 3, sourceRec.height * 3 }, { 0, 0 }, 0, WHITE);
+				star.variant += 2 * 0.5;
+				if (star.variant >= 20.0f) {
+					sourceRec.y = 112;
+					DrawTexturePro(mario_sprite, sourceRec, { player.position.x - 20, player.position.y - 96, sourceRec.width * 3, sourceRec.height * 3 }, { 0, 0 }, 0, WHITE);
+					star.variant += 2 * 0.5;
+					if (star.variant >= 30.0f) {
+						sourceRec.y = 160;
+						DrawTexturePro(mario_sprite, sourceRec, { player.position.x - 20, player.position.y - 96, sourceRec.width * 3, sourceRec.height * 3 }, { 0, 0 }, 0, WHITE);
+						star.variant += 2 * 0.5;
+						if (star.variant >= 40.0f) {
+							star.variant = 0;
+						}
+					}
+				}
+			}
+		}
+
+
+		if (player.big && player.fire && !star.Invincible) {
 			sourceRec.y = 32;
 			DrawTexturePro(mario_sprite, sourceRec, { player.position.x - 20, player.position.y - 96, sourceRec.width * 3, sourceRec.height * 3 }, { 0, 0 }, 0, WHITE);
 		}

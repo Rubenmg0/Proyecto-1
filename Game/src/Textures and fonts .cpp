@@ -72,6 +72,8 @@ Texture2D Mario_Right;
 Texture2D Mario_Left;
 Texture2D Mario_Fire_Right;
 Texture2D Mario_Fire_Left;
+Texture2D Mario_Star_Right;
+Texture2D Mario_Star_Left;
 Texture2D mario_sprite;
 
 // Items
@@ -107,6 +109,8 @@ void LoadGameTextures() {
 	Mario_Left = LoadTexture("Resources/Sprites/MARIO/Mario_Left.png");
 	Mario_Fire_Right = LoadTexture("Resources/Sprites/MARIO/Fuego_Right.png");
 	Mario_Fire_Left = LoadTexture("Resources/Sprites/MARIO/Fuego_Left.png");
+	Mario_Star_Right = LoadTexture("Resources/Sprites/MARIO/Mario_estrella_Right.png");
+	Mario_Star_Left = LoadTexture("Resources/Sprites/MARIO/Mario_estrella_Left.png");
 	mario_sprite = Mario_Right;
 
 	/*--------------------------------------------------------------------------*/

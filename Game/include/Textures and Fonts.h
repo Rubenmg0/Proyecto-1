@@ -79,6 +79,8 @@ extern Texture2D Mario_Right;
 extern Texture2D Mario_Left;
 extern Texture2D Mario_Fire_Right;
 extern Texture2D Mario_Fire_Left;
+extern Texture2D Mario_Star_Right;
+extern Texture2D Mario_Star_Left;
 extern Texture2D mario_sprite;
 
 // Items
