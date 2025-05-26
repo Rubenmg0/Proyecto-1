@@ -284,7 +284,7 @@ private:
 	{
 		//Derecha
 		if (Timer > 0 && player.alive != 0 && goomba.alive &&
-			goomba.activated && !goomba.side &&
+			goomba.activated && !goomba.side && goomba.position.y >= 500 &&
 			goomba.position.y >= goomba2.position.y &&
 			goomba.position.y < (goomba2.position.y + goomba2.goomba_hitbox.height) &&
 			goomba.position.x - 5 <= goomba2.position.x &&
@@ -295,7 +295,7 @@ private:
 		}
 		//Izquierda
 		if (Timer > 0 && player.alive != 0 &&
-			goomba.activated && goomba2.side &&
+			goomba.activated && goomba2.side && goomba.position.y >= 500 &&
 			goomba.position.y >= goomba2.position.y &&
 			goomba.position.y < (goomba2.position.y + goomba2.goomba_hitbox.height) &&
 			goomba.position.x + 5 >= (goomba2.position.x + goomba2.goomba_hitbox.width) &&
@@ -303,6 +303,30 @@ private:
 		{
 			goomba.side = false;
 			goomba2.side = true;
+		}
+	}
+
+	void Shell_Goomba(Enemy& goomba, Mario& player, Enemy& goomba2, float& nextXE)
+	{
+		//Derecha
+		if (Timer > 0 && player.alive != 0 && goomba.alive &&
+			goomba.activated && !goomba.side &&
+			goomba.position.y >= goomba2.position.y &&
+			goomba.position.y < (goomba2.position.y + goomba2.goomba_hitbox.height) &&
+			goomba.position.x - 5 <= goomba2.position.x &&
+			(nextXE + goomba.goomba_hitbox.width) >= goomba2.position.x - 20)
+		{
+			goomba.death2 = true;
+		}
+		//Izquierda
+		if (Timer > 0 && player.alive != 0 &&
+			goomba.activated && goomba2.side &&
+			goomba.position.y >= goomba2.position.y &&
+			goomba.position.y < (goomba2.position.y + goomba2.goomba_hitbox.height) &&
+			goomba.position.x + 5 >= (goomba2.position.x + goomba2.goomba_hitbox.width) &&
+			(nextXE) <= (goomba2.position.x + goomba2.goomba_hitbox.width))
+		{
+			goomba.death2 = true;
 		}
 	}
 
@@ -338,7 +362,7 @@ private:
 				fireFlower.position = { -110, 1400 };
 				star.active = false;
 				star.position = { -110, 1400 };
-				koopa.position = { 1400, 600 };
+				koopa.position = { 5100, 600 };
 				shell.position = { 0, 1000 };
 				Timer = 400;
 				Score = 000000;
@@ -374,7 +398,7 @@ private:
 				goomba6.side = true;
 				goomba6.death = false;
 				goomba6.alive = true;
-				goomba6.position = { 3850, 150 };
+				goomba6.position = { 3900, 150 };
 
 				goomba7.side = true;
 				goomba7.death = false;
@@ -485,7 +509,7 @@ private:
 				fireFlower.position = { -110, 1400 };
 				star.active = false;
 				star.position = { -110, 1400 };
-				koopa.position = { 1600, 600 };
+				koopa.position = { 5100, 600 };
 				shell.position = { 0, 1000 };
 				Timer = 400;
 				player.alive = 1;
@@ -1076,7 +1100,7 @@ private:
 		Goomba_InTheMoon(goomba16);
 
 		//Koopa
-		if (player.position.x - koopa.position.x <= -200 && !koopa.death && !koopa.death2 && player.alive != 0 && Timer > 0) {
+		if (player.position.x >= koopa.position.x - 450 && !koopa.death && !koopa.death2 && player.alive != 0 && Timer > 0) {
 			koopa.activated = true;
 		}
 		koopa.speed.x = 1.0f;
@@ -1501,7 +1525,7 @@ private:
 		Goomba_fall(goomba16, player, onGroundGoomba16, deltaTime);
 
 		for (EnvElement block : blocks) {
-			if (Timer > 0 && player.alive != 0 && koopa.activated
+			if (Timer > 0 && player.alive != 0
 				&& block.rect.x <= koopa.position.x + koopa.goomba_hitbox.width - 5
 				&& block.rect.x + block.rect.width + 10 >= koopa.position.x
 				&& block.rect.y + block.rect.height >= koopa.position.y
@@ -1590,15 +1614,17 @@ private:
 		}
 
 		Goomba_Goomba(goomba3, player, goomba4, nextXE3);
-		Goomba_Goomba(goomba5, player, goomba6, nextXE5);
+		Goomba_Goomba(goomba6, player, goomba5, nextXE5);
 		Goomba_Goomba(goomba7, player, goomba8, nextXE7);
 		Goomba_Goomba(goomba8, player, goomba9, nextXE8);
 		Goomba_Goomba(goomba9, player, goomba10, nextXE9);
-
+		Goomba_Goomba(goomba10, player, goomba11, nextXE9);
 		Goomba_Goomba(goomba11, player, goomba12, nextXE11);
 		Goomba_Goomba(goomba12, player, goomba13, nextXE12);
 		Goomba_Goomba(goomba13, player, goomba14, nextXE13);
 		Goomba_Goomba(goomba15, player, goomba16, nextXE15);
+
+		
 
 		//Los lados Koopa
 		float nextK = koopa.position.x + koopa.speed.x * deltaTime;
@@ -1660,6 +1686,14 @@ private:
 				shell.side = false;
 			}
 		}
+
+		Shell_Goomba(shell, player, goomba9, nextshell);
+		Shell_Goomba(shell, player, goomba10, nextshell);
+		Shell_Goomba(shell, player, goomba11, nextshell);
+		Shell_Goomba(shell, player, goomba12, nextshell);
+		Shell_Goomba(shell, player, goomba13, nextshell);
+		Shell_Goomba(shell, player, goomba14, nextshell);
+
 		//--------Colisiones de Power-Ups--------\\
 
 		//Con Mario
@@ -2120,7 +2154,7 @@ private:
 			goomba14.position = { 1400, 600 };
 			goomba15.position = { 1400, 600 };
 			goomba16.position = { 1400, 600 };
-			koopa.position = { 1600, 600 };
+			koopa.position = { 5100, 600 };
 			shell.position = { 0, 1000 };
 			Timer = 400;
 			Money = 00;
