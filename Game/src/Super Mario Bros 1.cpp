@@ -136,7 +136,7 @@ private:
 	//funciones Goomba
 	void Goomba_Activation(Enemy& goomba, Mario& player)
 	{
-		if (player.position.x >= goomba.position.x - 600 && !goomba.death && !goomba.death2 && player.alive != 0 && Timer > 0) {
+		if (player.position.x >= goomba.position.x - 450 && !goomba.death && !goomba.death2 && player.alive != 0 && Timer > 0) {
 			goomba.activated = true;
 		}
 	}
@@ -332,17 +332,17 @@ private:
 				goomba3.side = true;
 				goomba3.death = false;
 				goomba3.alive = true;
-				goomba3.position = { 2200, 600 };
+				goomba3.position = { 2300, 600 };
 
 				goomba4.side = true;
 				goomba4.death = false;
 				goomba4.alive = true;
-				goomba4.position = { 2280, 600 };
+				goomba4.position = { 2400, 600 };
 
 				goomba5.side = true;
 				goomba5.death = false;
 				goomba5.alive = true;
-				goomba5.position = { 3700, 150 };
+				goomba5.position = { 3800, 150 };
 
 				goomba6.side = true;
 				goomba6.death = false;
@@ -352,42 +352,42 @@ private:
 				goomba7.side = true;
 				goomba7.death = false;
 				goomba7.alive = true;
-				goomba7.position = { 4500, 600 };
+				goomba7.position = { 4550, 600 };
 
 				goomba8.side = true;
 				goomba8.death = false;
 				goomba8.alive = true;
-				goomba8.position = { 4580, 600 };
+				goomba8.position = { 4610, 600 };
 
 				goomba9.side = true;
 				goomba9.death = false;
 				goomba9.alive = true;
-				goomba9.position = { 5350, 600 };
+				goomba9.position = { 5410, 600 };
 
 				goomba10.side = true;
 				goomba10.death = false;
 				goomba10.alive = true;
-				goomba10.position = { 5430, 600 };
+				goomba10.position = { 5460, 600 };
 
 				goomba11.side = true;
 				goomba11.death = false;
 				goomba11.alive = true;
-				goomba11.position = { 5800, 600 };
+				goomba11.position = { 5860, 600 };
 
 				goomba12.side = true;
 				goomba12.death = false;
 				goomba12.alive = true;
-				goomba12.position = { 5880, 600 };
+				goomba12.position = { 5910, 600 };
 
 				goomba13.side = true;
 				goomba13.death = false;
 				goomba13.alive = true;
-				goomba13.position = { 6100, 600 };
+				goomba13.position = { 6030, 600 };
 
 				goomba14.side = true;
 				goomba14.death = false;
 				goomba14.alive = true;
-				goomba14.position = { 6180, 600 };
+				goomba14.position = { 6090, 600 };
 
 				goomba15.side = true;
 				goomba15.death = false;
@@ -397,7 +397,7 @@ private:
 				goomba16.side = true;
 				goomba16.death = false;
 				goomba16.alive = true;
-				goomba16.position = { 8380, 600 };
+				goomba16.position = { 8360, 600 };
 
 				koopa.death = false;
 				koopa.alive = true;
