@@ -47,6 +47,8 @@ extern Texture2D UI;
 extern Texture2D Level1;
 extern Texture2D icon_lifes;
 extern Texture2D icon_money;
+extern Texture2D coin_ui;
+
 
 // Enemigos
 extern Texture2D Goomba;

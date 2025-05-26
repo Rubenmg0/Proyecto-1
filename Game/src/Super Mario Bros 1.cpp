@@ -1235,6 +1235,7 @@ private:
 					}
 				}
 			}
+
 			else if (!player.big && Timer > 0 && player.alive != 0
 				&& block.rect.x <= player.position.x + player.mario_hitbox.width - 5
 				&& block.rect.x + block.rect.width + 10 >= player.position.x
@@ -2807,10 +2808,10 @@ private:
 			sourceRec.x = frameWidthP * 6;
 		}
 
-		for (EnvElement block : blocks) //Para ver la hitbox de cada rectangulo
-		{
-			DrawRectangle(block.rect.x, block.rect.y, block.rect.width, block.rect.height, block.color);
-		}
+		//for (EnvElement block : blocks) //Para ver la hitbox de cada rectangulo
+		//{
+		//	DrawRectangle(block.rect.x, block.rect.y, block.rect.width, block.rect.height, block.color);
+		//}
 
 		//Draw all entities, structures and objetcs
 		//Tuberias 
@@ -3029,9 +3030,11 @@ private:
 			player.fire = 0;
 			UnloadTexture(mario_sprite);
 		}
+		DrawTexturePro(coin_ui, sourceRec4, { camera.target.x - 165, camera.target.y - 310, sourceRec4.width * 4, sourceRec4.height * 4 }, { 0, 0 }, 0, WHITE);
 
 		EndMode2D();
 		UItest();
+
 	}
 };
 

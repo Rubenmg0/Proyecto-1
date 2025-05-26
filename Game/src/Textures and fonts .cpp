@@ -35,6 +35,7 @@ Texture2D tuberia_cueva;
 
 // Objects
 Texture2D money;
+Texture2D coin_ui;
 
 // Other Textures
 Texture2D logoTexture;
@@ -95,6 +96,8 @@ void LoadGameTextures() {
 	Level1 = LoadTexture("Resources/Images/Seleccion Modo/World 1-1.png");
 	icon_lifes = LoadTexture("Resources/Images/Player/Icon_Lifes.png");
 	icon_money = LoadTexture("Resources/Images/Player/Icon_Money.png");
+	coin_ui = LoadTexture("Resources/Sprites/Items/Coin_ui.png");
+
 
 	/*--------------------------------------------------------------------------*/
 	/*                           SpriteSheet Mario                              */
