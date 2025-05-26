@@ -1214,24 +1214,14 @@ private:
 		if (koopa.death) {
 			koopa.position.y = 1000;
 		}
-		if (koopa.death2) {
-			shell.position = koopa.position;
-			koopa.alive = false;
-			
-			koopa.speed.y += GRAVITY * deltaTime;
-			koopa.position.x += koopa.speed.x * deltaTime;
-			koopa.position.y += koopa.speed.y * deltaTime;
-			if (koopa.position.y >= koopa.goomba_hitbox.y + 100) {
-				koopaDeathInit = false;
-			}
-		}
+
 
 		if (koopa.position.y >= 1000) {
 			koopa.alive = false;
 		}
 
 		//SHELL
-		if (player.position.x >= shell.position.x && player.alive != 0) {
+		if (player.position.x >= shell.position.x - 50 && player.alive != 0) {
 			shell.activated = true;
 		}
 
@@ -1242,7 +1232,7 @@ private:
 			shell.position.x += shell.speed.x * deltaTime;
 		}
 		
-		if (koopa.death2) {
+		if (shell.death2) {
 			shell.speed.y += GRAVITY * deltaTime;
 			shell.position.y += shell.speed.y * deltaTime;
 		}
@@ -1685,7 +1675,7 @@ private:
 		}
 
 		for (EnvElement block : blocks) {
-			if (Timer > 0 && player.alive != 0 && shell.activated && !koopa.death2
+			if (Timer > 0 && player.alive != 0 && shell.activated
 				&& block.rect.x <= shell.position.x + shell.goomba_hitbox.width - 5
 				&& block.rect.x + block.rect.width + 10 >= shell.position.x
 				&& block.rect.y + block.rect.height >= shell.position.y
@@ -1697,7 +1687,7 @@ private:
 			}
 		}
 
-		if (!onGroundShell && player.alive && Timer > 0) {
+		if (!onGroundShell && player.alive && Timer > 0 && !koopa.death) {
 			shell.position.y += (GRAVITY - 300) * deltaTime;
 			if (shell.position.y > 0)
 			{
@@ -2246,7 +2236,7 @@ private:
 		if (flag.reached) {
 			if (!hitObstacleFloor && player.position.y != 550) {
 				player.position.y += 3 * 0.50;
-			}
+			} 
 			else if (hitObstacleFloor && bandera.position.y >= 640) {
 				if (player.position.y >= flag.position.y + 50) {
 					float playerMovementSpeed = 120.0f * GetFrameTime();
