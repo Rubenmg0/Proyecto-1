@@ -103,9 +103,12 @@ struct EnvElement {
 struct Flag {
     Vector2 position;
     bool reached;
+    bool emerging;
+    float emergeOffset;
+    float maxEmergeOffset = 30.0f;
 
     Flag(float x, float y)
-        : position{ x, y }, reached(false) {
+        : position{ x, y }, reached(false), emerging(false) {
     }
 };
 

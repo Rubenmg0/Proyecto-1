@@ -174,16 +174,16 @@ void LoadGameTextures() {
 	/*                          Tileset                           */
 	/*------------------------------------------------------------*/
 
-	castle = LoadTexture("Resources/Sprites/Tileset/Castle.png");
 	flagTexture = LoadTexture("Resources/Sprites/Tileset/Flag.png");
+	meta = LoadTexture("Resources/Sprites/Tileset/Meta.png");
+	castle = LoadTexture("Resources/Sprites/Tileset/Castle.png");
+	banderin = LoadTexture("Resources/Sprites/Tileset/banderin.png");
 	tuberia_s = LoadTexture("Resources/Sprites/Tileset/Tuberia1.png");
 	tuberia_m = LoadTexture("Resources/Sprites/Tileset/Tuberia2.png");
 	tuberia_b = LoadTexture("Resources/Sprites/Tileset/Tuberia3.png");
 	tuberia_cueva = LoadTexture("Resources/Sprites/Tileset/Tuberia_cueva.png");
 	tubo = LoadTexture("Resources/Sprites/Tileset/Tubo.png");
-	meta = LoadTexture("Resources/Sprites/Tileset/Meta.png");
-	banderin = LoadTexture("Resources/Sprites/Tileset/banderin.png");
-
+	
 }
 void LoadGameTypography() {
 	marioFont = LoadFont("Resources/Fonts/MarioFont.ttf");

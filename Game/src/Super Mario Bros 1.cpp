@@ -85,6 +85,7 @@ private:
 	PowerUp star;
 	Projectile fireBall;
 	Flag flag;
+	Flag banderinn;
 	Pipe pipe;
 	vector<FloatingScore> floatingScores;
 
@@ -94,7 +95,7 @@ public:
 		playFrameCounter(0), currentPlayFrame(0), goomba1(950, 600), goomba2(1400, 600), goomba3(1400, 600), goomba4(1400, 600), goomba5(1400, 600),
 		goomba6(1400, 600), goomba7(1400, 600),goomba8(1400, 600), goomba9(1400, 600), goomba10(1400, 600), goomba11(1400, 600), goomba12(1400, 600), 
 		goomba13(1400, 600), goomba14(1400, 600), goomba15(1400, 600), goomba16(1400, 600), koopa(1600, 600), flag(9375, 264), mooshroom(-100, 2000),
-		fireFlower(-150, 2000), star(-125, 2000), fireBall(0, 9000), shell(0, 9000) {
+		fireFlower(-150, 2000), star(-125, 2000), fireBall(0, 9000), shell(0, 9000), banderinn(9775, 320){
 
 		InitWindow(screenWidth, screenHeight, "Super Mario + Screen Manager");
 		InitAudioDevice(); // Initialize audio device
@@ -241,7 +242,7 @@ private:
 			goomba.position.y += (GRAVITY - 300) * deltaTime;
 			if (goomba.position.y > 0)
 			{
-				goomba.position.y += (GRAVITY - 300) * 2.0f * deltaTime; //Increase gravity in fall
+				goomba.position.y += (GRAVITY - 400) * 2.0f * deltaTime; //Increase gravity in fall
 			}
 			else
 			{
@@ -250,8 +251,9 @@ private:
 		}
 	}
 
-	void Goomba_Derecha(Enemy& goomba, Mario& player, EnvElement& block, float& nextXE)
+	void Goomba_Lados(Enemy& goomba, Mario& player, EnvElement& block, float& nextXE)
 	{
+		//Derecha
 		if (Timer > 0 && player.alive != 0 && goomba.alive &&
 			goomba.activated && !goomba.side &&
 			goomba.position.y > block.rect.y &&
@@ -262,10 +264,7 @@ private:
 		{
 			goomba.side = true;
 		}
-	}
-
-	void Goomba_Izquierda(Enemy& goomba, Mario& player, EnvElement& block, float& nextXE)
-	{
+		//Izquierda
 		if (Timer > 0 && player.alive != 0 &&
 			goomba.activated && goomba.side &&
 			goomba.position.y > block.rect.y &&
@@ -278,6 +277,31 @@ private:
 		}
 	}
 
+	void Goomba_Goomba(Enemy& goomba, Mario& player, Enemy& goomba2, float& nextXE)
+	{
+		//Derecha
+		if (Timer > 0 && player.alive != 0 && goomba.alive &&
+			goomba.activated && !goomba.side &&
+			goomba.position.y >= goomba2.position.y &&
+			goomba.position.y < (goomba2.position.y + goomba2.goomba_hitbox.height) &&
+			goomba.position.x - 5 <= goomba2.position.x &&
+			(nextXE + goomba.goomba_hitbox.width) >= goomba2.position.x - 20)
+		{
+			goomba.side = true;
+			goomba2.side = false;
+		}
+		//Izquierda
+		if (Timer > 0 && player.alive != 0 &&
+			goomba.activated && goomba2.side &&
+			goomba.position.y >= goomba2.position.y &&
+			goomba.position.y < (goomba2.position.y + goomba2.goomba_hitbox.height) &&
+			goomba.position.x + 5 >= (goomba2.position.x + goomba2.goomba_hitbox.width) &&
+			(nextXE) <= (goomba2.position.x + goomba2.goomba_hitbox.width))
+		{
+			goomba.side = false;
+			goomba2.side = true;
+		}
+	}
 
 	void Update() {
 
@@ -1517,44 +1541,34 @@ private:
 
 		//Derecha
 		for (EnvElement block : blocks) {
-			Goomba_Derecha(goomba1, player, block, nextXE1);
-			Goomba_Derecha(goomba2, player, block, nextXE2);
-			Goomba_Derecha(goomba3, player, block, nextXE3);
-			Goomba_Derecha(goomba4, player, block, nextXE4);
-			Goomba_Derecha(goomba5, player, block, nextXE5);
-			Goomba_Derecha(goomba6, player, block, nextXE6);
-			Goomba_Derecha(goomba7, player, block, nextXE7);
-			Goomba_Derecha(goomba8, player, block, nextXE8);
-			Goomba_Derecha(goomba9, player, block, nextXE9);
-			Goomba_Derecha(goomba10, player, block, nextXE10);
-			Goomba_Derecha(goomba11, player, block, nextXE11);
-			Goomba_Derecha(goomba12, player, block, nextXE12);
-			Goomba_Derecha(goomba13, player, block, nextXE13);
-			Goomba_Derecha(goomba14, player, block, nextXE14);
-			Goomba_Derecha(goomba15, player, block, nextXE15);
-			Goomba_Derecha(goomba16, player, block, nextXE16);
-
+			Goomba_Lados(goomba1, player, block, nextXE1);
+			Goomba_Lados(goomba2, player, block, nextXE2);
+			Goomba_Lados(goomba3, player, block, nextXE3);
+			Goomba_Lados(goomba4, player, block, nextXE4);
+			Goomba_Lados(goomba5, player, block, nextXE5);
+			Goomba_Lados(goomba6, player, block, nextXE6);
+			Goomba_Lados(goomba7, player, block, nextXE7);
+			Goomba_Lados(goomba8, player, block, nextXE8);
+			Goomba_Lados(goomba9, player, block, nextXE9);
+			Goomba_Lados(goomba10, player, block, nextXE10);
+			Goomba_Lados(goomba11, player, block, nextXE11);
+			Goomba_Lados(goomba12, player, block, nextXE12);
+			Goomba_Lados(goomba13, player, block, nextXE13);
+			Goomba_Lados(goomba14, player, block, nextXE14);
+			Goomba_Lados(goomba15, player, block, nextXE15);
+			Goomba_Lados(goomba16, player, block, nextXE16);
 		}
 
-		//Izquierda
-		for (EnvElement block : blocks) {
-			Goomba_Izquierda(goomba1, player, block, nextXE1);
-			Goomba_Izquierda(goomba2, player, block, nextXE2);
-			Goomba_Izquierda(goomba3, player, block, nextXE3);
-			Goomba_Izquierda(goomba4, player, block, nextXE4);
-			Goomba_Izquierda(goomba5, player, block, nextXE5);
-			Goomba_Izquierda(goomba6, player, block, nextXE6);
-			Goomba_Izquierda(goomba7, player, block, nextXE7);
-			Goomba_Izquierda(goomba8, player, block, nextXE8);
-			Goomba_Izquierda(goomba9, player, block, nextXE9);
-			Goomba_Izquierda(goomba10, player, block, nextXE10);
-			Goomba_Izquierda(goomba11, player, block, nextXE11);
-			Goomba_Izquierda(goomba12, player, block, nextXE12);
-			Goomba_Izquierda(goomba13, player, block, nextXE13);
-			Goomba_Izquierda(goomba14, player, block, nextXE14);
-			Goomba_Izquierda(goomba15, player, block, nextXE15);
-			Goomba_Izquierda(goomba16, player, block, nextXE16);
-		}
+		Goomba_Goomba(goomba3, player, goomba4, nextXE3);
+		Goomba_Goomba(goomba5, player, goomba6, nextXE5);
+		Goomba_Goomba(goomba7, player, goomba8, nextXE7);
+		Goomba_Goomba(goomba8, player, goomba9, nextXE8);
+		Goomba_Goomba(goomba9, player, goomba10, nextXE9);
+
+		Goomba_Goomba(goomba11, player, goomba12, nextXE11);
+		Goomba_Goomba(goomba12, player, goomba13, nextXE12);
+		Goomba_Goomba(goomba13, player, goomba14, nextXE13);
+		Goomba_Goomba(goomba15, player, goomba16, nextXE15);
 
 		//Los lados Koopa
 		float nextK = koopa.position.x + koopa.speed.x * deltaTime;
@@ -2232,6 +2246,9 @@ private:
 			star.position.x = player.position.x + 200;
 			star.position.y = player.position.y;
 		}
+		if (IsKeyPressed(KEY_F3) && Timer > 0 && player.alive == 1 && !flag.reached) { //Generar Seta
+			player.position = { 9100, 600 };
+		}
 	}
 
 	void Draw() {
@@ -2724,10 +2741,10 @@ private:
 			sourceRec.x = frameWidthP * 6;
 		}
 
-		//for (EnvElement block : blocks) //Para ver la hitbox de cada rectangulo
-		//{
-		//	DrawRectangle(block.rect.x, block.rect.y, block.rect.width, block.rect.height, block.color);
-		//}
+		for (EnvElement block : blocks) //Para ver la hitbox de cada rectangulo
+		{
+			DrawRectangle(block.rect.x, block.rect.y, block.rect.width, block.rect.height, block.color);
+		}
 
 		//Draw all entities, structures and objetcs
 		//Tuberias 
@@ -2937,6 +2954,7 @@ private:
 
 		if (player.position.x >= 9795) { //Mario arrived to the flag
 			camera.target.x = 9795;
+			DrawTextureEx(banderin, { (9775), (320) }, 0.0f, 3, WHITE);
 			DrawTextureEx(castle, { (9675), (360) }, 0.0f, 3, WHITE);
 			player.big = 0;
 			player.fire = 0;
