@@ -134,11 +134,11 @@ struct Pipe {
 /*------------------------------------------------------------*/
 
 struct FloatingScore {
-    float x, y;
+    Vector2 position;
     int value;
     float lifetime;
+    float speedY;
+    bool active;
 };
 
 #endif 
-
-

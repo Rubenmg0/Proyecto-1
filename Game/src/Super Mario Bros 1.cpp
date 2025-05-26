@@ -87,10 +87,16 @@ private:
 	Flag flag;
 	Flag banderinn;
 	Pipe pipe;
-	vector<FloatingScore> floatingScores;
+	FloatingScore scores[MAX_FLOATING_SCORES];
 
 	vector<EnvElement> initialBlocks = CreateBlocks();
 	vector<EnvElement> blocks = initialBlocks;
+
+	void InitFloatingScores() {
+		for (int i = 0; i < MAX_FLOATING_SCORES; i++) {
+			scores[i].active = false;
+		}
+	}
 
 public:
 	//Initialise the game
@@ -102,9 +108,9 @@ public:
 
 		InitWindow(screenWidth, screenHeight, "Super Mario + Screen Manager");
 		InitAudioDevice(); // Initialize audio device
+		InitFloatingScores();
 		SetTargetFPS(60);
 
-		
 		LoadGameSounds();
 		LoadGameMusic();
 		LoadGameTextures();
@@ -137,6 +143,20 @@ public:
 	}
 
 private:
+	//Función Texto
+	void SpawnFloatingScore(Vector2 pos, int value) {
+		for (int i = 0; i < MAX_FLOATING_SCORES; i++) {
+			if (!scores[i].active) {
+				scores[i].position = pos;
+				scores[i].value = value;
+				scores[i].lifetime = 1.0f;
+				scores[i].speedY = -30.0f;
+				scores[i].active = true;
+				break;
+			}
+		}
+	}
+
 	//funciones Goomba
 	void Goomba_Activation(Enemy& goomba, Mario& player)
 	{
@@ -188,6 +208,7 @@ private:
 				PlaySound(sfxStomp);
 				goomba.death = true;
 				Score += 100;
+				SpawnFloatingScore({ goomba.position.x - 4, goomba.position.y - 100 }, 100);
 				player.speed.y = -PLAYER_JUMP_SPD + 100;
 				player.canJump = false;
 				player.canJump2 = true;
@@ -222,6 +243,7 @@ private:
 		{
 			PlaySound(sfxKick);
 			Score += 100;
+			SpawnFloatingScore({ goomba.position.x - 4, goomba.position.y - 100 }, 100);
 			goomba.death2 = true;
 			fireBall.active = false;
 			fireBall.position.y = 2000;
@@ -323,6 +345,8 @@ private:
 		{
 			PlaySound(sfxFireBall);
 			goomba2.death2 = true;
+			Score += 100;
+			SpawnFloatingScore({ goomba2.position.x - 4, goomba2.position.y - 100 }, 100);
 		}
 		//Izquierda
 		if (Timer > 0 && player.alive != 0 &&
@@ -334,6 +358,8 @@ private:
 		{
 			PlaySound(sfxFireBall);
 			goomba2.death2 = true;
+			Score += 100;
+			SpawnFloatingScore({ goomba2.position.x - 4, goomba2.position.y - 100 }, 100);
 		}
 	}
 
@@ -379,82 +405,114 @@ private:
 
 				goomba1.side = true;
 				goomba1.death = false;
+				goomba1.death2 = false;
 				goomba1.alive = true;
+				goomba1.activated = false;
 				goomba1.position = { 950, 600 };
 
 				goomba2.side = true;
 				goomba2.death = false;
+				goomba2.death2 = false;
 				goomba2.alive = true;
+				goomba2.activated = false;
 				goomba2.position = { 1850, 600 };
 
 				goomba3.side = true;
 				goomba3.death = false;
+				goomba3.death2 = false;
 				goomba3.alive = true;
+				goomba3.activated = false;
 				goomba3.position = { 2300, 600 };
 
 				goomba4.side = true;
 				goomba4.death = false;
+				goomba4.death2 = false;
 				goomba4.alive = true;
+				goomba4.activated = false;
 				goomba4.position = { 2400, 600 };
 
 				goomba5.side = true;
 				goomba5.death = false;
+				goomba5.death2 = false;
 				goomba5.alive = true;
-				goomba5.position = { 3800, 150 };
+				goomba5.activated = false;
+				goomba5.position = { 3800, 600 };
 
 				goomba6.side = true;
 				goomba6.death = false;
+				goomba6.death2 = false;
 				goomba6.alive = true;
-				goomba6.position = { 3900, 150 };
+				goomba6.activated = false;
+				goomba6.position = { 3900, 600 };
 
 				goomba7.side = true;
 				goomba7.death = false;
+				goomba7.death2 = false;
 				goomba7.alive = true;
+				goomba7.activated = false;
 				goomba7.position = { 4550, 600 };
 
 				goomba8.side = true;
 				goomba8.death = false;
+				goomba8.death2 = false;
 				goomba8.alive = true;
+				goomba8.activated = false;
 				goomba8.position = { 4620, 600 };
 
 				goomba9.side = true;
 				goomba9.death = false;
+				goomba9.death2 = false;
 				goomba9.alive = true;
+				goomba9.activated = false;
 				goomba9.position = { 5410, 600 };
 
 				goomba10.side = true;
 				goomba10.death = false;
+				goomba10.death2 = false;
 				goomba10.alive = true;
+				goomba10.activated = false;
 				goomba10.position = { 5480, 600 };
 
 				goomba11.side = true;
 				goomba11.death = false;
+				goomba11.death2 = false;
 				goomba11.alive = true;
+				goomba11.activated = false;
 				goomba11.position = { 5860, 600 };
 
 				goomba12.side = true;
 				goomba12.death = false;
+				goomba12.death2 = false;
 				goomba12.alive = true;
+				goomba12.activated = false;
 				goomba12.position = { 5930, 600 };
 
 				goomba13.side = true;
 				goomba13.death = false;
+				goomba13.death2 = false;
 				goomba13.alive = true;
+				goomba13.activated = false;
 				goomba13.position = { 6050, 600 };
 
 				goomba14.side = true;
 				goomba14.death = false;
+				goomba14.death2 = false;
 				goomba14.alive = true;
+				goomba14.activated = false;
 				goomba14.position = { 6120, 600 };
 
 				goomba15.side = true;
 				goomba15.death = false;
+				goomba15.death2 = false;
 				goomba15.alive = true;
+				goomba15.activated = false;
 				goomba15.position = { 8300, 600 };
 
 				goomba16.side = true;
 				goomba16.death = false;
+				goomba16.death2 = false;
 				goomba16.alive = true;
+				goomba16.activated = false;
 				goomba16.position = { 8370, 600 };
 
 				koopa.death = false;
@@ -506,6 +564,7 @@ private:
 				}
 				if (player.position.x >= 3950) {
 					player.position = { 3850, 600 };
+					camera.target.x = 4000;
 				}
 				camera.target.x = 333;
 				camera.target.y = 350;
@@ -718,6 +777,18 @@ private:
 					elapsedTime = 0.0f;
 				}
 			}
+
+			for (int i = 0; i < MAX_FLOATING_SCORES; i++) {
+				if (scores[i].active) {
+					scores[i].lifetime -= GetFrameTime();
+					scores[i].position.y += scores[i].speedY * GetFrameTime();
+
+					if (scores[i].lifetime <= 0) {
+						scores[i].active = false;
+					}
+				}
+			}
+
 			break;
 
 		case GameScreen::ENDING:
@@ -1205,6 +1276,7 @@ private:
 
 				if (ColorToInt(block.color) == ColorToInt(GREEN)) {
 					PlaySound(sfxBreakBlock);
+					Score += 50;
 					block.rect.y = 3000;
 					player.speed.y = 0;
 				}
@@ -1212,6 +1284,7 @@ private:
 				if (ColorToInt(block.color) == ColorToInt(RED) && !block.hit) { //Moneda
 					PlaySound(sfxCoin_Block);
 					Money++;
+					SpawnFloatingScore({ block.rect.x + 4, block.rect.y - 30 }, 200);
 					block.hit = true;
 				}
 				if (ColorToInt(block.color) == ColorToInt(BROWN) && !block.hit) { //Flor de fuego
@@ -1232,6 +1305,7 @@ private:
 				if (ColorToInt(block.color) == ColorToInt(MAGENTA) && !block.hit && !desactived) { //Moneda repetida
 					PlaySound(sfxCoin_Block);
 					Money++;
+					SpawnFloatingScore({ block.rect.x + 4, block.rect.y - 30 }, 200);
 					contador++;
 					desactived = true;
 					if (contador == 8) {
@@ -1261,6 +1335,7 @@ private:
 				if (ColorToInt(block.color) == ColorToInt(RED) && !block.hit) { //Moneda
 					PlaySound(sfxCoin_Block);
 					Money++;
+					SpawnFloatingScore({ block.rect.x + 4, block.rect.y - 30 }, 200);
 					block.hit = true;
 				}
 				if (ColorToInt(block.color) == ColorToInt(BROWN) && !block.hit) { //Seta
@@ -1282,6 +1357,7 @@ private:
 				if (ColorToInt(block.color) == ColorToInt(MAGENTA) && !block.hit && !desactived) { //Moneda repetida
 					PlaySound(sfxCoin_Block);
 					Money++;
+					SpawnFloatingScore({ block.rect.x + 4, block.rect.y - 30 }, 200);
 					contador++;
 					desactived = true;
 					if (contador == 8) {
@@ -1398,6 +1474,7 @@ private:
 				shell.side = koopa.side;
 				koopa.death = true;
 				Score += 100;
+				SpawnFloatingScore({ koopa.position.x + 4, koopa.position.y - 100 }, 100);
 				player.speed.y = -PLAYER_JUMP_SPD + 100;
 				player.canJump = false;
 				player.canJump2 = true;
@@ -1506,6 +1583,7 @@ private:
 		{
 			PlaySound(sfxKick);
 			Score += 200;
+			SpawnFloatingScore({ koopa.position.x + 4, koopa.position.y - 100 }, 200);
 			koopa.death2 = true;
 			fireBall.active = false;
 			koopaDeathInit = true;
@@ -1735,6 +1813,7 @@ private:
 			if (!player.big) player.big = true;
 			mooshroom.active = false;
 			Score += 1000;
+			SpawnFloatingScore({ mooshroom.position.x + 4, mooshroom.position.y - 100 }, 1000);
 			mooshroom.position.y = 1000;
 		}
 
@@ -1749,19 +1828,14 @@ private:
 				player.fire = true;
 				fireFlower.active = false;
 				Score += 1000;
-				for (const auto& score : floatingScores) {
-					DrawTextEx(marioFont, TextFormat("%d", 1000), { player.position.x, player.position.y }, 9, 1, WHITE);
-				}
-				for (auto& score : floatingScores) {
-					score.y -= 0.5f; // Movimiento hacia arriba
-					score.lifetime--;
-				}
+				SpawnFloatingScore({ fireFlower.position.x + 4, fireFlower.position.y - 100 }, 1000);
 				fireFlower.position.y = 1000;
 			}
 			else {
 				player.big = true;
 				fireFlower.active = false;
 				Score += 1000;
+				SpawnFloatingScore({ fireFlower.position.x + 4, fireFlower.position.y - 100 }, 1000);
 				fireFlower.position.y = 1000;
 			}
 		}
@@ -2199,81 +2273,113 @@ private:
 			goomba1.death = false;
 			goomba1.death2 = false;
 			goomba1.alive = true;
+			goomba1.activated = false;
+			goomba1.position = { 950, 600 };
 
 			goomba2.side = true;
 			goomba2.death = false;
 			goomba2.death2 = false;
 			goomba2.alive = true;
+			goomba2.activated = false;
+			goomba2.position = { 1850, 600 };
 
 			goomba3.side = true;
 			goomba3.death = false;
 			goomba3.death2 = false;
 			goomba3.alive = true;
+			goomba3.activated = false;
+			goomba3.position = { 2300, 600 };
 
 			goomba4.side = true;
 			goomba4.death = false;
 			goomba4.death2 = false;
 			goomba4.alive = true;
+			goomba4.activated = false;
+			goomba4.position = { 2400, 600 };
 
 			goomba5.side = true;
 			goomba5.death = false;
 			goomba5.death2 = false;
 			goomba5.alive = true;
+			goomba5.activated = false;
+			goomba5.position = { 3800, 600 };
 
 			goomba6.side = true;
 			goomba6.death = false;
 			goomba6.death2 = false;
 			goomba6.alive = true;
+			goomba6.activated = false;
+			goomba6.position = { 3900, 600 };
 
 			goomba7.side = true;
 			goomba7.death = false;
 			goomba7.death2 = false;
 			goomba7.alive = true;
+			goomba7.activated = false;
+			goomba7.position = { 4550, 600 };
 
 			goomba8.side = true;
 			goomba8.death = false;
 			goomba8.death2 = false;
 			goomba8.alive = true;
+			goomba8.activated = false;
+			goomba8.position = { 4620, 600 };
 
 			goomba9.side = true;
 			goomba9.death = false;
 			goomba9.death2 = false;
 			goomba9.alive = true;
+			goomba9.activated = false;
+			goomba9.position = { 5410, 600 };
 
 			goomba10.side = true;
 			goomba10.death = false;
 			goomba10.death2 = false;
 			goomba10.alive = true;
+			goomba10.activated = false;
+			goomba10.position = { 5480, 600 };
 
 			goomba11.side = true;
 			goomba11.death = false;
 			goomba11.death2 = false;
 			goomba11.alive = true;
+			goomba11.activated = false;
+			goomba11.position = { 5860, 600 };
 
 			goomba12.side = true;
 			goomba12.death = false;
 			goomba12.death2 = false;
 			goomba12.alive = true;
+			goomba12.activated = false;
+			goomba12.position = { 5930, 600 };
 
 			goomba13.side = true;
 			goomba13.death = false;
 			goomba13.death2 = false;
 			goomba13.alive = true;
+			goomba13.activated = false;
+			goomba13.position = { 6050, 600 };
 
 			goomba14.side = true;
 			goomba14.death = false;
 			goomba14.death2 = false;
 			goomba14.alive = true;
+			goomba14.activated = false;
+			goomba14.position = { 6120, 600 };
 
 			goomba15.side = true;
 			goomba15.death = false;
 			goomba15.death2 = false;
 			goomba15.alive = true;
+			goomba15.activated = false;
+			goomba15.position = { 8300, 600 };
 
 			goomba16.side = true;
 			goomba16.death = false;
 			goomba16.death2 = false;
 			goomba16.alive = true;
+			goomba16.activated = false;
+			goomba16.position = { 8370, 600 };
 			koopa.death = false;
 			koopa.death2 = false;
 			koopa.side = true;
@@ -2290,11 +2396,14 @@ private:
 		}
 		if (IsKeyPressed(KEY_L)) {
 			Score += 50;
+			SpawnFloatingScore({ player.position.x + 4, player.position.y - 100 }, 50);
 		}
 		if (IsKeyPressed(KEY_I)) {
-			Score += 10000;
+			Score += 1000;
+			SpawnFloatingScore({ player.position.x + 4, player.position.y - 100 }, 1000);
 		}
 		if (IsKeyPressed(KEY_O)) {
+			PlaySound(sfxCoin_Block);
 			Money++;
 		}
 
@@ -2339,8 +2448,17 @@ private:
 			star.position.x = player.position.x + 200;
 			star.position.y = player.position.y;
 		}
+		if (IsKeyPressed(KEY_F1) && Timer > 0 && player.alive == 1 && !flag.reached) { //Generar Seta
+			player.position = { 3950, 600 };
+			camera.target.x = player.position.x;
+		}
+		if (IsKeyPressed(KEY_F2) && Timer > 0 && player.alive == 1 && !flag.reached) { //Generar Seta
+			player.position = { 6900, 600 };
+			camera.target.x = player.position.x;
+		}
 		if (IsKeyPressed(KEY_F3) && Timer > 0 && player.alive == 1 && !flag.reached) { //Generar Seta
 			player.position = { 9100, 600 };
+			camera.target.x = player.position.x;
 		}
 	}
 
@@ -3024,6 +3142,12 @@ private:
 		DrawTextureEx(flagTexture, { 9375, flag.position.y - flagTexture.height }, 0, 3, WHITE);
 		DrawTextureEx(castle, { (9675), (360) }, 0.0f, 3, WHITE);
 
+		for (int i = 0; i < MAX_FLOATING_SCORES; i++) {
+			if (scores[i].active) {
+				DrawTextEx(marioFont, TextFormat("%d", scores[i].value), { scores[i].position.x, scores[i].position.y }, 20, 1, WHITE);
+			}
+		}
+
 		//Mario
 		if (!player.big && !player.invencible) {
 			DrawTexturePro(mario_sprite, sourceRec, { player.position.x - 20, player.position.y - 48, sourceRec.width * 3, sourceRec.height * 3 }, { 0, 0 }, 0, WHITE);
@@ -3050,8 +3174,6 @@ private:
 		DrawTextureEx(suelo_m, { 2620, 599 }, 0.0f, 3.2f, WHITE);
 		DrawTextureEx(suelo_m, { 2670, 599 }, 0.0f, 3.2f, WHITE);
 		DrawTextureEx(tuberia_cueva, { 579, -1700 }, 0.0f, 3.2f, WHITE);
-		
-
 
 		if (player.position.x >= 9795) { //Mario arrived to the flag
 			camera.target.x = 9795;
@@ -3061,6 +3183,7 @@ private:
 			player.fire = 0;
 			UnloadTexture(mario_sprite);
 		}
+		
 		DrawTexturePro(coin_ui, sourceRec4, { camera.target.x - 165, camera.target.y - 310, sourceRec4.width * 4, sourceRec4.height * 4 }, { 0, 0 }, 0, WHITE);
 
 		EndMode2D();
