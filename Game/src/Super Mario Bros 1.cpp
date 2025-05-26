@@ -82,6 +82,7 @@ private:
 	Enemy shell;
 	PowerUp mooshroom;
 	PowerUp fireFlower;
+	PowerUp star;
 	Projectile fireBall;
 	Flag flag;
 	Pipe pipe;
@@ -93,7 +94,7 @@ public:
 		playFrameCounter(0), currentPlayFrame(0), goomba1(950, 600), goomba2(1400, 600), goomba3(1400, 600), goomba4(1400, 600), goomba5(1400, 600),
 		goomba6(1400, 600), goomba7(1400, 600),goomba8(1400, 600), goomba9(1400, 600), goomba10(1400, 600), goomba11(1400, 600), goomba12(1400, 600), 
 		goomba13(1400, 600), goomba14(1400, 600), goomba15(1400, 600), goomba16(1400, 600), koopa(1600, 600), flag(9375, 264), mooshroom(-100, 2000),
-		fireFlower(-150, 2000), fireBall(0, 9000), shell(0, 9000) {
+		fireFlower(-150, 2000), star(-125, 2000), fireBall(0, 9000), shell(0, 9000) {
 
 		InitWindow(screenWidth, screenHeight, "Super Mario + Screen Manager");
 		InitAudioDevice(); // Initialize audio device
@@ -308,6 +309,8 @@ private:
 				mooshroom.side = false;
 				fireFlower.active = false;
 				fireFlower.position = { -110, 1400 };
+				star.active = false;
+				star.position = { -110, 1400 };
 				goomba1.position = { 950, 600 };
 				koopa.position = { 1400, 600 };
 				shell.position = { 0, 1000 };
@@ -453,6 +456,8 @@ private:
 				mooshroom.side = false;
 				fireFlower.active = false;
 				fireFlower.position = { -110, 1400 };
+				star.active = false;
+				star.position = { -110, 1400 };
 				koopa.position = { 1600, 600 };
 				shell.position = { 0, 1000 };
 				Timer = 400;
@@ -721,6 +726,11 @@ private:
 				fireFlower.emerging = false;
 				fireFlower.emergeOffset = 0.0f;
 
+				star.active = false;
+				star.position = { -110, 1400 };
+				star.emerging = false;
+				star.emergeOffset = 0.0f;
+
 				// Reset fireball
 				fireBall.position = { 0, 9000 };
 				fireBall.active = false;
@@ -774,6 +784,7 @@ private:
 		player.mario_hitbox.y += player.speed.y;
 		mooshroom.powerup_hitbox = { mooshroom.position.x, mooshroom.position.y, 16,16 };
 		fireFlower.powerup_hitbox = { fireFlower.position.x, fireFlower.position.y, 16, 16 };
+		star.powerup_hitbox = { star.position.x, star.position.y, 16, 16 };
 		fireBall.projectile_hitbox = { fireBall.position.x, fireBall.position.y, 4, 4 };
 		koopa.goomba_hitbox = { koopa.position.x, koopa.position.y, 16, 24 };
 		shell.goomba_hitbox = { shell.position.x,shell.position.y,16,16 };
@@ -800,6 +811,7 @@ private:
 		bool onGroundShell = false;
 		bool onGroundPowerUp = false;
 		bool onGroundPowerUpF = false;
+		bool onGroundPowerUpS = false;
 		bool projectileHitObstacleFloor = false;
 		bool desactived = false;
 		bool goombaDeathInit = false;
@@ -912,6 +924,28 @@ private:
 				fireFlower.emerging = false;
 				fireFlower.active = true;
 				fireFlower.position.y = fireFlower.position.y + fireFlower.emergeOffset - fireFlower.maxEmergeOffset; // asegura corrección de posición
+			}
+		}
+
+		//STAR
+		star.speed.x = 1.0f;
+		if (star.active && !star.emerging && player.alive != 0 && star.side) {
+			star.position.x += -400 * deltaTime;
+		}
+
+		if (star.active && !star.emerging && player.alive != 0 && !star.side) {
+			star.position.x += 400 * deltaTime;
+		}
+
+		if (star.emerging) {
+			float emergeSpeed = 30.0f;  // píxeles por segundo
+			star.emergeOffset += emergeSpeed * deltaTime;
+			star.position.y -= emergeSpeed * deltaTime;
+
+			if (star.emergeOffset >= star.maxEmergeOffset) {
+				star.emerging = false;
+				star.active = true;
+				star.position.y = star.position.y + star.emergeOffset - star.maxEmergeOffset; // asegura corrección de posición
 			}
 		}
 
@@ -1110,10 +1144,10 @@ private:
 				}
 				if (ColorToInt(block.color) == ColorToInt(PINK) && !block.hit) { //Estrella
 					PlaySound(sfxPowerUpAppear);
-					//mooshroom.side = false;
-					//mooshroom.position = { block.rect.x + 22, block.rect.y + 35 };
-					//mooshroom.emerging = true;
-					//mooshroom.emergeOffset = 0.0f;
+					star.side = false;
+					star.position = { block.rect.x + 22, block.rect.y + 35 };
+					star.emerging = true;
+					star.emergeOffset = 0.0f;
 					block.hit = true;
 				}
 				if (ColorToInt(block.color) == ColorToInt(MAGENTA) && !block.hit && !desactived) { //Moneda repetida
@@ -1151,10 +1185,10 @@ private:
 				}
 				if (ColorToInt(block.color) == ColorToInt(PINK) && !block.hit) { //Estrella
 					PlaySound(sfxPowerUpAppear);
-					//mooshroom.side = false;
-					//mooshroom.position = { block.rect.x + 22, block.rect.y + 35 };
-					//mooshroom.emerging = true;
-					//mooshroom.emergeOffset = 0.0f;
+					star.side = false;
+					star.position = { block.rect.x + 22, block.rect.y + 35 };
+					star.emerging = true;
+					star.emergeOffset = 0.0f;
 					block.hit = true;
 				}
 				if (ColorToInt(block.color) == ColorToInt(MAGENTA) && !block.hit && !desactived) { //Moneda repetida
@@ -1626,7 +1660,21 @@ private:
 			}
 		}
 
+		//Star
+		if (star.active && player.position.x + player.mario_hitbox.width + 10 >= star.position.x &&
+			player.position.x <= star.position.x + star.powerup_hitbox.width + 20 &&
+			player.position.y >= star.position.y && player.position.y <= star.position.y + star.powerup_hitbox.height &&
+			!star.emerging)
+		{
+			PlaySound(sfxPowerUpTaken);
+			if (!player.big) player.big = true; //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			star.active = false;
+			Score += 1000;
+			star.position.y = 1000;
+		}
+
 		//Con el suelo
+		//Seta
 		for (EnvElement block : blocks) {
 			if (Timer > 0 && player.alive != 0
 				&& block.rect.x <= mooshroom.position.x + mooshroom.powerup_hitbox.width - 5
@@ -1639,6 +1687,8 @@ private:
 				mooshroom.position.y = block.rect.y;
 			}
 		}
+
+		//Flor de Fuego
 		for (EnvElement block : blocks) {
 			if (Timer > 0 && player.alive != 0
 				&& block.rect.x <= fireFlower.position.x + fireFlower.powerup_hitbox.width - 5
@@ -1652,6 +1702,24 @@ private:
 			}
 		}
 
+		//Star
+		for (EnvElement block : blocks) {
+			if (Timer > 0 && player.alive != 0
+				&& block.rect.x <= star.position.x + star.powerup_hitbox.width - 5
+				&& block.rect.x + block.rect.width + 10 >= star.position.x
+				&& block.rect.y + block.rect.height >= star.position.y
+				&& block.rect.y <= star.position.y && !star.emerging
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW)) {
+				onGroundPowerUpS = true;
+				star.speed.y = 300.0f * deltaTime;
+				onGroundPowerUpS = false;
+
+				star.position.y = block.rect.y + 5;
+				star.position.y = block.rect.y - 100;
+			}
+		}
+
+		//Bola de fuego
 		for (EnvElement block : blocks) {
 			if (Timer > 0 && player.alive != 0 && fireBall.active
 				&& block.rect.x <= fireBall.position.x + fireBall.projectile_hitbox.width - 5
@@ -1664,7 +1732,7 @@ private:
 				projectileHitObstacleFloor = false;
 
 				fireBall.position.y = block.rect.y + 5;
-				fireBall.position.y = block.rect.y - 50;
+				fireBall.position.y = block.rect.y - 40;
 
 			}
 		}
@@ -1684,7 +1752,7 @@ private:
 			mooshroom.position.y += (GRAVITY - 300) * deltaTime;
 			if (mooshroom.position.y > 0)
 			{
-				mooshroom.position.y += (GRAVITY - 300) * 2.0f * deltaTime;
+				mooshroom.position.y += (GRAVITY - 400) * 2.0f * deltaTime;
 			}
 			else
 			{
@@ -1700,6 +1768,17 @@ private:
 			else
 			{
 				fireFlower.position.y += (GRAVITY - 300) * deltaTime;
+			}
+		}
+		if (!onGroundPowerUpS && player.alive && Timer > 0 && !star.emerging) {
+			star.position.y += (GRAVITY - 400) * deltaTime;
+			if (mooshroom.position.y > 0)
+			{
+				star.position.y += (GRAVITY - 400) * 2.0f * deltaTime;
+			}
+			else
+			{
+				star.position.y += (GRAVITY - 400) * deltaTime;
 			}
 		}
 
@@ -1734,6 +1813,37 @@ private:
 			}
 		}
 
+		//Los lados Star
+		float nextS = star.position.x + star.speed.x * deltaTime;
+
+		//Derecha
+		for (EnvElement block : blocks) {
+			if (Timer > 0 && player.alive != 0 &&
+				star.active && !star.side &&
+				star.position.y > block.rect.y &&
+				star.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
+				star.position.x - 10 <= block.rect.x &&
+				(nextS + star.powerup_hitbox.width) >= block.rect.x - 15
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
+			{
+				star.side = true;
+			}
+		}
+
+		//Izquierda
+		for (EnvElement block : blocks) {
+			if (Timer > 0 && player.alive != 0 &&
+				star.active && star.side &&
+				star.position.y > block.rect.y &&
+				star.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
+				star.position.x + 10 >= (block.rect.x + block.rect.width) &&
+				(nextS) <= (block.rect.x + block.rect.width + 20)
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
+			{
+				star.side = false;
+			}
+		}
+
 		//Los lados bola de fuego
 		float nextF = fireBall.position.x + fireBall.speed.x * deltaTime;
 
@@ -1754,10 +1864,10 @@ private:
 		//Izquierda
 		for (EnvElement block : blocks) {
 			if (Timer > 0 && player.alive != 0 &&
-				fireBall.active && fireBall.position.y > block.rect.y + 7 &&
+				fireBall.active && fireBall.position.y > block.rect.y - 12 &&
 				fireBall.position.y < (block.rect.y + block.rect.height + block.rect.height) &&
 				fireBall.position.x >= (block.rect.x + block.rect.width) &&
-				(nextF) <= (block.rect.x + block.rect.width + 12)
+				(nextF) <= (block.rect.x + block.rect.width + 15)
 				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
 			{
 				PlaySound(sfxFireBallWall);
@@ -1948,6 +2058,8 @@ private:
 			mooshroom.side = false;
 			fireFlower.active = false;
 			fireFlower.position = { -110, 1400 };
+			star.active = false;
+			star.position = { -110, 1400 };
 			goomba1.position = { 1400, 600 };
 			goomba2.position = { 1400, 600 };
 			goomba3.position = { 1400, 600 };
@@ -2113,6 +2225,12 @@ private:
 			fireFlower.active = true;
 			fireFlower.position.x = player.position.x + 200;
 			fireFlower.position.y = player.position.y;
+		}
+		if (IsKeyPressed(KEY_J) && Timer > 0 && player.alive == 1 && !flag.reached) { //Generar Seta
+			star.active = true;
+			star.side = true;
+			star.position.x = player.position.x + 200;
+			star.position.y = player.position.y;
 		}
 	}
 
@@ -2306,15 +2424,6 @@ private:
 		/*--Goomba--*/
 		int frameWidthG = 16;
 		int frameHeightG = 16;
-
-		if (!goomba1.death && !goomba1.death2) {
-			int frameWidthG = 16;
-			int frameHeightG = 16;
-		}
-		if (goomba1.death || goomba1.death2) {
-			int frameWidthG = 16;
-			int frameHeightG = 16;
-		}
 
 		Rectangle sourceRec2 = { 0, 0, (float)frameWidthG, (float)frameHeightG };
 
@@ -2690,6 +2799,7 @@ private:
 
 		DrawTexturePro(Mooshroom, sourceRec2, { mooshroom.position.x - 20, mooshroom.position.y - 48, sourceRec.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
 		DrawTexturePro(FireFlower, sourceRec2, { fireFlower.position.x - 20, fireFlower.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
+		DrawTexturePro(Star, sourceRec2, { star.position.x - 20, star.position.y - 48, sourceRec.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
 
 		//All blocks ? and star
 		for (const EnvElement& block : blocks) {

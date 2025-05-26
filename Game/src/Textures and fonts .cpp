@@ -76,6 +76,7 @@ Texture2D mario_sprite;
 // Items
 Texture2D Mooshroom;
 Texture2D FireFlower;
+Texture2D Star;
 Texture2D FireBall;
 Texture2D FireBallTick1;
 Texture2D FireBallTick2;
@@ -146,6 +147,7 @@ void LoadGameTextures() {
 	/*------------------------------------------------------------*/
 	Mooshroom = LoadTexture("Resources/Sprites/Items/Mushroom.png");
 	FireFlower = LoadTexture("Resources/Sprites/Items/Power-ups.png");
+	Star = LoadTexture("Resources/Sprites/Items/estrella.png");
 
 	FireBall = LoadTexture("Resources/Sprites/Items/Bolas_Fuego.png");
 	FireBallTick1 = LoadTexture("Resources/Sprites/Items/Explosion1.png");

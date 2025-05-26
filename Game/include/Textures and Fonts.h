@@ -84,6 +84,7 @@ extern Texture2D mario_sprite;
 // Items
 extern Texture2D Mooshroom;
 extern Texture2D FireFlower;
+extern Texture2D Star;
 extern Texture2D FireBall;
 extern Texture2D FireBallTick1;
 extern Texture2D FireBallTick2;
