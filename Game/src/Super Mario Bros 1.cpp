@@ -306,27 +306,29 @@ private:
 		}
 	}
 
-	void Shell_Goomba(Enemy& goomba, Mario& player, Enemy& goomba2, float& nextXE)
+	void Shell_Goomba(Enemy& shell, Mario& player, Enemy& goomba2, float& nextShell)
 	{
 		//Derecha
-		if (Timer > 0 && player.alive != 0 && goomba.alive &&
-			goomba.activated && !goomba.side &&
-			goomba.position.y >= goomba2.position.y &&
-			goomba.position.y < (goomba2.position.y + goomba2.goomba_hitbox.height) &&
-			goomba.position.x - 5 <= goomba2.position.x &&
-			(nextXE + goomba.goomba_hitbox.width) >= goomba2.position.x - 20)
+		if (Timer > 0 && player.alive != 0 && shell.alive &&
+			shell.activated && !shell.side &&
+			shell.position.y >= goomba2.position.y &&
+			shell.position.y < (goomba2.position.y + goomba2.goomba_hitbox.height) &&
+			shell.position.x - 5 <= goomba2.position.x &&
+			(nextShell + shell.goomba_hitbox.width) >= goomba2.position.x - 20)
 		{
-			goomba.death2 = true;
+			PlaySound(sfxFireBall);
+			goomba2.death2 = true;
 		}
 		//Izquierda
 		if (Timer > 0 && player.alive != 0 &&
-			goomba.activated && goomba2.side &&
-			goomba.position.y >= goomba2.position.y &&
-			goomba.position.y < (goomba2.position.y + goomba2.goomba_hitbox.height) &&
-			goomba.position.x + 5 >= (goomba2.position.x + goomba2.goomba_hitbox.width) &&
-			(nextXE) <= (goomba2.position.x + goomba2.goomba_hitbox.width))
+			shell.activated && goomba2.side &&
+			shell.position.y >= goomba2.position.y &&
+			shell.position.y < (goomba2.position.y + goomba2.goomba_hitbox.height) &&
+			shell.position.x + 5 >= (goomba2.position.x + goomba2.goomba_hitbox.width) &&
+			(nextShell) <= (goomba2.position.x + goomba2.goomba_hitbox.width))
 		{
-			goomba.death2 = true;
+			PlaySound(sfxFireBall);
+			goomba2.death2 = true;
 		}
 	}
 
@@ -1197,6 +1199,7 @@ private:
 				player.position.y = block.rect.y + block.rect.height + block.rect.height + block.rect.height - 2;
 
 				if (ColorToInt(block.color) == ColorToInt(GREEN)) {
+					PlaySound(sfxBreakBlock);
 					block.rect.y = 3000;
 					player.speed.y = 0;
 				}
@@ -1240,6 +1243,7 @@ private:
 				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
 			{
 				if (!block.bouncing && !block.hit) {
+					PlaySound(sfxBump);
 					block.bouncing = true;
 					block.originalY = block.rect.y;
 					block.bounceOffset = 0.0f;
@@ -1964,7 +1968,7 @@ private:
 			{
 				PlaySound(sfxCoin_Block);
 				Money++;
-				
+				Score += 200;
 				block.hit = true;
 			}
 		}
@@ -1979,7 +1983,7 @@ private:
 			{
 				PlaySound(sfxCoin_Block);
 				Money++;
-				
+				Score += 200;
 				block.hit = true;
 			}
 			else if (!player.big && Timer > 0 && player.alive != 0
@@ -1991,7 +1995,7 @@ private:
 			{
 				PlaySound(sfxCoin_Block);
 				Money++;
-				
+				Score += 200;
 				block.hit = true;
 			}
 		}
@@ -2008,7 +2012,7 @@ private:
 			{
 				PlaySound(sfxCoin_Block);
 				Money++;
-				
+				Score += 200;
 				block.hit = true;
 			}
 			else if (!player.big && Timer > 0 && player.alive != 0 &&
@@ -2021,7 +2025,7 @@ private:
 			{
 				PlaySound(sfxCoin_Block);
 				Money++;
-				
+				Score += 200;
 				block.hit = true;
 			}
 		}
@@ -2038,7 +2042,7 @@ private:
 			{
 				PlaySound(sfxCoin_Block);
 				Money++;
-				
+				Score += 200;
 				block.hit = true;
 			}
 			else if (!player.big && Timer > 0 && player.alive != 0 &&
@@ -2051,7 +2055,7 @@ private:
 			{
 				PlaySound(sfxCoin_Block);
 				Money++;
-				
+				Score += 200;
 				block.hit = true;
 			}
 		}

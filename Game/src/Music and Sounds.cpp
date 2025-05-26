@@ -9,6 +9,8 @@ Sound sfxFireBallWall;
 Sound sfxKick;
 Sound sfxPowerUpAppear;
 Sound sfxStomp;
+Sound sfxBump;
+Sound sfxBreakBlock;
 Sound sfxCoin_Block;
 Sound sfxPipe;
 Sound sfxGameOver;
@@ -31,6 +33,8 @@ void LoadGameSounds() {
     sfxKick = LoadSound("Resources/Audio/FX/smb_kick.wav");
     sfxPowerUpAppear = LoadSound("Resources/Audio/FX/smb_powerup_appears.wav");
     sfxStomp = LoadSound("Resources/Audio/FX/smb_stomp.wav");
+    sfxBump = LoadSound("Resources/Audio/FX/smb_bump.wav");
+    sfxBreakBlock = LoadSound("Resources/Audio/FX/smb_breakblock.wav");
     sfxCoin_Block = LoadSound("Resources/Audio/FX/smb_coin.wav");
     sfxPipe = LoadSound("Resources/Audio/FX/smb_pipe.wav");
     sfxGameOver = LoadSound("Resources/Audio/FX/smb_gameover.wav");

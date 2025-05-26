@@ -23,9 +23,6 @@ extern Texture2D tuberia;
 extern Texture2D meta;
 extern Texture2D banderin;
 
-extern class Pipe pipe;
-extern class Flag flag;
-
 // Map
 extern Texture2D castle;
 extern Texture2D fondo;

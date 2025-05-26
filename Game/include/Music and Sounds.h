@@ -12,6 +12,8 @@ extern Sound sfxFireBallWall;
 extern Sound sfxKick;
 extern Sound sfxPowerUpAppear;
 extern Sound sfxStomp;
+extern Sound sfxBump;
+extern Sound sfxBreakBlock;
 extern Sound sfxCoin_Block;
 extern Sound sfxPipe;
 extern Sound sfxGameOver;
