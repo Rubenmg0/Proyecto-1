@@ -1141,7 +1141,26 @@ private:
 				player.position.y = block.rect.y;
 			}
 		}
+		for (EnvElement& block : blocks) {
 
+			if (player.big && Timer > 0 && player.alive != 0 && player.speed.y < 0
+				&& block.rect.x <= player.position.x + player.mario_hitbox.width - 10
+				&& block.rect.x + block.rect.width + 10 >= player.position.x
+				&& block.rect.y + block.rect.height + block.rect.height <= player.position.y
+				&& block.rect.y + block.rect.height + block.rect.height + block.rect.height - 2 >= player.position.y + player.speed.y * deltaTime
+				&& ColorToInt(block.color) == ColorToInt(GREEN)) {
+				// Rompe si es grande y el bloque no fue golpeado aún
+				if (player.big) {
+					block.rect.width = 0;
+					block.rect.height = 0;
+					block.color = { 0, 0, 0, 0 };
+				}
+				else {
+					// Solo animación de rebote del bloque (si querés)
+				}
+				player.speed.y = 0;
+			}
+		}
 		//Techo
 		for (EnvElement& block : blocks) {
 			if (player.big && Timer > 0 && player.alive != 0 && player.speed.y < 0
