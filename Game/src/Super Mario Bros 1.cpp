@@ -592,7 +592,7 @@ private:
 				koopa.position = { 5100, 600 };
 				shell.position = { 0, 1000 };
 				flag.reached = false;
-				bandera.position.y = flag.position.y - flagTexture.height + 5;
+				bandera.position.y = 269;
 				Timer = 400;
 				player.alive = 1;
 				player.fire = 0;
@@ -776,7 +776,7 @@ private:
 				hurryMusicPlayed = true;
 			}
 
-			if (Timer <= 0) {
+			if (Timer <= 0 && !flag.reached) {
 				if (contmuerte == 0)
 				{
 					StopMusicStream(musicOverworld_hurry);
@@ -840,7 +840,7 @@ private:
 
 				// Reset flag
 				flag.reached = false;
-				bandera.position.y = flag.position.y - flagTexture.height + 5;
+				bandera.position.y = 269;
 
 				// Reset enemies
 				koopa.position = { 1600, 600 };
@@ -1037,7 +1037,7 @@ private:
 			koopa.activated = false;
 		}
 
-		if (Timer <= 0 || player.alive == 0) {
+		if (Timer <= 0 && !flag.reached || player.alive == 0) {
 			hitObstacleFloor = false;
 		}
 
@@ -1255,6 +1255,10 @@ private:
 				&& block.rect.x + block.rect.width + 10 >= player.position.x
 				&& block.rect.y >= player.position.y
 				&& block.rect.y <= player.position.y + player.speed.y * deltaTime
+				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW) || flag.reached && Timer <= 0 && block.rect.x <= player.position.x + player.mario_hitbox.width - 5
+				&& block.rect.x + block.rect.width + 10 >= player.position.x
+				&& block.rect.y >= player.position.y
+				&& block.rect.y <= player.position.y + player.speed.y * deltaTime
 				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
 			{
 				hitObstacleFloor = true;
@@ -1311,6 +1315,7 @@ private:
 				if (ColorToInt(block.color) == ColorToInt(RED) && !block.hit) { //Moneda
 					PlaySound(sfxCoin_Block);
 					Money++;
+					Score += 200;
 					SpawnFloatingScore({ block.rect.x + 4, block.rect.y - 30 }, 200);
 					moneda.active = true;
 					block.hit = true;
@@ -1333,6 +1338,7 @@ private:
 				if (ColorToInt(block.color) == ColorToInt(MAGENTA) && !block.hit && !desactived) { //Moneda repetida
 					PlaySound(sfxCoin_Block);
 					Money++;
+					Score += 200;
 					SpawnFloatingScore({ block.rect.x + 4, block.rect.y - 30 }, 200);
 					contador++;
 					moneda.active = true;
@@ -1365,6 +1371,7 @@ private:
 					PlaySound(sfxCoin_Block);
 					Money++;
 					moneda.active = true;
+					Score += 200;
 					SpawnFloatingScore({ block.rect.x + 4, block.rect.y - 30 }, 200);
 					block.hit = true;
 				}
@@ -1387,6 +1394,7 @@ private:
 				if (ColorToInt(block.color) == ColorToInt(MAGENTA) && !block.hit && !desactived) { //Moneda repetida
 					PlaySound(sfxCoin_Block);
 					Money++;
+					Score += 200;
 					SpawnFloatingScore({ block.rect.x + 4, block.rect.y - 30 }, 200);
 					moneda.active = true;
 					contador++;
@@ -2247,10 +2255,10 @@ private:
 		}
 
 		if (flag.reached) {
-			if (!hitObstacleFloor && player.position.y != 550) {
+			if (!hitObstacleFloor && player.position.y != 550 && Timer > 0) {
 				player.position.y += 3 * 0.50;
 			} 
-			else if (hitObstacleFloor && bandera.position.y >= 640) {
+			else if (hitObstacleFloor && bandera.position.y >= 640 && !flag.pause) {
 				if (player.position.y >= flag.position.y + 50) {
 					float playerMovementSpeed = 120.0f * GetFrameTime();
 					player.position.x += playerMovementSpeed;
@@ -2298,7 +2306,7 @@ private:
 			Money = 00;
 			Score = 000000;
 			flag.reached = false;
-			bandera.position.y = flag.position.y - flagTexture.height + 5;
+			bandera.position.y = 269;
 			player.alive = 1;
 			player.lifes = 3;
 			player.big = 0;
@@ -2687,10 +2695,6 @@ private:
 
 		Rectangle sourceRec = { 0, 0, (float)frameWidthP, (float)frameHeightP };
 
-		if (star.Invincible) {
-			Rectangle sourceRec = { 0, 48, (float)frameWidthP, (float)frameHeightP };
-		}
-
 		static float frameTime = 0.0f;
 		static int currentFrame = 0;
 		frameTime += GetFrameTime();
@@ -2977,7 +2981,7 @@ private:
 		}
 
 		//Animation of Blocks
-		if (player.alive != 0 && Timer > 0) {
+		if (player.alive != 0 && Timer > 0 || flag.reached && Timer <= 0) {
 			if (currentFrameInt != 0)
 			{
 				frameSpeedInt = 0.16;
@@ -3079,7 +3083,7 @@ private:
 
 		DrawTexturePro(Mooshroom, sourceRec2, { mooshroom.position.x - 20, mooshroom.position.y - 48, sourceRec.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
 		DrawTexturePro(FireFlower, sourceRec2, { fireFlower.position.x - 20, fireFlower.position.y - 48, sourceRec2.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
-		DrawTexturePro(Star, sourceRec2, { star.position.x - 20, star.position.y - 48, sourceRec.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
+		DrawTexturePro(Star, sourceRec4, { star.position.x - 20, star.position.y - 48, sourceRec.width * 3, sourceRec2.height * 3 }, { 0,0 }, 0, WHITE);
 		// Monedas 
 
 		for (EnvElement& block : blocks) {
@@ -3099,6 +3103,9 @@ private:
 					}
 					if (player.position.x > 4800 && player.position.x <= 6000) {
 						moneda.position3 = 20;
+					}
+					if (player.position.x > 6000) {
+						moneda.position3 = 0;
 					}
 				}
 				if (moneda.position >= 140)
@@ -3278,7 +3285,7 @@ private:
 				}
 			}
 		}
-		if (player.big && !player.fire && star.Invincible) {
+		if (player.big && star.Invincible) {
 			sourceRec.y = 16;
 			DrawTexturePro(mario_sprite, sourceRec, { player.position.x - 20, player.position.y - 96, sourceRec.width * 3, sourceRec.height * 3 }, { 0, 0 }, 0, WHITE);
 			star.variant += 2 * 0.5;
@@ -3307,19 +3314,29 @@ private:
 			sourceRec.y = 32;
 			DrawTexturePro(mario_sprite, sourceRec, { player.position.x - 20, player.position.y - 96, sourceRec.width * 3, sourceRec.height * 3 }, { 0, 0 }, 0, WHITE);
 		}
+
 		DrawTextureEx(tuberia_b, { (2592), (399) }, 0.0f, 1.2, WHITE);
 		DrawTextureEx(suelo_m, { 2570, 599 }, 0.0f, 3.2f, WHITE);
 		DrawTextureEx(suelo_m, { 2620, 599 }, 0.0f, 3.2f, WHITE);
 		DrawTextureEx(suelo_m, { 2670, 599 }, 0.0f, 3.2f, WHITE);
 		DrawTextureEx(tuberia_cueva, { 579, -1700 }, 0.0f, 3.2f, WHITE);
 
-		if (player.position.x >= 9795) { //Mario arrived to the flag
+		if (player.position.x >= 9795 && Timer > 0) { //Mario arrived to the flag
 			camera.target.x = 9795;
-			DrawTextureEx(banderin, { (9775), (320) }, 0.0f, 3, WHITE);
+			flag.pause = true;
 			DrawTextureEx(castle, { (9675), (360) }, 0.0f, 3, WHITE);
 			player.big = 0;
 			player.fire = 0;
 			UnloadTexture(mario_sprite);
+		}
+		if (flag.pause && Timer > 0) {
+			Timer--;
+			Score += 50;
+		}
+		if (Timer <= 0 && flag.reached) {
+			flag.pause = false;
+			DrawTextureEx(banderin, { (9775), (320) }, 0.0f, 3, WHITE);
+			DrawTextureEx(castle, { (9675), (360) }, 0.0f, 3, WHITE);
 		}
 		
 		DrawTexturePro(coin_ui, sourceRec4, { camera.target.x - 165, camera.target.y - 310, sourceRec4.width * 4, sourceRec4.height * 4 }, { 0, 0 }, 0, WHITE);

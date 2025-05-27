@@ -232,7 +232,7 @@ vector<EnvElement> CreateBlocks() {
 		{8970, 200, 50, 400, GRAY, false},
 
 		//Flag
-		{9375, 550, 50, 50, ORANGE, false },
+		{9365, 550, 60, 50, ORANGE, false },
 
 		//Cueba escenario
 			//Suelo

@@ -113,9 +113,10 @@ struct Flag {
     bool emerging;
     float emergeOffset;
     float maxEmergeOffset = 30.0f;
+    bool pause;
 
     Flag(float x, float y)
-        : position{ x, y }, reached(false), emerging(false) {
+        : position{ x, y }, reached(false), emerging(false), pause(false) {
     }
 };
 
