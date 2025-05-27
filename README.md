@@ -1,7 +1,7 @@
 # 🎮 Super Mario Bros Clone
 
 [🔗 View on GitHub](https://github.com/Rubenmg0/Proyecto-1)  
-[▶️ Watch Game Alpha Video](https://youtu.be/t5ahIgsW4aQ)
+[▶️ Watch Game Alpha Video](https://youtu.be/rGletJ-G3vE)
 
 ## 👥 Team Members
 
