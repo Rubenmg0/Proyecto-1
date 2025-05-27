@@ -591,6 +591,8 @@ private:
 				star.position = { -110, 1400 };
 				koopa.position = { 5100, 600 };
 				shell.position = { 0, 1000 };
+				flag.reached = false;
+				bandera.position.y = flag.position.y - flagTexture.height + 5;
 				Timer = 400;
 				player.alive = 1;
 				player.fire = 0;
@@ -838,6 +840,7 @@ private:
 
 				// Reset flag
 				flag.reached = false;
+				bandera.position.y = flag.position.y - flagTexture.height + 5;
 
 				// Reset enemies
 				koopa.position = { 1600, 600 };
@@ -1060,8 +1063,12 @@ private:
 			}
 		}
 
+		if ((mooshroom.active && mooshroom.position.x <= camera.target.x - 480) || (mooshroom.active && mooshroom.position.x >= camera.target.x + 550)) {
+			mooshroom.active = false;
+		}
+
 		//FIRE FLOWER
-		if (player.position.x >= fireFlower.position.x && player.alive != 0) {
+		if (player.position.x >= fireFlower.position.x - 100 && player.alive != 0) {
 			fireFlower.active = true;
 		}
 		if (fireFlower.emerging) {
@@ -1287,14 +1294,14 @@ private:
 				player.speed.y = 0.0f;
 				player.position.y = block.rect.y + block.rect.height + block.rect.height + block.rect.height - 2;
 
-				if (!block.bouncing && !block.hit && ColorToInt(block.color) != ColorToInt(GREEN)) {
+				if (!block.bouncing && !block.hit && ColorToInt(block.color) != ColorToInt(GREEN) && ColorToInt(block.color) != ColorToInt(LIGHTGRAY)) {
 					PlaySound(sfxBump);
 					block.bouncing = true;
 					block.originalY = block.rect.y;
 					block.bounceOffset = 0.0f;
 				}
 
-				if (ColorToInt(block.color) == ColorToInt(GREEN)) {
+				if (ColorToInt(block.color) == ColorToInt(GREEN) || (ColorToInt(block.color) == ColorToInt(LIGHTGRAY) && block.rect.y <= -1900)) {
 					PlaySound(sfxBreakBlock);
 					Score += 50;
 					block.rect.y = 3000;
@@ -1344,7 +1351,7 @@ private:
 				&& block.rect.y + block.rect.height + block.rect.height >= player.position.y + player.speed.y * deltaTime
 				&& ColorToInt(block.color) != ColorToInt(BLUE) && ColorToInt(block.color) != ColorToInt(YELLOW))
 			{
-				if (!block.bouncing && !block.hit) {
+				if (!block.bouncing && !block.hit && ColorToInt(block.color) != ColorToInt(LIGHTGRAY)) {
 					PlaySound(sfxBump);
 					block.bouncing = true;
 					block.originalY = block.rect.y;
@@ -1693,7 +1700,7 @@ private:
 			}
 		}
 
-		if (!onGroundShell && player.alive && Timer > 0 && !koopa.death) {
+		if (!onGroundShell && player.alive && Timer > 0) {
 			shell.position.y += (GRAVITY - 300) * deltaTime;
 			if (shell.position.y > 0)
 			{
@@ -2258,7 +2265,7 @@ private:
 
 		// FUNCIONES DE PRUEBA //
 
-		if (IsKeyPressed(KEY_R)) {
+		if (IsKeyPressed(KEY_R) && !pipe.enteringPipe1 && !pipe.enteringPipe2) {
 			player.position = { 50, 600 };
 			camera.target.x = 333;
 			camera.target.y = 350;
@@ -2291,6 +2298,7 @@ private:
 			Money = 00;
 			Score = 000000;
 			flag.reached = false;
+			bandera.position.y = flag.position.y - flagTexture.height + 5;
 			player.alive = 1;
 			player.lifes = 3;
 			player.big = 0;
@@ -2647,6 +2655,7 @@ private:
 	void DrawGameplay() {
 		BeginMode2D(camera);
 		ClearBackground(BLUE);
+		float deltaTime = GetFrameTime();
 		DrawTextureEx(negro, { -200, -2500 }, 0.0f, 1000.0f, WHITE);
 
 		//Player
@@ -3074,16 +3083,32 @@ private:
 		// Monedas 
 
 		for (EnvElement& block : blocks) {
-			
-			if (moneda.active && !moneda.altura) {
-				moneda.position += 0.01;
-				if (ColorToInt(block.color) == ColorToInt(RED) && block.hit || ColorToInt(block.color) == ColorToInt(MAGENTA) && !block.hit) {
-					DrawTexturePro(money_b, sourceRec4, { block.rect.x, block.rect.y - moneda.position, sourceRec4.width * 3, sourceRec4.height * 3 }, { 0, 0 }, 0, WHITE);
+			if (moneda.active) {
+				if (moneda.position < 140) {
+					moneda.position += 0.03;
 				}
-				if (moneda.position >= 85)
+				if (block.rect.x - moneda.position3 <= player.position.x + player.mario_hitbox.width - 5 && block.rect.x + block.rect.width + moneda.position3 + 10 >= player.position.x
+					&& block.rect.y + block.rect.height + block.rect.height + block.rect.height - 2 >= player.position.y - 100 + player.speed.y * deltaTime 
+					&& block.rect.y + block.rect.height + block.rect.height <= player.position.y && ColorToInt(block.color) == ColorToInt(RED)
+					|| block.rect.x - moneda.position3 <= player.position.x + player.mario_hitbox.width - 5 && block.rect.x + block.rect.width + moneda.position3 + 10 >= player.position.x
+					&& block.rect.y + block.rect.height + block.rect.height + block.rect.height - 2 >= player.position.y - 100 + player.speed.y * deltaTime
+					&& block.rect.y + block.rect.height + block.rect.height <= player.position.y && ColorToInt(block.color) == ColorToInt(MAGENTA)) {
+					DrawTexturePro(money_b, sourceRec4, { block.rect.x, block.rect.y - moneda.position + moneda.position2, sourceRec4.width * 3, sourceRec4.height * 3 }, { 0, 0 }, 0, WHITE);
+					if (player.position.x <= 4800) {
+						moneda.position3 = 90;
+					}
+					if (player.position.x > 4800 && player.position.x <= 6000) {
+						moneda.position3 = 20;
+					}
+				}
+				if (moneda.position >= 140)
 				{
-					moneda.active = false;
+					moneda.position2 += 0.03;
+				}
+				if (moneda.position2 >= 140) {
 					moneda.position = 0;
+					moneda.position2 = 0;
+					moneda.active = false;
 				}
 			}
 		}

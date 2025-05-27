@@ -134,6 +134,8 @@ struct Pipe {
 /*------------------------------------------------------------*/
 struct CoinPop {
     float position = 0;
+    float position2 = 0;
+    float position3 = 0;
     bool active = false;
     bool altura = false;
 };
