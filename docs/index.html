@@ -2,36 +2,81 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Proyecto Juego - UPC</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 2rem; }
-    h1, h2 { color: #003399; }
-    img { max-width: 300px; border-radius: 10px; }
-    iframe { width: 100%; height: 315px; }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Noentiendo - Proyecto 1</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <h1>Proyecto: [Nombre del Juego]</h1>
-  <p><strong>Tributo a:</strong> [Nombre o tema homenajeado]</p>
+  <header>
+    <h1><span class="rojo">NOENTIENDO</span></h1>
+    <p>Proyecto 1 - UPC - TRS-09</p>
+  </header>
 
-  <h2>Descripción</h2>
-  <p>[Breve descripción del juego]</p>
+  <section class="team">
+    <h2>Equipo</h2>
+    <ul>
+      <li><strong>Marc Jiménez</strong></li>
+      <li><strong>Rubén Mateo</strong></li>
+      <li><strong>Saüc Pellejero</strong></li>
+    </ul>
+  </section>
 
-  <h2>Equipo</h2>
-  <ul>
-    <li><strong>Marc:</strong> [Contribución]</li>
-    <li><strong>Rubén:</strong> [Contribución]</li>
-    <li><strong>Saüc:</strong> [Contribución]</li>
-  </ul>
+  <section class="description">
+    <h2>Descripción del Juego</h2>
+    <p>
+   Este proyecto recrea el icónico nivel 1-1 de Super Mario Bros, un videojuego de plataformas lanzado por Nintendo en 1985 para la consola NES. En este juego, Mario debe rescatar a la Princesa Peach superando enemigos clásicos y superando niveles llenos de obstáculos y potenciadores.
 
-  <h2>Foto del equipo</h2>
-  <img src="equipo.jpg" alt="Foto del equipo" />
+La historia se desarrolla en el Reino Champiñón, donde Bowser ha secuestrado a la princesa y la ha encerrado en su castillo. Mario se embarca en una aventura a través de 8 mundos para rescatarla.
 
-  <h2>Gameplay</h2>
-  <iframe src="https://www.youtube.com/embed/[ID_DEL_VIDEO]" frameborder="0" allowfullscreen></iframe>
+El objetivo es llegar al final de cada nivel, derrotando enemigos y recolectando monedas, hasta llegar al castillo final.
+    </p>
+  </section>
 
-  <h2>Descargar juego</h2>
-  <p><a href="https://link-al-release.com">Haz clic aquí para descargar la última versión</a></p>
+  <section class="contributions">
+    <h2>Contribuciones Individuales</h2>
+    <ul>
+      <li>
+        <strong>Marc Jiménez:</strong> Sistema completo de colisiones y físicas del juego;
+        estructura de Mario, bloques y meta; implementación de la clase Game y todas
+        sus funciones; gestión de pantallas, controles, UI, puntaje, vidas, estados de
+        victoria y derrota, animaciones, y funcionalidades de depuración.
+      </li>
+      <li>
+        <strong>Rubén Mateo:</strong> Creación y ajuste de todos los sprites; sistema de dibujo
+        y capas; integración visual de elementos del mapa; repetición de fondos;
+        documentación (README, licencia, TaskList, video); apoyo en organización y audio.
+      </li>
+      <li>
+        <strong>Saüc Pellejero:</strong> Power-ups y sus comportamientos; enemigos básicos
+        y mecánicas (Goombas); visualización e interacción de Mario; implementación de
+        correr y soporte en organización general del código.
+      </li>
+    </ul>
+  </section>
+
+  <section class="video">
+    <h2>Gameplay</h2>
+    <iframe
+      width="560"
+      height="315"
+      src="https://www.youtube.com/embed/rGletJ-G3vE"
+      title="Gameplay Noentiendo"
+      frameborder="0"
+      allowfullscreen
+    ></iframe>
+  </section>
+
+  <section class="download">
+    <h2>Descargar Última Versión</h2>
+    <p>
+      <a href="https://github.com/Rubenmg0/Proyecto-1/releases/latest" target="_blank">
+        Descargar desde GitHub
+      </a>
+    </p>
+  </section>
+
+  <footer>
+    <p>Proyecto para la asignatura Proyecto-1, UPC © 2025</p>
+  </footer>
 </body>
 </html>

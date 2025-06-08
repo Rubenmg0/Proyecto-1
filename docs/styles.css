@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    background: #f9f9f9;
+    color: #333;
+}
+
+header,
+footer {
+    background-color: #222;
+    color: #fff;
+    text-align: center;
+    padding: 1em 0;
+}
+
+.rojo {
+    color: red;
+}
+
+section {
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+h1,
+h2 {
+    color: #333;
+}
+
+.team img {
+    width: 100%;
+    max-width: 400px;
+    display: block;
+    margin: 1em auto;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+a {
+    color: #007acc;
+    text-decoration: none;
+}
